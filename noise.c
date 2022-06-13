@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "vec.h"
-const int OCTAVES=1;
+const int OCTAVES=6;
 float fract(float e)
 {
  return e-floorf(e);
@@ -13,7 +13,7 @@ return x*(1-a)+y*a;
 float random (struct vec st) {
     return fract(sinf(dot_v2(st,
                          vec2(12.9898,78.233)))
-                 * 43758.5453123);
+                 * 645464.6);
 }
 float noise_v2(struct vec vec2get) {
    struct vec i =vec2get;
@@ -34,13 +34,13 @@ struct    vec f =vec2get;
 float fmb_v2(struct vec st) {
     // Initial values
     float value = 0;
-    float amplitude = 0.01;
+    float amplitude = 0.5;
     float frequency = 0;
     //
     // Loop of octaves
     for (int i = 0; i < OCTAVES; i++) {
         value +=  noise_v2(st)*amplitude;
-        st =multi_v2_f(st,2);
+        st =multi_v2_f(st,0.5);
         amplitude *=0.5;
     }
     return value;

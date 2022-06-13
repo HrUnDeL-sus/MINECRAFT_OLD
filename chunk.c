@@ -5,8 +5,8 @@
 #include "noise.h"
 #include <GL/gl.h>
 #include <GL/glut.h>
-
 const float SIZE_CHUNK=16;
+float y_chunk =0;
 void draw_stone(struct vec vecc){
 for(int y=vecc.y;y>0;y-=1){
     draw_cube(vec3(vecc.x,y,vecc.z),vec3(1,1,0));
@@ -20,12 +20,10 @@ float get_rand() {
 }
 void draw_cube(struct vec vecc,struct vec color)
 {
-             float y1=roundf(fmb_float(vecc.x,vecc.z)*128);
-             y1=(int)y1%2==0?y1:y1+1;
             glPushMatrix();
             glTranslated(vecc.x,vecc.y,vecc.z);
 
-            glColor3f(1-fmb_float(vecc.x,vecc.z),1-fmb_float(vecc.x,vecc.z),1- fmb_float(vecc.x,vecc.z));
+            glColor3f(color.x,color.y,color.z);
             glScaled(1,1,1);
             glutSolidCube(1);
 
@@ -40,10 +38,17 @@ void draw_chunk(float xNum,float zNum)
         for(float z=SIZE_CHUNK*(zNum-1); z<SIZE_CHUNK*zNum; z+=1)
         {
 
-            float y1=floorf(fmb_float(x,z)*128);
+            if((int)((int)x%6)==0&&(int)((int)z%6)==0){
+             float v=fmb_float(x,z);
 
-            draw_cube(vec3(x,y1,z),vec3(0,1,0));
+            if(v>0.5f&&y_chunk<5)
+                y_chunk+=1;
+            else if(y_chunk>0)
+                y_chunk-=1;
 
+            }
+            draw_cube(vec3(x,y_chunk,z),vec3(0,1-y_chunk*0.1f,0));
+            draw_stone(vec3(x,y_chunk,z));
         }
 
     }
@@ -61,8 +66,8 @@ void rendering_chunks()
     {
         for(float z=chunk_position.z-4; z<=chunk_position.z+4; z+=1)
         {
-            printf("\nS");
-            draw_chunk(x,z);
+           draw_chunk(x,z);
+
         }
     }
 }
