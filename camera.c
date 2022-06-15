@@ -29,6 +29,8 @@ void add_camera(float x,float y,float z){
 camera_position.x+=x;
 camera_position.y+=y;
 camera_position.z+=z;
+
+
 }
 void rotate_camera(float pitch,float yaw){
 camera_angle.y-=pitch*0.05f;

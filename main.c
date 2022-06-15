@@ -67,7 +67,7 @@ void draw_plane()
     rendering_chunks();
      glutSwapBuffers();
       clock_t t_end = clock();
-      printf("\nT:%d",(double)(t_end-t_start));
+
 }
 void timer() {
     glutPostRedisplay();
@@ -131,6 +131,14 @@ int main(int argc, char *argv[])
     }
     initializate_chunks();
 
+    printf("CHANKS:");
+    int count=0;
+    scanf("%d",&count);
+ printf("SEED:");
+    float count2=0;
+    scanf("%f",&count2);
+    rand_number=count2;
+    SIZE_DISTANCE=count;
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
@@ -147,7 +155,7 @@ int main(int argc, char *argv[])
     glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
-     _beginthread(pre_rendering_chunks,0,NULL);
+    _beginthread(pre_rendering_chunks,0,NULL);
     glutMainLoop();
     return EXIT_SUCCESS;
 }

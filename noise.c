@@ -3,6 +3,7 @@
 #include <math.h>
 #include "vec.h"
 const int OCTAVES=6;
+float rand_number=53455;
 float fract(float e)
 {
  return e-floorf(e);
@@ -13,7 +14,7 @@ return x*(1-a)+y*a;
 float random (struct vec st) {
     return fract(sinf(dot_v2(st,
                          vec2(12.9898,78.233)))
-                 * 645464.6);
+                 * rand_number);
 }
 float noise_v2(struct vec vec2get) {
    struct vec i =vec2get;
