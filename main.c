@@ -2,11 +2,14 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <stdlib.h>
+#include <process.h>
+#include <windows.h>
 #include <stdio.h>
 #include "noise.h"
 #include "chunk.h"
 #include "camera.h"
 #include "vec.h"
+#include <time.h>
 /* GLUT callback Handlers */
 float save_width;
 float save_height;
@@ -29,6 +32,7 @@ void draw_plane()
     {
         for(float z=-100; z<=100; z+=1)
         {
+
             glPushMatrix();
             glTranslated(x,-5,z);
             glRotated(90,1,0,0);
@@ -53,15 +57,22 @@ void draw_plane()
 }
  void display(void)
 {
+     clock_t t_start = clock();
     glLoadIdentity();
-    apply_camera_matrix();
+
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    draw_plane();
+      apply_camera_matrix();
+   draw_plane();
     rendering_chunks();
-   glutSwapBuffers();
+     glutSwapBuffers();
+      clock_t t_end = clock();
+      printf("\nT:%d",(double)(t_end-t_start));
 }
-
+void timer() {
+    glutPostRedisplay();
+    glutTimerFunc(1000/60, timer, 0);
+}
 
  void key(unsigned char key, int x, int y)
 {
@@ -77,14 +88,14 @@ void draw_plane()
         add_camera(0,-1,0);
     if(key=='x')
         add_camera(0,1,0);
+    if(key=='2')
+        glutFullScreen();
     if(key=='1')
         exit(0);
 }
 
  void idle(void)
 {
-
-    glutPostRedisplay();
 }
 void wrap(int* x,int* y) {
 
@@ -93,12 +104,15 @@ void wrap(int* x,int* y) {
      *y=save_height/2;
 }
 void mouse(int x,int y) {
-   /* static int last_x=0;
+    static int last_x=0;
+     static int last_y=0;
+
     if(last_x!=x) {
-        rotate_camera(0,x-last_x);
+        rotate_camera(y-last_y,x-last_x);
         wrap(&x,&y);
     }
-    last_x=x;*/
+    last_x=x;
+    last_y=y;
 }
 
 
@@ -115,6 +129,7 @@ int main(int argc, char *argv[])
         }
 
     }
+    initializate_chunks();
 
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
@@ -126,11 +141,13 @@ int main(int argc, char *argv[])
     glutKeyboardFunc(key);
     glutPassiveMotionFunc(mouse);
     glutIdleFunc(idle);
+    glutTimerFunc(1000/60, timer, 0);
     glClearColor(1,1,1,1);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+     _beginthread(pre_rendering_chunks,0,NULL);
     glutMainLoop();
     return EXIT_SUCCESS;
 }

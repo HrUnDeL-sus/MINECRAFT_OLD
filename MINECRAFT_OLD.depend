@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1655107575 source:c:\users\prove\documents\codeblocks\minecraft_old\camera.c
+1655279346 source:c:\users\prove\documents\codeblocks\minecraft_old\camera.c
 	<GL/gl.h>
 	<GL/glut.h>
 	<stdlib.h>
@@ -7,6 +7,8 @@
 	<math.h>
 	"vec.h"
 	"chunk.h"
+	"noise.h"
+	"camera.h"
 
 1512591001 c:\mingw\include\gl\gl.h
 
@@ -336,31 +338,36 @@
 
 1655055630 c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
-1655107499 c:\users\prove\documents\codeblocks\minecraft_old\chunk.h
+1655238113 c:\users\prove\documents\codeblocks\minecraft_old\chunk.h
 
-1655148191 source:c:\users\prove\documents\codeblocks\minecraft_old\chunk.c
+1655291072 source:c:\users\prove\documents\codeblocks\minecraft_old\chunk.c
 	<stdlib.h>
 	<stdio.h>
+	<windows.h>
 	<math.h>
 	"vec.h"
 	"noise.h"
 	<GL/gl.h>
 	<GL/glut.h>
+	"camera.h"
 
-1655107575 source:c:\users\prove\documents\codeblocks\minecraft_old\main.c
+1655279250 source:c:\users\prove\documents\codeblocks\minecraft_old\main.c
 	<GL/gl.h>
 	<GL/glu.h>
 	<GL/glut.h>
 	<stdlib.h>
+	<process.h>
+	<windows.h>
 	<stdio.h>
 	"noise.h"
 	"chunk.h"
 	"camera.h"
 	"vec.h"
+	<time.h>
 
 1655047008 c:\users\prove\documents\codeblocks\minecraft_old\noise.h
 
-1655106700 c:\users\prove\documents\codeblocks\minecraft_old\camera.h
+1655224782 c:\users\prove\documents\codeblocks\minecraft_old\camera.h
 
 1655145790 source:c:\users\prove\documents\codeblocks\minecraft_old\noise.c
 	<stdlib.h>
