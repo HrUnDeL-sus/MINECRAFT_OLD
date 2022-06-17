@@ -36,6 +36,7 @@ void rotate_camera(float pitch,float yaw){
 camera_angle.y-=pitch*0.05f;
 camera_angle.x+=yaw*0.05f;
 camera_angle.z+=yaw*0.05f;
+camera_angle.z=camera_angle.z>360?0:camera_angle.z;
 printf("\nANGLE: %f %f %f",camera_angle.x,camera_angle.y,camera_angle.z);
 //x_angle+=cosf(pitch)*cosf(yaw);
 //y_angle+=sinf(pitch);

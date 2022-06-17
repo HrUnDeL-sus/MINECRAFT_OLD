@@ -121,16 +121,6 @@ void mouse(int x,int y) {
 int main(int argc, char *argv[])
 {
 
-    for(float x=0; x<=10; x+=1)
-    {
-        for(float z=0; z<=10; z+=1)
-        {
-            printf("\nF:%f",fmb_float(x*12,z*12)*128);
-        }
-
-    }
-    initializate_chunks();
-
     printf("CHANKS:");
     int count=0;
     scanf("%d",&count);
@@ -139,6 +129,7 @@ int main(int argc, char *argv[])
     scanf("%f",&count2);
     rand_number=count2;
     SIZE_DISTANCE=count;
+    initializate_chunks();
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
@@ -152,7 +143,7 @@ int main(int argc, char *argv[])
     glutTimerFunc(1000/60, timer, 0);
     glClearColor(1,1,1,1);
     glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    glCullFace(GL_FRONT);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     _beginthread(pre_rendering_chunks,0,NULL);

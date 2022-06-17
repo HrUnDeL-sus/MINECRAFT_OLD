@@ -26,8 +26,9 @@ struct chunk
 {
 struct vec position;
 struct block*** blocks;
+byte is_rendering;
 };
-struct chunk render_chunks[16][16];
+struct chunk** render_chunks;
 
 void draw_cube(struct vec vecc,struct vec color)
 {
@@ -42,17 +43,14 @@ void draw_cube(struct vec vecc,struct vec color)
 
 }
 void draw_chunk(struct  chunk get_chunk){
-    if(can_rendering==0)
-        return;
-
 for(int x=0;x<16;x+=1){
 for(int y=0;y<16;y+=1){
     for(int z=0;z<16;z+=1){
       //  printf("\nQ:%d %d %d %d",&get_chunk.blocks[x][y][z],x,y,z);
-        if(get_chunk.blocks[x][y][z].isEnable==1)
+        if(get_chunk.blocks[x][y][z].isEnable==1){
              draw_cube(get_chunk.blocks[x][y][z].position,get_chunk.blocks[x][y][z].color);
-        else
-            count_rendering_chunks+=1;
+              count_rendering_chunks+=1;
+        }
         }
 
     }
@@ -65,23 +63,26 @@ for(int y=vecc.y;y>0;y-=1){
 }
 }
 struct block *** remove_invisible_bloks(struct block*** get_block){
-
+struct block*** get_block2=get_block;
 for(int x=1;x<15;x+=1){
 for(int y=1;y<15;y+=1){
     for(int z=1;z<15;z+=1){
-             if(y<5
+             if(get_block[x][y+1][z].isEnable==1&&
+                get_block[x][y-1][z].isEnable==1&&
+                get_block[x][y][z+1].isEnable==1&&
+                get_block[x][y][z-1].isEnable==1&&
+                get_block[x+1][y][z].isEnable==1&&
+                get_block[x-1][y][z].isEnable==1
                    )
-                    get_block[x][y][z].isEnable=0;
+                    get_block2[x][y][z].isEnable=0;
            //    printf("\nT: %d %d %d",x,y,z);
     }
 }
 }
-return get_block;
+return get_block2;
 }
-struct block*** pre_draw_chunk (float xNum,float zNum)
-{
-
-   struct block *** get_block;
+struct block*** malloc_blocks(){
+  struct block *** get_block;
    get_block=malloc(16*sizeof(struct block**));
    for (int e = 0; e < 16; e++){
         get_block[e] =  malloc(16 * sizeof(struct block*));
@@ -93,6 +94,10 @@ struct block*** pre_draw_chunk (float xNum,float zNum)
 
    }
    }
+   return get_block;
+}
+void pre_draw_chunk (float xNum,float zNum,struct block*** get_block,int zChunk,int xChunk)
+{
     float y_chunk =5;
     int x_block=0;
     int z_block=0;
@@ -100,7 +105,6 @@ struct block*** pre_draw_chunk (float xNum,float zNum)
     {
         for(float z=(float)SIZE_CHUNK*(zNum-1); z<(float)SIZE_CHUNK*zNum; z+=1)
         {
-
             if((int)((int)x%12)==0&&(int)((int)z%12)==0){
              float v=fmb_float(x,z);
             if(v>0.5f&&y_chunk<15)
@@ -108,40 +112,70 @@ struct block*** pre_draw_chunk (float xNum,float zNum)
             else if(y_chunk>5)
                 y_chunk-=1;
             }
-
             struct block blocck={vec3(x,y_chunk,z),vec3(0,1-y_chunk*0.1f,0),1};
-
-             //   printf("\nQWES:");
-
              get_block[x_block][(int)(y_chunk)][z_block]=blocck;
-
-        /*   for(int y=(int)y_chunk-1;y>1;y-=1){
-                 struct block blocckr={vec3(x,y,z),vec3(0,0,1),1};
-             get_block[x_block][(int)(y)][z_block]=blocckr;
-        /*  printf("\nQWES:%f %f %f\nQWES2: %f %f %f CHUNK: %d %d %d",
-                   get_block[x_block][(int)(y_chunk)][z_block].position.x,get_block[x_block][(int)(y_chunk)][z_block].position.y,get_block[x_block][(int)(y_chunk)][z_block].position.z,
-                   blocck.position.x,blocck.position.y,blocck.position.z,x_block,(int)y_chunk,z_block);
-        }*/1
+      //     for(int y=(int)y_chunk-1;y>1;y-=1){
+       //          struct block blocckr={vec3(x,y,z),vec3(0,0,1),1};
+        //     get_block[x_block][(int)(y)][z_block]=blocckr;
+          // }
          z_block+=1;
     }
      z_block=0;
         x_block+=1;
+        get_block=remove_invisible_bloks(get_block);
 }
- return get_block;
 }
 struct vec get_chunke_number_in_position(struct vec position)
 {
     return vec3(roundf(position.x/(float)SIZE_CHUNK),0,roundf(position.z/(float)SIZE_CHUNK));
 };
 void initializate_chunks(){
+
+  render_chunks=malloc(SIZE_DISTANCE*2*sizeof(struct chunk*));
+    for(int i=0;i<SIZE_DISTANCE*2;i+=1){
+        render_chunks[i]=malloc(SIZE_DISTANCE*2*sizeof(struct chunk));
+    }
+    for(int x=0;x<SIZE_DISTANCE*2;x+=1){
+
+    for(int z=0;z<SIZE_DISTANCE*2;z+=1){
+
+            render_chunks[x][z].blocks=malloc_blocks();
+
+    }
+}
+}
+void get_rendering_chunks_position(int* start_x,int * start_z,int* end_x,int *end_z){
+float angle=camera_angle.z/360;
+if(angle>0&&angle<0.5)
+{
+     *start_x=0;
+    *start_z=(int)SIZE_DISTANCE;
+    *end_x=(int)SIZE_DISTANCE*2;
+    *end_z=(int)SIZE_DISTANCE*2;
+}
+if(angle<0&&angle>-0.5)
+{
+     *start_x=0;
+    *start_z=0;
+    *end_x=(int)SIZE_DISTANCE*2;
+    *end_z=(int)SIZE_DISTANCE;
+}
 }
 void rendering_chunks(){
     count_rendering_chunks=0;
+int x1=0;
+int z1=0;
+int end_x;
+int end_z;
+get_rendering_chunks_position(&x1,&z1,&end_x,&end_z);
 for(int x=0;x<SIZE_DISTANCE*2;x+=1){
     for(int z=0;z<SIZE_DISTANCE*2;z+=1){
+
             draw_chunk(render_chunks[x][z]);
+
+        }
+
     }
-}
 printf("\n COUN RENDERING BLOCKS:%d",count_rendering_chunks);
 }
 void pre_rendering_chunks(void* t)
@@ -149,27 +183,28 @@ void pre_rendering_chunks(void* t)
     while(1==1){
 
    struct vec chunk_position=get_chunke_number_in_position(camera_position);
+
    last_chunk_position=chunk_position;
     int x_chunk=0;
     int z_chunk=0;
-    for(float x=chunk_position.x-SIZE_DISTANCE; x<=chunk_position.x+SIZE_DISTANCE; x+=1)
+    for(float x=chunk_position.x-SIZE_DISTANCE; x<chunk_position.x+SIZE_DISTANCE; x+=1)
     {
-        for(float z=chunk_position.z-SIZE_DISTANCE; z<=chunk_position.z+SIZE_DISTANCE; z+=1)
+        for(float z=chunk_position.z-SIZE_DISTANCE; z<chunk_position.z+SIZE_DISTANCE; z+=1)
         {
-         struct block*** get_block =pre_draw_chunk(x,z);
-          get_block=remove_invisible_bloks(get_block);
-        struct chunk get;
-        get.blocks=get_block;
-        get.position=vec2(x,z);
-        render_chunks[x_chunk][z_chunk]=get;
 
+            render_chunks[x_chunk][z_chunk].is_rendering=1;
+        pre_draw_chunk(x,z,render_chunks[x_chunk][z_chunk].blocks,x_chunk,z_chunk);
+
+        render_chunks[x_chunk][z_chunk].position=vec2(x,z);
         z_chunk+=1;
+        render_chunks[x_chunk][z_chunk].is_rendering=0;
+       //  printf("\nPos: %f %f ",x_chunk,z_chunk);
         }
         z_chunk=0;
         x_chunk+=1;
     }
-   can_rendering=1;
-   Sleep(100);
+
+   Sleep(10000);
     }
 
 }
