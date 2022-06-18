@@ -10,15 +10,34 @@ struct vec vec2(float x,float y){
 struct vec vec2={x,y,0};
 return vec2;
 }
+
 struct vec vec3(float x,float y,float z){
 struct vec vecc3={x,y,z};
 return vecc3;
 }
+struct vec cross(struct vec a,struct vec b){
+return vec3(a.y*b.z-b.y*a.z,    a.z*b.x-b.z*a.x,    a.x*b.y-b.x*a.y);
+};
 float dot_v2(struct vec a,struct vec b){
 return (a.x*a.y+b.x*b.y);
 }
 float dot_v3(struct vec a,struct vec b){
 return (a.x*a.y*b.z+b.x*b.y*b.z);
+}
+float lenght_v2(struct vec a){
+return sqrt(powf(a.x,2)+powf(a.y,2));
+}
+struct vec normalize_v2(struct vec a){
+float size=lenght_v2(a);
+return vec2(a.x/size,a.y/size);
+}
+
+float lenght_v3(struct vec a){
+return sqrt(powf(a.x,2)+powf(a.y,2)+powf(a.z,2));
+}
+struct vec normalize_v3(struct vec a){
+float size=lenght_v3(a);
+return vec3(a.x/size,a.y/size,a.y/size);
 }
 struct vec add_v2_v2(struct vec a,struct vec b){
 return vec2(a.x+b.x,a.y+b.y);

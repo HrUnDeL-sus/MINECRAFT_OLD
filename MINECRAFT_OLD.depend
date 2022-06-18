@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1655407238 source:c:\users\prove\documents\codeblocks\minecraft_old\camera.c
+1655494986 source:c:\users\prove\documents\codeblocks\minecraft_old\camera.c
 	<GL/gl.h>
 	<GL/glut.h>
 	<stdlib.h>
@@ -9,6 +9,8 @@
 	"chunk.h"
 	"noise.h"
 	"camera.h"
+	"math_helper.h"
+	"raycast.h"
 
 1512591001 c:\mingw\include\gl\gl.h
 
@@ -336,11 +338,11 @@
 1512590989 c:\mingw\include\math.h
 	<_mingw.h>
 
-1655055630 c:\users\prove\documents\codeblocks\minecraft_old\vec.h
+1655473538 c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
-1655393108 c:\users\prove\documents\codeblocks\minecraft_old\chunk.h
+1655570334 c:\users\prove\documents\codeblocks\minecraft_old\chunk.h
 
-1655407281 source:c:\users\prove\documents\codeblocks\minecraft_old\chunk.c
+1655573495 source:c:\users\prove\documents\codeblocks\minecraft_old\chunk.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -351,7 +353,7 @@
 	<GL/glut.h>
 	"camera.h"
 
-1655411852 source:c:\users\prove\documents\codeblocks\minecraft_old\main.c
+1655571714 source:c:\users\prove\documents\codeblocks\minecraft_old\main.c
 	<GL/gl.h>
 	<GL/glu.h>
 	<GL/glut.h>
@@ -375,7 +377,39 @@
 	<math.h>
 	"vec.h"
 
-1655061339 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.c
+1655473612 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.c
 	<stdio.h>
 	<stdlib.h>
+
+1655450570 source:c:\users\prove\documents\codeblocks\minecraft_old\block.c
+	<stdlib.h>
+	<stdio.h>
+	<windows.h>
+	<math.h>
+	"vec.h"
+	"noise.h"
+	<GL/gl.h>
+	<GL/glut.h>
+	"camera.h"
+
+1655450513 c:\users\prove\documents\codeblocks\minecraft_old\block.h
+
+1655453868 source:c:\users\prove\documents\codeblocks\minecraft_old\math_helper.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
+1655493957 source:c:\users\prove\documents\codeblocks\minecraft_old\raycast.c
+	<stdlib.h>
+	<stdio.h>
+	<windows.h>
+	<math.h>
+	"vec.h"
+	<GL/gl.h>
+	<GL/glut.h>
+	"math_helper.h"
+
+1655453868 c:\users\prove\documents\codeblocks\minecraft_old\math_helper.h
+
+1655493957 c:\users\prove\documents\codeblocks\minecraft_old\raycast.h
 

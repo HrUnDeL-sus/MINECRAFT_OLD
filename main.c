@@ -13,6 +13,7 @@
 /* GLUT callback Handlers */
 float save_width;
 float save_height;
+GLuint listName;
  void resize(int width, int height)
 {
     const float ar = (float) width / (float) height;
@@ -58,36 +59,43 @@ void draw_plane()
  void display(void)
 {
      clock_t t_start = clock();
-    glLoadIdentity();
+         glLoadIdentity();
 
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
       apply_camera_matrix();
-   draw_plane();
-    rendering_chunks();
+      draw_plane();
+   // rendering_chunks();
+
+     rendering_chunks(0,(int)SIZE_DISTANCE*2);
+     glFlush();
      glutSwapBuffers();
       clock_t t_end = clock();
+      printf("\nT:%d",(float)t_end-(float)t_start);
 
 }
 void timer() {
-    glutPostRedisplay();
-    glutTimerFunc(1000/60, timer, 0);
-}
 
+   glutTimerFunc(1000/60, timer, 0);
+}
+void timer2() {
+
+   glutTimerFunc(1000/60, timer2, 0);
+}
  void key(unsigned char key, int x, int y)
 {
     if(key=='w')
-        add_camera(0,0,1);
+        add_camera(0,0,5);
     if(key=='s')
-        add_camera(0,0,-1);
+        add_camera(0,0,-5);
     if(key=='a')
-        add_camera(-1,0,0);
+        add_camera(-5,0,0);
     if(key=='d')
-       add_camera(1,0,0);
+       add_camera(5,0,0);
     if(key=='z')
-        add_camera(0,-1,0);
+        add_camera(0,-5,0);
     if(key=='x')
-        add_camera(0,1,0);
+        add_camera(0,5,0);
     if(key=='2')
         glutFullScreen();
     if(key=='1')
@@ -96,6 +104,7 @@ void timer() {
 
  void idle(void)
 {
+     glutPostRedisplay();
 }
 void wrap(int* x,int* y) {
 
@@ -117,7 +126,21 @@ void mouse(int x,int y) {
 
 
 /* Program entry point */
+void init(){
+    listName=glGenLists(1);
+    initializate_chunks(listName);
+ glNewList(listName,GL_COMPILE);
 
+ glScaled(1,1,1);
+   glutSolidCube(1);
+ glEndList();
+  glClearColor(1,1,1,1);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    _beginthread(pre_rendering_chunks,0,NULL);
+}
 int main(int argc, char *argv[])
 {
 
@@ -129,7 +152,7 @@ int main(int argc, char *argv[])
     scanf("%f",&count2);
     rand_number=count2;
     SIZE_DISTANCE=count;
-    initializate_chunks();
+
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
@@ -141,12 +164,9 @@ int main(int argc, char *argv[])
     glutPassiveMotionFunc(mouse);
     glutIdleFunc(idle);
     glutTimerFunc(1000/60, timer, 0);
-    glClearColor(1,1,1,1);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    _beginthread(pre_rendering_chunks,0,NULL);
+     glutTimerFunc(1000/60, timer2, 0);
+    init();
+
     glutMainLoop();
     return EXIT_SUCCESS;
 }
