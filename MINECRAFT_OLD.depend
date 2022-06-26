@@ -1,16 +1,14 @@
 # depslib dependency file v1.0
-1655494986 source:c:\users\prove\documents\codeblocks\minecraft_old\camera.c
-	<GL/gl.h>
-	<GL/glut.h>
+1656062317 source:c:\users\prove\documents\codeblocks\minecraft_old\camera.c
 	<stdlib.h>
 	<stdio.h>
 	<math.h>
 	"vec.h"
 	"chunk.h"
 	"noise.h"
-	"camera.h"
 	"math_helper.h"
 	"raycast.h"
+	"matrix.h"
 
 1512591001 c:\mingw\include\gl\gl.h
 
@@ -338,24 +336,23 @@
 1512590989 c:\mingw\include\math.h
 	<_mingw.h>
 
-1655473538 c:\users\prove\documents\codeblocks\minecraft_old\vec.h
+1655919369 c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
 1655570334 c:\users\prove\documents\codeblocks\minecraft_old\chunk.h
 
-1655573495 source:c:\users\prove\documents\codeblocks\minecraft_old\chunk.c
+1656062346 source:c:\users\prove\documents\codeblocks\minecraft_old\chunk.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
 	<math.h>
 	"vec.h"
 	"noise.h"
-	<GL/gl.h>
-	<GL/glut.h>
 	"camera.h"
+	"block.h"
+	<glad/glad.h>
 
-1655571714 source:c:\users\prove\documents\codeblocks\minecraft_old\main.c
-	<GL/gl.h>
-	<GL/glu.h>
+1656016823 source:c:\users\prove\documents\codeblocks\minecraft_old\main.c
+	<glad/glad.h>
 	<GL/glut.h>
 	<stdlib.h>
 	<process.h>
@@ -365,41 +362,49 @@
 	"chunk.h"
 	"camera.h"
 	"vec.h"
+	"block.h"
 	<time.h>
+	"rand_helper.h"
+	"shader.h"
+	"char_array_helper.h"
+	"matrix.h"
+	"math_helper.h"
 
 1655307500 c:\users\prove\documents\codeblocks\minecraft_old\noise.h
 
-1655399452 c:\users\prove\documents\codeblocks\minecraft_old\camera.h
+1656017103 c:\users\prove\documents\codeblocks\minecraft_old\camera.h
 
-1655307500 source:c:\users\prove\documents\codeblocks\minecraft_old\noise.c
+1656016823 source:c:\users\prove\documents\codeblocks\minecraft_old\noise.c
 	<stdlib.h>
 	<stdio.h>
 	<math.h>
 	"vec.h"
 
-1655473612 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.c
+1656062338 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.c
 	<stdio.h>
 	<stdlib.h>
 
-1655450570 source:c:\users\prove\documents\codeblocks\minecraft_old\block.c
+1656016823 source:c:\users\prove\documents\codeblocks\minecraft_old\block.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
 	<math.h>
 	"vec.h"
 	"noise.h"
-	<GL/gl.h>
-	<GL/glut.h>
+	<glad/glad.h>
 	"camera.h"
+	"math_helper.h"
+	"shader.h"
+	"matrix.h"
 
-1655450513 c:\users\prove\documents\codeblocks\minecraft_old\block.h
+1656015579 c:\users\prove\documents\codeblocks\minecraft_old\block.h
 
-1655453868 source:c:\users\prove\documents\codeblocks\minecraft_old\math_helper.c
+1655796101 source:c:\users\prove\documents\codeblocks\minecraft_old\math_helper.c
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
 
-1655493957 source:c:\users\prove\documents\codeblocks\minecraft_old\raycast.c
+1656062341 source:c:\users\prove\documents\codeblocks\minecraft_old\raycast.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -409,7 +414,69 @@
 	<GL/glut.h>
 	"math_helper.h"
 
-1655453868 c:\users\prove\documents\codeblocks\minecraft_old\math_helper.h
+1655796094 c:\users\prove\documents\codeblocks\minecraft_old\math_helper.h
 
 1655493957 c:\users\prove\documents\codeblocks\minecraft_old\raycast.h
+
+1655753726 c:\users\prove\documents\codeblocks\minecraft_old\rand_helper.h
+
+1655754143 source:c:\users\prove\documents\codeblocks\minecraft_old\rand_helper.c
+	<stdlib.h>
+	<stdio.h>
+	<windows.h>
+	<math.h>
+
+1656016823 source:c:\users\prove\documents\codeblocks\minecraft_old\glad.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<glad/glad.h>
+	<windows.h>
+	<winapifamily.h>
+	<dlfcn.h>
+
+1655792636 c:\mingw\include\glad\glad.h
+	<KHR/khrplatform.h>
+
+1655792636 c:\mingw\include\khr\khrplatform.h
+	<stdint.h>
+	<inttypes.h>
+	<stdint.h>
+
+1512590989 c:\mingw\include\inttypes.h
+	<_mingw.h>
+	<stdint.h>
+	<stddef.h>
+
+1512590989 c:\mingw\include\dlfcn.h
+	<_mingw.h>
+
+1656016823 source:c:\users\prove\documents\codeblocks\minecraft_old\shader.c
+	<glad/glad.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<stdio.h>
+	<time.h>
+	"rand_helper.h"
+	"matrix.h"
+
+1656013634 c:\users\prove\documents\codeblocks\minecraft_old\shader.h
+
+1655816562 source:c:\users\prove\documents\codeblocks\minecraft_old\char_array_helper.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+
+1655816465 c:\users\prove\documents\codeblocks\minecraft_old\char_array_helper.h
+
+1656062334 source:c:\users\prove\documents\codeblocks\minecraft_old\matrix.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"vec.h"
+
+1656016209 c:\users\prove\documents\codeblocks\minecraft_old\matrix.h
+
+1655919369 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
