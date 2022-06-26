@@ -26,4 +26,3 @@ struct vec normalize_v2(struct vec a);
 struct vec normalize_v3(struct vec a);
 float lenght_v2(struct vec a);
 float lenght_v3(struct vec a);
-void print_vec(struct vec v,char name[10]);
