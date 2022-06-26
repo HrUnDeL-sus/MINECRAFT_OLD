@@ -8,7 +8,6 @@
 #include "block.h"
 #include <glad/glad.h>
 const int SIZE_CHUNK=16;
-GLuint buffer_id=0;
 float SIZE_DISTANCE;
 int count_rendering_chunks=0;
 struct vec selected_chunk_position;
@@ -48,7 +47,7 @@ void draw_chunk(struct chunk get_chunk)
 
                     glPopMatrix();
 
-                    //draw_cube(get_chunk.blocks[x][y][z]);
+                    draw_cube(get_chunk.blocks[x][y][z]);
                     count_rendering_chunks+=1;
                 }
             }

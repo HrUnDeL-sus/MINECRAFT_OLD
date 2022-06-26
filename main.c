@@ -1,21 +1,16 @@
-#include <glad/glad.h>
-#include <GL/glut.h>
-#include <stdlib.h>
-#include <process.h>
-#include <windows.h>
-#include <stdio.h>
 #include "noise.h"
 #include "chunk.h"
 #include "camera.h"
-#include "vec.h"
-#include "block.h"
-#include <time.h>
-#include "rand_helper.h"
-#include "shader.h"
-#include "char_array_helper.h"
 #include "matrix.h"
-#include "math_helper.h"
-/* GLUT callback Handlers */
+#include "block.h"
+#include "char_array_helper.h"
+#include "shader.h"
+#include <stdlib.h>
+#include <process.h>
+#include <windows.h>
+#include <GL/glut.h>
+#include <glad/glad.h>
+#include <stdio.h>
 float save_width;
 float save_height;
 float t=0;
@@ -62,29 +57,20 @@ void draw_plane()
 }
 void display(void)
 {
-    clock_t t_start = clock();
-    //    glLoadIdentity();
 
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
     rendering_chunks(0,(int)SIZE_DISTANCE*2);
-
     glFlush();
     glutSwapBuffers();
-    clock_t t_end = clock();
 
     t+=0.1f;
 }
-void timer()
+void timer(int t)
 {
     glutPostRedisplay();
     glutTimerFunc(1000/20, timer, 0);
-}
-void timer2()
-{
-
-    glutTimerFunc(1000/60, timer2, 0);
 }
 void key(unsigned char key, int x, int y)
 {
@@ -110,14 +96,11 @@ void key(unsigned char key, int x, int y)
     if(key=='1')
         exit(0);
 }
-
 void idle(void)
 {
-
 }
 void wrap(int* x,int* y)
 {
-
     glutWarpPointer(save_width/2,save_height/2);
     *x=save_width/2;
     *y=save_height/2;
@@ -135,9 +118,6 @@ void mouse(int x,int y)
     last_x=x;
     last_y=y;
 }
-
-
-/* Program entry point */
 void init()
 {
     gladLoadGL();
@@ -147,11 +127,8 @@ void init()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     GLuint shader[2];
-    shader[0]=create_shader("minecraft_shader.frag",GL_FRAGMENT_SHADER);
-    shader[1]=create_shader("minecraft_shader.vert",GL_VERTEX_SHADER);
-    default_shader_id=activate_shader(shader,2);
 
-
+    printf("FDFGF");
     _beginthread(pre_rendering_chunks,0,NULL);
 }
 int main(int argc, char *argv[])
@@ -166,7 +143,6 @@ int main(int argc, char *argv[])
     scanf("%f",&count2);
     rand_number=count2;
     SIZE_DISTANCE=count;
-
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
@@ -178,9 +154,7 @@ int main(int argc, char *argv[])
     glutPassiveMotionFunc(mouse);
     glutIdleFunc(idle);
     glutTimerFunc(1000/60, timer, 0);
-    glutTimerFunc(1000/60, timer2, 0);
     init();
-
     glutMainLoop();
     return EXIT_SUCCESS;
 }

@@ -1,5 +1,4 @@
 #include <glad/glad.h>
-#include <GL/glut.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

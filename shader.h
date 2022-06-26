@@ -1,3 +1,4 @@
+#include <glad/glad.h>
 #ifndef SHADER_H_INCLUDED
 #define SHADER_H_INCLUDED
 GLuint program;

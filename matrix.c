@@ -8,7 +8,7 @@ struct matrix4f
 };
 struct matrix4f identify_matrix()
 {
-    struct matrix4f mat= {};
+    struct matrix4f mat;
     mat.m[0][0]=1;
     mat.m[0][1]=0;
     mat.m[0][2]=0;
@@ -74,7 +74,7 @@ struct matrix4f rotate_z_martix(float angle)
 }
 struct matrix4f perspective_off_center_matrix(float left,float right,float bottom,float top,float zNear,float zFar)
 {
-    struct matrix4f mat= {};
+    struct matrix4f mat;
     float x = 2.0f * zNear / (right - left);
     float y = 2.0f * zNear / (top - bottom);
     float a = (right + left) / (right - left);
@@ -123,7 +123,7 @@ void draw_matrix(struct matrix4f mat)
 }
 struct matrix4f mult_matrix(struct matrix4f left, struct matrix4f right)
 {
-    struct matrix4f result= {};
+    struct matrix4f result;
     float leftM11 = left.m[0][0];
     float leftM12 = left.m[0][1];
     float leftM13 = left.m[0][2];
@@ -177,7 +177,7 @@ struct matrix4f mult_matrix(struct matrix4f left, struct matrix4f right)
 }
 struct matrix4f look_at_matrix(const struct vec eye,const struct vec target, const struct vec up)
 {
-    struct matrix4f mat= {};
+    struct matrix4f mat;
     struct vec n = normalize_v3(sub_v3_v3(eye,target));
     struct vec u =normalize_v3(cross(up,n));
     struct vec v=normalize_v3(cross(u,n));
