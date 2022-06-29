@@ -23,7 +23,7 @@ void resize(int width, int height)
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    set_camera_matrix_perpective(perspective_martix(deegres_to_radiar(70),ar,0.1f,100.0f));
+    set_camera_matrix_perpective(perspective_martix(deegres_to_radiar(45),ar,0.1,1000.0f));
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity() ;
 }
@@ -70,7 +70,7 @@ void display(void)
 void timer(int t)
 {
     glutPostRedisplay();
-    glutTimerFunc(1000/20, timer, 0);
+    glutTimerFunc(1000/60, timer, 0);
 }
 void key(unsigned char key, int x, int y)
 {
@@ -127,15 +127,16 @@ void init()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     GLuint shader[2];
+    shader[0]=create_shader("base3d_shader.vert",GL_VERTEX_SHADER);
+    shader[1]=create_shader("base3d_shader.frag",GL_FRAGMENT_SHADER);
+    default_shader_id=activate_shader(shader,2);
 
-    printf("FDFGF");
-    _beginthread(pre_rendering_chunks,0,NULL);
+    pre_rendering_chunks(NULL);
 }
 int main(int argc, char *argv[])
 {
     printf("CHANKS:");
     path_shaders=find_path(argv[0]);
-    printf("\n %s",find_path(argv[0]));
     int count=0;
     scanf("%d",&count);
     printf("SEED:");

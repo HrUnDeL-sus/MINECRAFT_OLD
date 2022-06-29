@@ -18,7 +18,6 @@ char* load_shader_from_file(char* file_name)
     {
 
         size_t t=    fread(text,1,len,f);
-        printf("\nLog:%d",t);
         fclose(f);
     }
 
@@ -52,7 +51,13 @@ int create_shader(char* file_name,GLuint type)
 }
 void set_matrix4(struct matrix4f mat,char* name,int prog)
 {
-    glUniformMatrix4fv(glGetUniformLocation(prog,name),1,GL_TRUE,&mat.m[0][0]);
+
+    int id=glGetUniformLocation(prog,name);
+    if(id==-1){
+        printf("\nCant find %s in shader %d",name,prog);
+    }
+    // printf("\nFind %s in shader %d",name,id);
+    glUniformMatrix4fv(id,1,GL_FALSE,&mat.m[0][0]);
 }
 void use_shader(int id)
 {
