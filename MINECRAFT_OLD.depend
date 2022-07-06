@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1656520165 source:c:\users\prove\documents\codeblocks\minecraft_old\camera.c
+1656062317 source:c:\users\prove\documents\codeblocks\minecraft_old\camera.c
 	<stdlib.h>
 	<stdio.h>
 	<math.h>
@@ -340,7 +340,7 @@
 
 1655570334 c:\users\prove\documents\codeblocks\minecraft_old\chunk.h
 
-1656520063 source:c:\users\prove\documents\codeblocks\minecraft_old\chunk.c
+1656251248 source:c:\users\prove\documents\codeblocks\minecraft_old\chunk.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -349,10 +349,9 @@
 	"noise.h"
 	"camera.h"
 	"block.h"
-	"matrix.h"
 	<glad/glad.h>
 
-1656513725 source:c:\users\prove\documents\codeblocks\minecraft_old\main.c
+1656251509 source:c:\users\prove\documents\codeblocks\minecraft_old\main.c
 	"noise.h"
 	"chunk.h"
 	"camera.h"
@@ -379,7 +378,7 @@
 
 1656254546 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.c
 
-1656520119 source:c:\users\prove\documents\codeblocks\minecraft_old\block.c
+1656251248 source:c:\users\prove\documents\codeblocks\minecraft_old\block.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -392,10 +391,9 @@
 	"shader.h"
 	"matrix.h"
 
-1656482607 c:\users\prove\documents\codeblocks\minecraft_old\block.h
+1656254187 c:\users\prove\documents\codeblocks\minecraft_old\block.h
 	<stdio.h>
 	<stdlib.h>
-	<glad/glad.h>
 	"vec.h"
 
 1656173783 source:c:\users\prove\documents\codeblocks\minecraft_old\math_helper.c
@@ -448,7 +446,7 @@
 1512590989 c:\mingw\include\dlfcn.h
 	<_mingw.h>
 
-1656513317 source:c:\users\prove\documents\codeblocks\minecraft_old\shader.c
+1656251248 source:c:\users\prove\documents\codeblocks\minecraft_old\shader.c
 	<glad/glad.h>
 	<stdlib.h>
 	<stdio.h>
@@ -467,13 +465,13 @@
 
 1655816465 c:\users\prove\documents\codeblocks\minecraft_old\char_array_helper.h
 
-1656498025 source:c:\users\prove\documents\codeblocks\minecraft_old\matrix.c
+1656173654 source:c:\users\prove\documents\codeblocks\minecraft_old\matrix.c
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
 	"vec.h"
 
-1656498025 c:\users\prove\documents\codeblocks\minecraft_old\matrix.h
+1656016209 c:\users\prove\documents\codeblocks\minecraft_old\matrix.h
 
 1655919369 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 

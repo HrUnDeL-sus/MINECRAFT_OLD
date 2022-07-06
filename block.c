@@ -10,59 +10,52 @@
 #include "shader.h"
 #include "matrix.h"
 int default_shader_id=0;
-GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f, // Left
-         0.5f, -0.5f, 0.0f, // Right
-         0.0f,  0.5f, 0.0f  // Top
-    };
 float vertex[]=
 {
-    -1,-1,-1,
-        1,-1,-1,
-        1, 1,-1,
-        1, 1,-1,
-        -1, 1,-1,
-        -1,-1,-1,
+   -1,-1,-1,
+       1,-1,-1,
+       1, 1,-1,
+       1, 1,-1,
+       -1, 1,-1,
+       -1,-1,-1,
 
-        -1,-1, 1,
-        1,-1, 1,
-        1, 1, 1,
-        1, 1, 1,
-        -1, 1, 1,
-        -1,-1, 1,
+       -1,-1, 1,
+       1,-1, 1,
+       1, 1, 1,
+       1, 1, 1,
+       -1, 1, 1,
+       -1,-1, 1,
 
-        -1, 1, 1,
-        -1, 1,-1,
-        -1,-1,-1,
-        -1,-1,-1,
-        -1,-1, 1,
-        -1, 1, 1,
+       -1, 1, 1,
+       -1, 1,-1,
+       -1,-1,-1,
+       -1,-1,-1,
+       -1,-1, 1,
+       -1, 1, 1,
 
-        1, 1, 1,
-        1, 1,-1,
-        1,-1,-1,
-        1,-1,-1,
-        1,-1, 1,
-        1, 1, 1,
+       1, 1, 1,
+       1, 1,-1,
+       1,-1,-1,
+       1,-1,-1,
+       1,-1, 1,
+       1, 1, 1,
 
-        -1,-1,-1,
-        1,-1,-1,
-        1,-1, 1,
-        1,-1, 1,
-        -1,-1, 1,
-        -1,-1,-1,
+       -1,-1,-1,
+       1,-1,-1,
+       1,-1, 1,
+       1,-1, 1,
+       -1,-1, 1,
+       -1,-1,-1,
 
-        -1, 1,-1,
-        1, 1,-1,
-        1, 1, 1,
-        1, 1, 1,
-        -1, 1, 1,
-        -1, 1,-1
+       -1, 1,-1,
+       1, 1,-1,
+       1, 1, 1,
+       1, 1, 1,
+       -1, 1, 1,
+       -1, 1,-1
     };
 int buffer_id=0;
 byte is_check=1;
-GLuint vao=0;
-GLuint buffer=0;
 struct block
 {
     struct vec position;
@@ -71,40 +64,70 @@ struct block
     byte isEnable;
 
 };
-void draw_cube(const int count)
+void draw_cube(struct block get)
 {
-
-
+    glBindBuffer(GL_ARRAY_BUFFER,buffer_id);
+    set_matrix4(mult_matrix(transform_matrix(vec3(get.position.x,get.position.y,get.position.z)),
+                            scale_matrix(vec3(1,1,1))),"model",default_shader_id);
     set_matrix4(get_camera_matrix_look_at(),"camera",default_shader_id);
-   set_matrix4(get_camera_matrix_perpective(),"perspective",default_shader_id);
- use_shader(default_shader_id);
-    glBindVertexArray(vao);
-    glDrawArraysInstanced(GL_TRIANGLES,0,3,count);
-   // glBindVertexArray(0);
-   //  glBindBuffer(GL_ARRAY_BUFFER,0);
+    set_matrix4(get_camera_matrix_perpective(),"perspective",default_shader_id);
+
+
+    glVertexPointer(3,GL_FLOAT,0,NULL);
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glDrawArrays(GL_TRIANGLES,0,36);
+     glDisableClientState(GL_VERTEX_ARRAY);
 }
-void move_blocks(struct block*** get_block,struct vec start_vec,struct vec move_vec)
-{
+void move_blocks(struct block*** get_block,struct vec start_vec,struct vec move_vec){
 
 }
-void init_blocks()
+struct block *** remove_invisible_bloks(struct block*** get_block)
 {
-    glGenVertexArrays(1,&vao);
+    struct block*** get_block2=get_block;
+    int last_z=15;
+    int count=0;
+    for(int x=1; x<15; x+=1)
+    {
+        for(int y=1; y<256; y+=1)
+        {
+            for(int z=1; z<15; z+=1)
+            {
+                if(is_check==0||get_block[x][y][z].isEnable==0)
+                    continue;
+                if(get_block2[x][y+1][z].isEnable&&
+                   get_block2[x][y-1][z].isEnable&&
+                   get_block2[x][y][z+1].isEnable&&
+                   get_block2[x][y][z-1].isEnable&&
+                   get_block2[x+1][y][z].isEnable&&
+                   get_block2[x-1][y][z].isEnable
+                   ){
+                    get_block[x][y][z].isEnable=0;
+                   }
+                    if(get_block2[x][y+1][z].isEnable==1){
+                        get_block[x][y+1][z].isEnable=0;
+                    }
+                     if(get_block[x][y][z].isEnable==0)
+                         count+=1;
 
-    glGenBuffers(1,&buffer);
-     glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER,buffer);
-    glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
-      glEnableVertexAttribArray(0);
-    glBindVertexArray(0);
 
+            }
+        }
+    }
+   // if(count!=0)
+   //   printf("\nREmoved: %d",count);
+    return get_block;
+}
+void init_blocks(){
 
-
+ glGenBuffers(1,&buffer_id);
+    glBindBuffer(GL_ARRAY_BUFFER,buffer_id);
+    glBufferData(GL_ARRAY_BUFFER,sizeof(vertex),vertex,GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+      use_shader(default_shader_id);
 }
 struct block*** malloc_blocks()
 {
-
     init_blocks();
     struct block *** get_block;
     get_block=malloc(16*sizeof(struct block**));
@@ -122,6 +145,5 @@ struct block*** malloc_blocks()
 
         }
     }
-
     return get_block;
 }
