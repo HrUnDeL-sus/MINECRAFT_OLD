@@ -105,6 +105,7 @@ struct matrix4f perspective_martix(float fovy,float aspect,float zNear,float zFa
 
     float maxY = zNear * tanf(0.5f * fovy);
     float minY = -maxY;
+
     float minX = minY * aspect;
     float maxX = maxY * aspect;
     return perspective_off_center_matrix(minX, maxX, minY, maxY, zNear, zFar);
@@ -121,7 +122,7 @@ void draw_matrix(struct matrix4f mat)
         }
     }
 }
-struct matrix4f mult_matrix(struct matrix4f left, struct matrix4f right)
+struct matrix4f multi_matrix(struct matrix4f left, struct matrix4f right)
 {
     struct matrix4f result;
     float leftM11 = left.m[0][0];

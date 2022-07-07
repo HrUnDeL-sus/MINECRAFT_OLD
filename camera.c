@@ -39,6 +39,7 @@ void apply_camera_matrix()
     camera_matrix_look_at=look_at_matrix(camera_position,
                                          vec3(camera_position.x+camera_angle.x,camera_position.y+camera_angle.y,camera_position.z+camera_angle.z),
                                          vec3(0,1,0));
+
 }
 void set_camera(float x,float y,float z)
 {
