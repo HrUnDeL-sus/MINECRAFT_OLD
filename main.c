@@ -23,7 +23,7 @@ void resize(int width, int height)
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    set_camera_matrix_perpective(perspective_martix(deegres_to_radiar(45),ar,0.1,1000.0f));
+    set_camera_matrix_perpective(perspective_martix(45,ar,1,100.0f));
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity() ;
 }
@@ -69,23 +69,23 @@ void display(void)
 }
 void timer(int t)
 {
-    glutPostRedisplay();
-    glutTimerFunc(1000/60, timer, 0);
+
+
 }
 void key(unsigned char key, int x, int y)
 {
     if(key=='w')
-        add_camera(0,0,2);
-    if(key=='s')
         add_camera(0,0,-2);
+    if(key=='s')
+        add_camera(0,0,2);
     if(key=='a')
-        add_camera(-2,0,0);
-    if(key=='d')
         add_camera(2,0,0);
+    if(key=='d')
+        add_camera(-2,0,0);
     if(key=='z')
-        add_camera(0,-2,0);
-    if(key=='x')
         add_camera(0,2,0);
+    if(key=='x')
+        add_camera(0,-2,0);
     if(key=='2')
         glutFullScreen();
     if(key=='3')
@@ -98,6 +98,7 @@ void key(unsigned char key, int x, int y)
 }
 void idle(void)
 {
+    glutPostRedisplay();
 }
 void wrap(int* x,int* y)
 {

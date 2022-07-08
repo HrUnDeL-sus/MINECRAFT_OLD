@@ -79,7 +79,7 @@ void draw_cube(const int count)
    set_matrix4(get_camera_matrix_perpective(),"perspective",default_shader_id);
  use_shader(default_shader_id);
     glBindVertexArray(vao);
-    glDrawArraysInstanced(GL_TRIANGLES,0,3,count);
+    glDrawArraysInstanced(GL_TRIANGLES,0,36,count);
    // glBindVertexArray(0);
    //  glBindBuffer(GL_ARRAY_BUFFER,0);
 }
@@ -94,7 +94,7 @@ void init_blocks()
     glGenBuffers(1,&buffer);
      glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER,buffer);
-    glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER,sizeof(vertex),vertex,GL_STATIC_DRAW);
       glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
       glEnableVertexAttribArray(0);
     glBindVertexArray(0);

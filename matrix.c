@@ -100,15 +100,32 @@ struct matrix4f perspective_off_center_matrix(float left,float right,float botto
     mat.m[3][3] = 0;
     return mat;
 }
-struct matrix4f perspective_martix(float fovy,float aspect,float zNear,float zFar)
-{
+struct matrix4f perspective_martix(float vertical_field_of_view_in_deg, float aspect_ratio, float near_view_distance, float far_view_distance) {
+	float fovy_in_rad = vertical_field_of_view_in_deg / 180 * M_PI;
+	float f = 1.0f / tanf(fovy_in_rad / 2.0f);
+	float ar = aspect_ratio;
+	float nd = near_view_distance, fd = far_view_distance;
+	struct matrix4f mat={};
+	mat.m[0][0]=f/ar;
+	mat.m[0][1]=0;
+	mat.m[0][2]=0;
+	mat.m[0][3]=0;
 
-    float maxY = zNear * tanf(0.5f * fovy);
-    float minY = -maxY;
+	mat.m[1][0]=0;
+	mat.m[1][1]=f;
+	mat.m[1][2]=0;
+	mat.m[1][3]=0;
 
-    float minX = minY * aspect;
-    float maxX = maxY * aspect;
-    return perspective_off_center_matrix(minX, maxX, minY, maxY, zNear, zFar);
+	mat.m[2][0]=0;
+	mat.m[2][1]=0;
+	mat.m[2][2]=(fd+nd)/(nd-fd);
+	mat.m[2][3]=(2*fd*nd)/(nd-fd);
+
+	mat.m[3][0]=0;
+	mat.m[3][1]=0;
+	mat.m[3][2]=-1;
+	mat.m[3][3]=0;
+	return mat;
 
 }
 void draw_matrix(struct matrix4f mat)
@@ -179,7 +196,7 @@ struct matrix4f multi_matrix(struct matrix4f left, struct matrix4f right)
 struct matrix4f look_at_matrix(const struct vec eye,const struct vec target, const struct vec up)
 {
     struct matrix4f mat;
-    struct vec n = normalize_v3(sub_v3_v3(eye,target));
+    struct vec n =multi_v3_f(normalize_v3(sub_v3_v3(eye,target)),-1);
     struct vec u =normalize_v3(cross(up,n));
     struct vec v=normalize_v3(cross(u,n));
 

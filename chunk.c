@@ -77,7 +77,8 @@ void fill_matrix()
                         struct matrix4f transform_matrixs=multi_matrix(scale_matrix(render_chunks[x1][z1].blocks[x][y][z].scale),transform_matrix(vec3(render_chunks[x1][z1].blocks[x][y][z].position.x,
                                                                                                                                                        y,
                                                                                                                                                        render_chunks[x1][z1].blocks[x][y][z].position.z)
-                                                                                                                                                       ));
+                                                                                                                                                    ));
+
                         for(int i=0;i<4;i+=1){
                             for(int q=0;q<4;q+=1){
                                 transform_matrix_floats[count]=transform_matrixs.m[i][q];
@@ -86,8 +87,6 @@ void fill_matrix()
                         }
                         if(count%1000==0)
                             printf("\nCOUNT: %d / %d",count,count_blocks);
-
-
                       //  printf("\n");
 
                         //draw_matrix(transform_matrixs[count]);
@@ -97,7 +96,7 @@ void fill_matrix()
             }
         }
     }
-    printf("FG");
+
 }
 
 void pre_draw_chunk (float xNum,float zNum,struct block*** get_block,int zChunk,int xChunk)
@@ -109,7 +108,7 @@ void pre_draw_chunk (float xNum,float zNum,struct block*** get_block,int zChunk,
     {
         for(float z=(float)SIZE_CHUNK*(zNum-1); z<(float)SIZE_CHUNK*zNum; z+=1)
         {
-            y_chunk=roundf(fmb_float(x,z)*128);
+            y_chunk=roundf(fmb_float(x,z)*256);
 
             get_block[x_block][(int)(y_chunk)][z_block].position=vec3(x,y_chunk,z);
             get_block[x_block][(int)(y_chunk)][z_block].color=vec3(0,0.1f,0);
