@@ -45,6 +45,9 @@
 			<Add directory="C:/MinGW/include" />
 		</Compiler>
 		<Linker>
+			<Add option="-static-libstdc++" />
+			<Add option="-static-libgcc" />
+			<Add option="-static" />
 			<Add library="glut32" />
 			<Add library="opengl32" />
 			<Add library="glu32" />
@@ -65,10 +68,6 @@
 			<Option virtualFolder="helpers/" />
 		</Unit>
 		<Unit filename="char_array_helper.h" />
-		<Unit filename="chunk.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="chunk.h" />
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -101,10 +100,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="shader.h" />
+		<Unit filename="texture.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="texture.h" />
 		<Unit filename="vec.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="vec.h" />
+		<Unit filename="world.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="world.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

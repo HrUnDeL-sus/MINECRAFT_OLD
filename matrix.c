@@ -142,62 +142,23 @@ void draw_matrix(struct matrix4f mat)
 struct matrix4f multi_matrix(struct matrix4f left, struct matrix4f right)
 {
     struct matrix4f result;
-    float leftM11 = left.m[0][0];
-    float leftM12 = left.m[0][1];
-    float leftM13 = left.m[0][2];
-    float leftM14 = left.m[0][3];
-    float leftM21 = left.m[1][0];
-    float leftM22 = left.m[1][1];
-    float leftM23 = left.m[1][2];
-    float leftM24 = left.m[1][3];
-    float leftM31 = left.m[2][0];
-    float leftM32 = left.m[2][1];
-    float leftM33 = left.m[2][2];
-    float leftM34 = left.m[2][3];
-    float leftM41 = left.m[3][0];
-    float leftM42 = left.m[3][1];
-    float leftM43 = left.m[3][2];
-    float leftM44 = left.m[3][3];
-    float rightM11 = right.m[0][0];
-    float rightM12 = right.m[0][1];
-    float rightM13 = right.m[0][2];
-    float rightM14 = right.m[0][3];
-    float rightM21 = right.m[1][0];
-    float rightM22 = right.m[1][1];
-    float rightM23 = right.m[1][2];
-    float rightM24 = right.m[1][3];
-    float rightM31 = right.m[2][0];
-    float rightM32 = right.m[2][1];
-    float rightM33 = right.m[2][2];
-    float rightM34 = right.m[2][3];
-    float rightM41 = right.m[3][0];
-    float rightM42 = right.m[3][1];
-    float rightM43 = right.m[3][2];
-    float rightM44 = right.m[3][3];
+	for(int i = 0; i < 4; i++) {
+		for(int j = 0; j < 4; j++) {
+			float sum = 0;
+			for(int k = 0; k < 4; k++) {
+				sum += left.m[k][j] * right.m[i][k];
+			}
+			result.m[i][j] = sum;
+		}
+	}
 
-    result.m[0][0] = (leftM11 * rightM11) + (leftM12 * rightM21) + (leftM13 * rightM31) + (leftM14 * rightM41);
-    result.m[0][1] = (leftM11 * rightM12) + (leftM12 * rightM22) + (leftM13 * rightM32) + (leftM14 * rightM42);
-    result.m[0][2] = (leftM11 * rightM13) + (leftM12 * rightM23) + (leftM13 * rightM33) + (leftM14 * rightM43);
-    result.m[0][3] = (leftM11 * rightM14) + (leftM12 * rightM24) + (leftM13 * rightM34) + (leftM14 * rightM44);
-    result.m[1][0] = (leftM21 * rightM11) + (leftM22 * rightM21) + (leftM23 * rightM31) + (leftM24 * rightM41);
-    result.m[1][1] = (leftM21 * rightM12) + (leftM22 * rightM22) + (leftM23 * rightM32) + (leftM24 * rightM42);
-    result.m[1][2] = (leftM21 * rightM13) + (leftM22 * rightM23) + (leftM23 * rightM33) + (leftM24 * rightM43);
-    result.m[1][3] = (leftM21 * rightM14) + (leftM22 * rightM24) + (leftM23 * rightM34) + (leftM24 * rightM44);
-    result.m[2][0] = (leftM31 * rightM11) + (leftM32 * rightM21) + (leftM33 * rightM31) + (leftM34 * rightM41);
-    result.m[2][1] = (leftM31 * rightM12) + (leftM32 * rightM22) + (leftM33 * rightM32) + (leftM34 * rightM42);
-    result.m[2][2] = (leftM31 * rightM13) + (leftM32 * rightM23) + (leftM33 * rightM33) + (leftM34 * rightM43);
-    result.m[2][3] = (leftM31 * rightM14) + (leftM32 * rightM24) + (leftM33 * rightM34) + (leftM34 * rightM44);
-    result.m[3][0] = (leftM41 * rightM11) + (leftM42 * rightM21) + (leftM43 * rightM31) + (leftM44 * rightM41);
-    result.m[3][1] = (leftM41 * rightM12) + (leftM42 * rightM22) + (leftM43 * rightM32) + (leftM44 * rightM42);
-    result.m[3][2] = (leftM41 * rightM13) + (leftM42 * rightM23) + (leftM43 * rightM33) + (leftM44 * rightM43);
-    result.m[3][3] = (leftM41 * rightM14) + (leftM42 * rightM24) + (leftM43 * rightM34) + (leftM44 * rightM44);
-    return result;
+	return result;
 }
 struct matrix4f look_at_matrix(const struct vec eye,const struct vec target, const struct vec up)
 {
     struct matrix4f mat;
     struct vec n =multi_v3_f(normalize_v3(sub_v3_v3(eye,target)),-1);
-    struct vec u =normalize_v3(cross(up,n));
+    struct vec u =multi_v3_f(normalize_v3(cross(up,n)),-1);
     struct vec v=normalize_v3(cross(u,n));
 
     mat.m[0][0] = u.x;

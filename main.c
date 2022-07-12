@@ -1,5 +1,5 @@
 #include "noise.h"
-#include "chunk.h"
+#include "world.h"
 #include "camera.h"
 #include "matrix.h"
 #include "block.h"
@@ -23,7 +23,7 @@ void resize(int width, int height)
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    set_camera_matrix_perpective(perspective_martix(45,ar,1,100.0f));
+    set_camera_matrix_perpective(perspective_martix(45,ar,1,1000.0f));
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity() ;
 }
@@ -61,7 +61,7 @@ void display(void)
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
-    rendering_chunks(0,(int)SIZE_DISTANCE*2);
+    rendering_chunks();
     glFlush();
     glutSwapBuffers();
 
@@ -75,17 +75,17 @@ void timer(int t)
 void key(unsigned char key, int x, int y)
 {
     if(key=='w')
-        add_camera(0,0,-2);
+        add_camera(0,0,1);
     if(key=='s')
-        add_camera(0,0,2);
+        add_camera(0,0,-1);
     if(key=='a')
-        add_camera(2,0,0);
+        add_camera(1,0,0);
     if(key=='d')
-        add_camera(-2,0,0);
+        add_camera(-1,0,0);
     if(key=='z')
-        add_camera(0,2,0);
+        add_camera(0,-1,0);
     if(key=='x')
-        add_camera(0,-2,0);
+        add_camera(0,1,0);
     if(key=='2')
         glutFullScreen();
     if(key=='3')
@@ -122,8 +122,6 @@ void mouse(int x,int y)
 void init()
 {
     gladLoadGL();
-    listName=glGenLists(1);
-    initializate_chunks(listName);
     glClearColor(1,1,1,1);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -131,20 +129,21 @@ void init()
     shader[0]=create_shader("base3d_shader.vert",GL_VERTEX_SHADER);
     shader[1]=create_shader("base3d_shader.frag",GL_FRAGMENT_SHADER);
     default_shader_id=activate_shader(shader,2);
-
-    pre_rendering_chunks(NULL);
+     printf("CHANKS:");
+        float count=0;
+    scanf("%f",&count);
+     pre_draw_world(count,count);
+     printf("\n COUNT:%f",count);
 }
 int main(int argc, char *argv[])
 {
-    printf("CHANKS:");
+
     path_shaders=find_path(argv[0]);
-    int count=0;
-    scanf("%d",&count);
+
     printf("SEED:");
     float count2=0;
     scanf("%f",&count2);
     rand_number=count2;
-    SIZE_DISTANCE=count;
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
