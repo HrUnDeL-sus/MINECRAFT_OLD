@@ -11,10 +11,15 @@ struct block
     struct vec color;
     struct vec scale;
     int isEnable;
-
+    int is_cross;
+      float id_tex[6];
+      struct vec offset;
 };
+void fill_texture_index_block(int id, struct block * local_block);
+float vertex_standart_block[];
 int default_shader_id;
 int is_check;
 void draw_cube(const int count);
-GLuint vao;
+GLuint vao_block;
+GLuint vao_cross_block;
 #endif // BLOCK_H_INCLUDED

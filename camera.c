@@ -59,7 +59,7 @@ void add_camera(float x,float y,float z)
 
         camera_position=add_v3_v3(camera_position,multi_v3_f(right,x));
     }
-    else if(has_collision_with_block(vec3(camera_position.x+x,camera_position.y+y,camera_position.z+z))==0)
+    else
     {
         camera_position.x+=x;
         camera_position.y+=y;

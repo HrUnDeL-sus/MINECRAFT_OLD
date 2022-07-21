@@ -1,11 +1,7 @@
 #ifndef TEXTURE_H_INCLUDED
 #define TEXTURE_H_INCLUDED
-const GLfloat texture_coord[]={
-0.5f, 0.5f, // top right
-0.5f, 0.44f, // bottom right
-0.44f, 0.44f, // bottom left
-0.44f, 0.5f  // top left
-};
-int load_texture(char * name);
-
+GLfloat standart_texture_coord[];
+void get_texture_coord_lite(int id,float* standart_texture_coord2);
+void get_texture_coord_full(int id_forward,int id_back,int id_left,int id_right,int id_down,int id_up,float* standart_texture_coord2);
+int load_blocks_textures(char * name);
 #endif // TEXTURE_H_INCLUDED

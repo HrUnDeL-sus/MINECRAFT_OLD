@@ -11,8 +11,12 @@
 #include <GL/glut.h>
 #include <glad/glad.h>
 #include <stdio.h>
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image_write.h>
+#include <stb_image.h>
 float save_width;
 float save_height;
+int FPS=30;
 float t=0;
 GLuint listName;
 void resize(int width, int height)
@@ -25,35 +29,7 @@ void resize(int width, int height)
     glLoadIdentity();
     set_camera_matrix_perpective(perspective_martix(45,ar,1,1000.0f));
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity() ;
-}
-void draw_plane()
-{
-    for(float x=-100; x<=100; x+=1)
-    {
-        for(float z=-100; z<=100; z+=1)
-        {
-            glPushMatrix();
-            glTranslated(x,-5,z);
-            glRotated(90,1,0,0);
-            glScaled(1,1,1);
-
-            glLineWidth(1);
-            glBegin(GL_LINES);
-            glVertex2f(-1,-1);
-            glVertex2f(-1,1);
-            glVertex2f(-1,1);
-            glVertex2f(1,1);
-            glVertex2f(1,1);
-            glVertex2f(1,-1);
-            glVertex2f(-1,-1);
-            glVertex2f(1,-1);
-            glEnd();
-            glPopMatrix();
-
-        }
-    }
-
+    glLoadIdentity();
 }
 void display(void)
 {
@@ -61,16 +37,16 @@ void display(void)
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
-    rendering_chunks();
-    glFlush();
+     pre_draw_world();
+
     glutSwapBuffers();
 
     t+=0.1f;
 }
 void timer(int t)
 {
-
-
+    glutPostRedisplay();
+  glutTimerFunc(1000/FPS, timer, 0);
 }
 void key(unsigned char key, int x, int y)
 {
@@ -88,6 +64,26 @@ void key(unsigned char key, int x, int y)
         add_camera(0,1,0);
     if(key=='2')
         glutFullScreen();
+     if(key=='4'){
+            Sleep(100);
+              char third[512];
+    int time_int=time(NULL);
+    char  time_char[64];
+     char * name="screen";
+     char * name2=".png";
+     char name3[512];
+     char name4[512];
+     sprintf(time_char,"%ld", time_int);
+      snprintf(name3, sizeof name3, "%s%s", name, time_char);
+        snprintf(name4, sizeof name4, "%s%s", name3, name2);
+    snprintf(third, sizeof third, "%s%s", path_shaders, name4);
+            unsigned char * arry=malloc(4*save_width*save_height*sizeof(unsigned char));
+        glReadPixels(0, 0, save_width, save_height, GL_RGBA, GL_UNSIGNED_BYTE, arry);
+        stbi_write_set_flip_vertically_on_save(1);
+        stbi_write_png(third,save_width,save_height,4,arry,4*save_width);
+     //   stbi_image_free(arry);
+     free(arry);
+     }
     if(key=='3')
     {
         is_check=is_check==0?1:0;
@@ -98,7 +94,7 @@ void key(unsigned char key, int x, int y)
 }
 void idle(void)
 {
-    glutPostRedisplay();
+
 }
 void wrap(int* x,int* y)
 {
@@ -108,6 +104,8 @@ void wrap(int* x,int* y)
 }
 void mouse(int x,int y)
 {
+    if(is_check==1)
+        return;
     static int last_x=0;
     static int last_y=0;
 
@@ -124,16 +122,22 @@ void init()
     gladLoadGL();
     glClearColor(1,1,1,1);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glEnable(GL_ALPHA_TEST);
+glAlphaFunc(GL_GREATER, 0.5f);
+   // glEnable(GL_MULTISAMPLE);
+   glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glDepthFunc(GL_LESS);
     GLuint shader[2];
     shader[0]=create_shader("base3d_shader.vert",GL_VERTEX_SHADER);
     shader[1]=create_shader("base3d_shader.frag",GL_FRAGMENT_SHADER);
     default_shader_id=activate_shader(shader,2);
      printf("CHANKS:");
-        float count=0;
-    scanf("%f",&count);
-     pre_draw_world(count,count);
-     printf("\n COUNT:%f",count);
+        int count=0;
+    scanf("%d",&count);
+    init_chunks(count);
+
+     printf("\n COUNT:%d",count);
 }
 int main(int argc, char *argv[])
 {
@@ -143,18 +147,20 @@ int main(int argc, char *argv[])
     printf("SEED:");
     float count2=0;
     scanf("%f",&count2);
-    rand_number=count2;
+    printf("FPS:");
+    scanf("%d",&FPS);
+
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
     glutCreateWindow("GLUT Shapes");
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
     glutPassiveMotionFunc(mouse);
     glutIdleFunc(idle);
-    glutTimerFunc(1000/60, timer, 0);
+     glutTimerFunc(1000/FPS, timer, 0);
     init();
     glutMainLoop();
     return EXIT_SUCCESS;

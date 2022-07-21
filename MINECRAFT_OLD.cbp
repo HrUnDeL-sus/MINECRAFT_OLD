@@ -68,6 +68,10 @@
 			<Option virtualFolder="helpers/" />
 		</Unit>
 		<Unit filename="char_array_helper.h" />
+		<Unit filename="chunk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="chunk.h" />
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>
