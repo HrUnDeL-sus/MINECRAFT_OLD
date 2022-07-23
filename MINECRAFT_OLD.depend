@@ -477,7 +477,7 @@
 
 1655919369 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
-1658141400 source:d:\Документы\codeblocks\minecraft_old\block.c
+1658522633 source:d:\Документы\codeblocks\minecraft_old\block.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -495,7 +495,7 @@
 
 1656520233 d:\Документы\codeblocks\minecraft_old\noise.h
 
-1656520233 d:\Документы\codeblocks\minecraft_old\camera.h
+1658512701 d:\Документы\codeblocks\minecraft_old\camera.h
 
 1656520233 d:\Документы\codeblocks\minecraft_old\math_helper.h
 
@@ -525,7 +525,7 @@
 	<math.h>
 	<string.h>
 
-1658431832 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1658526080 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -547,7 +547,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1658431467 source:d:\Документы\codeblocks\minecraft_old\main.c
+1658566874 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"noise.h"
 	"world.h"
 	"camera.h"
@@ -609,9 +609,9 @@
 
 1656520233 source:d:\Документы\codeblocks\minecraft_old\vec.c
 
-1658422738 d:\Документы\codeblocks\minecraft_old\world.h
+1658512303 d:\Документы\codeblocks\minecraft_old\world.h
 
-1658431870 source:d:\Документы\codeblocks\minecraft_old\world.c
+1658565908 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -626,6 +626,8 @@
 	"texture.h"
 	"shader.h"
 	"chunk.h"
+	"camera.h"
+	<process.h>
 
 1658050236 source:d:\Документы\codeblocks\minecraft_old\texture.c
 	<glad/glad.h>

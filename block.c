@@ -84,6 +84,7 @@ struct block
      float id_tex[6];
     struct vec offset;
 };
+
 void draw_cube(const int count)
 {
 

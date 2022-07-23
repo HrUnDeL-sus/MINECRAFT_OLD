@@ -33,35 +33,36 @@ void resize(int width, int height)
 }
 void display(void)
 {
-
+    float tick_now=GetTickCount();
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
-     pre_draw_world();
+
+    rendering_world();
 
     glutSwapBuffers();
-
     t+=0.1f;
+     printf("\nFPS:%f", roundf(1000/(float)(GetTickCount()-tick_now)));
 }
 void timer(int t)
 {
-    glutPostRedisplay();
-  glutTimerFunc(1000/FPS, timer, 0);
+
+ // glutTimerFunc(1000/FPS, timer, 0);
 }
 void key(unsigned char key, int x, int y)
 {
     if(key=='w')
-        add_camera(0,0,1);
+        add_camera(0,0,0.2f);
     if(key=='s')
-        add_camera(0,0,-1);
+        add_camera(0,0,-0.2f);
     if(key=='a')
-        add_camera(1,0,0);
+        add_camera(0.2f,0,0);
     if(key=='d')
-        add_camera(-1,0,0);
+        add_camera(-0.2f,0,0);
     if(key=='z')
-        add_camera(0,-1,0);
+        add_camera(0,-0.2f,0);
     if(key=='x')
-        add_camera(0,1,0);
+        add_camera(0,0.2f,0);
     if(key=='2')
         glutFullScreen();
      if(key=='4'){
@@ -91,10 +92,12 @@ void key(unsigned char key, int x, int y)
     }
     if(key=='1')
         exit(0);
+
+
 }
 void idle(void)
 {
-
+   glutPostRedisplay();
 }
 void wrap(int* x,int* y)
 {
@@ -136,7 +139,8 @@ glAlphaFunc(GL_GREATER, 0.5f);
         int count=0;
     scanf("%d",&count);
     init_chunks(count);
-
+    init_world();
+    _beginthread(  pre_draw_world,0,NULL);
      printf("\n COUNT:%d",count);
 }
 int main(int argc, char *argv[])
