@@ -18,6 +18,7 @@ float* transform_matrix_floats;
 float* block_indexs_texture;
 float* transform_matrix_floats_copy;
 float* block_indexs_texture_copy;
+float seed=0;
 int count_chunks;
 int is_first=1;
 int is_first2=1;
@@ -149,6 +150,7 @@ void init_world(){
     transform_matrix_floats=malloc(1);
     block_indexs_texture=malloc(1);
 }
+
 void pre_draw_world (void *t)
 {
     while(1==1){
@@ -157,6 +159,7 @@ void pre_draw_world (void *t)
     chunk_now=vec2(roundf(camera_position.x/16),roundf(camera_position.z/16));
     float x1=(float)count_chunks/2;
     float z1=(float)count_chunks/2;
+    int is_new=0;
     for(int x=0;x<count_chunks;x+=1){
         for(int z=0;z<count_chunks;z+=1){
 
@@ -164,21 +167,25 @@ void pre_draw_world (void *t)
                          x1-=1;
                     continue;
                 }
+                is_new=1;
                 chunk_in_world[x][z].position=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
 
-            pre_rendering_chunk(&chunk_in_world[x][z],0);
+            pre_rendering_chunk(&chunk_in_world[x][z]);
             x1-=1;
         }
         z1-=1;
         x1=(float)count_chunks/2;
     }
     is_first=0;
+    if(is_new==0)
+        continue;
      set_count();
+
     is_end2=0;
 
     while(is_end2!=2){
     }
-     Sleep(1000);
+
     }
 
 

@@ -4,8 +4,8 @@
 #include "vec.h"
 #include "matrix.h"
 #include "shader.h"
-#include "noise.h"
-
+#include "open-simplex-noise.h"
+#include "world.h"
 struct chunk
 {
     struct vec position;
@@ -128,19 +128,44 @@ void free_blocks(struct block*** gett){
         }
     }
 }
-void pre_rendering_chunk(struct chunk* get_chunk,int is_new)
+
+void write_chunk(struct chunk get_chunk){
+  FILE * fp;
+    if((fp= fopen("f", "w"))==NULL)
+    {
+
+        return 1;
+    }
+
+}
+float interpolate(float x1,float x2,float v1,float v2,float x){
+return  v1+( v2 - v1 )*(x - x1)/(x2 - x1);
+}
+void pre_rendering_chunk(struct chunk* get_chunk)
 {
+
+
+  //  write_chunk(*get_chunk);
     float y_chunk =5;
     int x_block=0;
     int z_block=0;
     free_blocks(get_chunk->blocks_in_chunk);
 
     get_chunk->count=0;
+    struct osn_context *ctx;
+	open_simplex_noise(seed, &ctx);
     for(float x1=get_chunk->position.x*SIZE_CHUNK; x1<get_chunk->position.x*SIZE_CHUNK+SIZE_CHUNK; x1+=1)
     {
         for(float z1=get_chunk->position.y*SIZE_CHUNK; z1<get_chunk->position.y*SIZE_CHUNK+SIZE_CHUNK; z1+=1)
         {
-            y_chunk=roundf(fmb_float(x1,z1)*128);
+            float noise1=0;
+            float count=0;
+                    float v1=open_simplex_noise2(ctx,((double)x1)/20,((double)z1)/20)* 4 / 100;
+                  float v2=open_simplex_noise2(ctx,((double)x1)/20,((double)z1)/20)* 2 / 100;
+                    float v3=open_simplex_noise2(ctx,((double)x1)/20,((double)z1)/20)* 1 / 100;
+                    noise1= (v1+v2+v3)*255;
+                    count=3;
+           y_chunk=roundf(noise1/count);
             get_chunk->blocks_in_chunk[x_block][(int)(y_chunk)][z_block].position=vec3(x1,y_chunk,z1);
             get_chunk->blocks_in_chunk[x_block][(int)(y_chunk)][z_block].scale=vec3(1,1,1);
             get_chunk->blocks_in_chunk[x_block][(int)(y_chunk)][z_block].isEnable=1;

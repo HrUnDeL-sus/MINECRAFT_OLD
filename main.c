@@ -33,7 +33,7 @@ void resize(int width, int height)
 }
 void display(void)
 {
-    float tick_now=GetTickCount();
+
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
@@ -41,13 +41,13 @@ void display(void)
     rendering_world();
 
     glutSwapBuffers();
+
     t+=0.1f;
-     printf("\nFPS:%f", roundf(1000/(float)(GetTickCount()-tick_now)));
 }
 void timer(int t)
 {
-
- // glutTimerFunc(1000/FPS, timer, 0);
+    glutPostRedisplay();
+  glutTimerFunc(1000/FPS, timer, 0);
 }
 void key(unsigned char key, int x, int y)
 {
@@ -92,12 +92,10 @@ void key(unsigned char key, int x, int y)
     }
     if(key=='1')
         exit(0);
-
-
 }
 void idle(void)
 {
-   glutPostRedisplay();
+
 }
 void wrap(int* x,int* y)
 {
@@ -151,9 +149,9 @@ int main(int argc, char *argv[])
     printf("SEED:");
     float count2=0;
     scanf("%f",&count2);
+    seed=count2;
     printf("FPS:");
     scanf("%d",&FPS);
-
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);

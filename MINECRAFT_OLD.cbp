@@ -87,10 +87,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="matrix.h" />
-		<Unit filename="noise.c">
+		<Unit filename="open-simplex-noise.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="noise.h" />
+		<Unit filename="open-simplex-noise.h" />
 		<Unit filename="rand_helper.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="helpers/" />

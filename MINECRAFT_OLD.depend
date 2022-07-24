@@ -493,7 +493,7 @@
 
 1656520233 d:\Документы\codeblocks\minecraft_old\vec.h
 
-1656520233 d:\Документы\codeblocks\minecraft_old\noise.h
+1658682635 d:\Документы\codeblocks\minecraft_old\noise.h
 
 1658512701 d:\Документы\codeblocks\minecraft_old\camera.h
 
@@ -515,7 +515,7 @@
 	"raycast.h"
 	"matrix.h"
 
-1658431832 d:\Документы\codeblocks\minecraft_old\chunk.h
+1658682561 d:\Документы\codeblocks\minecraft_old\chunk.h
 
 1656520233 d:\Документы\codeblocks\minecraft_old\raycast.h
 
@@ -525,12 +525,13 @@
 	<math.h>
 	<string.h>
 
-1658526080 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1658690302 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
 	"shader.h"
-	"noise.h"
+	"open-simplex-noise.h"
+	"world.h"
 
 1658068727 d:\Документы\codeblocks\minecraft_old\block.h
 	<stdio.h>
@@ -547,7 +548,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1658566874 source:d:\Документы\codeblocks\minecraft_old\main.c
+1658689389 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"noise.h"
 	"world.h"
 	"camera.h"
@@ -577,7 +578,7 @@
 	<math.h>
 	"vec.h"
 
-1656520233 source:d:\Документы\codeblocks\minecraft_old\noise.c
+1658683457 source:d:\Документы\codeblocks\minecraft_old\noise.c
 	<stdlib.h>
 	<stdio.h>
 	<math.h>
@@ -609,9 +610,9 @@
 
 1656520233 source:d:\Документы\codeblocks\minecraft_old\vec.c
 
-1658512303 d:\Документы\codeblocks\minecraft_old\world.h
+1658689389 d:\Документы\codeblocks\minecraft_old\world.h
 
-1658565908 source:d:\Документы\codeblocks\minecraft_old\world.c
+1658689388 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -667,4 +668,20 @@
 	<string.h>
 	<math.h>
 	<assert.h>
+
+1658688361 source:d:\Документы\codeblocks\minecraft_old\open-simplex-noise.c
+	<math.h>
+	<stdlib.h>
+	<stdint.h>
+	<string.h>
+	<errno.h>
+	"open-simplex-noise.h"
+
+1512590989 c:\mingw\include\errno.h
+	<_mingw.h>
+	"ptw32_errno.h"
+
+1650629252 d:\Документы\codeblocks\minecraft_old\open-simplex-noise.h
+	<stdint.h>
+	<stdint.h>
 

@@ -6,4 +6,5 @@ void rendering_world();
 void pre_draw_world (void *t);
 void init_world();
 void init_chunks(int size);
+float seed;
 #endif // WORLD_H_INCLUDED
