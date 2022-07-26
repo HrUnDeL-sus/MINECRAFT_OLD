@@ -6,6 +6,8 @@
 #include "shader.h"
 #include "open-simplex-noise.h"
 #include "world.h"
+#include "generator.h"
+#include "biome.h"
 struct chunk
 {
     struct vec position;
@@ -15,6 +17,7 @@ struct chunk
     float* block_indexs_texture;
 };
    struct block*** blocks_copy;
+    struct osn_context *ctx;
 
 struct block*** malloc_blocks(int init)
 {
@@ -39,6 +42,7 @@ struct block*** malloc_blocks(int init)
 
 void init_chunk(struct chunk* get_chunk)
 {
+
  get_chunk->blocks_in_chunk=malloc_blocks(0);
 get_chunk->blocks_in_chunk=malloc_blocks(1);
 blocks_copy=malloc_blocks(0);
@@ -138,57 +142,16 @@ void write_chunk(struct chunk get_chunk){
     }
 
 }
-float interpolate(float x1,float x2,float v1,float v2,float x){
-return  v1+( v2 - v1 )*(x - x1)/(x2 - x1);
-}
+
 void pre_rendering_chunk(struct chunk* get_chunk)
 {
-
-
-  //  write_chunk(*get_chunk);
-    float y_chunk =5;
-    int x_block=0;
-    int z_block=0;
     free_blocks(get_chunk->blocks_in_chunk);
-
     get_chunk->count=0;
-    struct osn_context *ctx;
-	open_simplex_noise(seed, &ctx);
-    for(float x1=get_chunk->position.x*SIZE_CHUNK; x1<get_chunk->position.x*SIZE_CHUNK+SIZE_CHUNK; x1+=1)
-    {
-        for(float z1=get_chunk->position.y*SIZE_CHUNK; z1<get_chunk->position.y*SIZE_CHUNK+SIZE_CHUNK; z1+=1)
-        {
-            float noise1=0;
-            float count=0;
-                    float v1=open_simplex_noise2(ctx,((double)x1)/20,((double)z1)/20)* 4 / 100;
-                  float v2=open_simplex_noise2(ctx,((double)x1)/20,((double)z1)/20)* 2 / 100;
-                    float v3=open_simplex_noise2(ctx,((double)x1)/20,((double)z1)/20)* 1 / 100;
-                    noise1= (v1+v2+v3)*255;
-                    count=3;
-           y_chunk=roundf(noise1/count);
-            get_chunk->blocks_in_chunk[x_block][(int)(y_chunk)][z_block].position=vec3(x1,y_chunk,z1);
-            get_chunk->blocks_in_chunk[x_block][(int)(y_chunk)][z_block].scale=vec3(1,1,1);
-            get_chunk->blocks_in_chunk[x_block][(int)(y_chunk)][z_block].isEnable=1;
-            fill_texture_index_block(50,&get_chunk->blocks_in_chunk[x_block][(int)(y_chunk)][z_block]);
-            get_chunk->count+=1;
-            for(int i=(int)y_chunk-1; i>0; i-=1)
-            {
-                get_chunk->blocks_in_chunk[x_block][i][z_block].position=vec3(x1,(float)i,z1);
-                get_chunk->blocks_in_chunk[x_block][i][z_block].color=vec3(0.5,0.5,0.5);
-                get_chunk->blocks_in_chunk[x_block][i][z_block].scale=vec3(1,1,1);
-                get_chunk->blocks_in_chunk[x_block][i][z_block].isEnable=1;
-                fill_texture_index_block(1,&get_chunk->blocks_in_chunk[x_block][i][z_block]);
-                get_chunk->count+=1;
-            }
-            z_block+=1;
-        }
-        z_block=0;
-        x_block+=1;
-    }
-
+    generate_landscape(get_chunk);
     clear_blocks(get_chunk);
     free(get_chunk->transform_matrix_floats);
     free(get_chunk->block_indexs_texture);
+
     get_chunk->transform_matrix_floats=malloc(sizeof(float)*16*get_chunk->count);
    get_chunk->block_indexs_texture=malloc(sizeof(float)*9*get_chunk->count);
     fill_matrix(get_chunk);

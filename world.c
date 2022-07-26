@@ -14,6 +14,8 @@
 #include "chunk.h"
 #include "camera.h"
 #include <process.h>
+#include <stdio.h>
+#include <time.h>
 float* transform_matrix_floats;
 float* block_indexs_texture;
 float* transform_matrix_floats_copy;
@@ -160,6 +162,7 @@ void pre_draw_world (void *t)
     float x1=(float)count_chunks/2;
     float z1=(float)count_chunks/2;
     int is_new=0;
+    clock_t start = clock();
     for(int x=0;x<count_chunks;x+=1){
         for(int z=0;z<count_chunks;z+=1){
 
@@ -175,7 +178,9 @@ void pre_draw_world (void *t)
         }
         z1-=1;
         x1=(float)count_chunks/2;
+
     }
+    printf("\nTIME:%f",clock()-start);
     is_first=0;
     if(is_new==0)
         continue;

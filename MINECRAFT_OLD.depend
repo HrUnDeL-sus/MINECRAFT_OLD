@@ -515,7 +515,8 @@
 	"raycast.h"
 	"matrix.h"
 
-1658682561 d:\Документы\codeblocks\minecraft_old\chunk.h
+1658839396 d:\Документы\codeblocks\minecraft_old\chunk.h
+	"vec.h"
 
 1656520233 d:\Документы\codeblocks\minecraft_old\raycast.h
 
@@ -525,13 +526,15 @@
 	<math.h>
 	<string.h>
 
-1658690302 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1658839535 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
 	"shader.h"
 	"open-simplex-noise.h"
 	"world.h"
+	"generator.h"
+	"biome.h"
 
 1658068727 d:\Документы\codeblocks\minecraft_old\block.h
 	<stdio.h>
@@ -548,7 +551,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1658689389 source:d:\Документы\codeblocks\minecraft_old\main.c
+1658839535 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"noise.h"
 	"world.h"
 	"camera.h"
@@ -562,6 +565,7 @@
 	<GL/glut.h>
 	<glad/glad.h>
 	<stdio.h>
+	"generator.h"
 	<stb_image_write.h>
 	<stb_image.h>
 
@@ -612,7 +616,7 @@
 
 1658689389 d:\Документы\codeblocks\minecraft_old\world.h
 
-1658689388 source:d:\Документы\codeblocks\minecraft_old\world.c
+1658872267 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -629,6 +633,8 @@
 	"chunk.h"
 	"camera.h"
 	<process.h>
+	<stdio.h>
+	<time.h>
 
 1658050236 source:d:\Документы\codeblocks\minecraft_old\texture.c
 	<glad/glad.h>
@@ -669,7 +675,7 @@
 	<math.h>
 	<assert.h>
 
-1658688361 source:d:\Документы\codeblocks\minecraft_old\open-simplex-noise.c
+1658840158 source:d:\Документы\codeblocks\minecraft_old\open-simplex-noise.c
 	<math.h>
 	<stdlib.h>
 	<stdint.h>
@@ -681,7 +687,28 @@
 	<_mingw.h>
 	"ptw32_errno.h"
 
-1650629252 d:\Документы\codeblocks\minecraft_old\open-simplex-noise.h
+1658839180 d:\Документы\codeblocks\minecraft_old\open-simplex-noise.h
 	<stdint.h>
 	<stdint.h>
+
+1658857586 source:d:\Документы\codeblocks\minecraft_old\interpolate_helper.c
+
+1658872738 source:d:\Документы\codeblocks\minecraft_old\biome.c
+	"open-simplex-noise.h"
+	"generator.h"
+	"vec.h"
+
+1658873687 d:\Документы\codeblocks\minecraft_old\generator.h
+
+1658873472 source:d:\Документы\codeblocks\minecraft_old\generator.c
+	"chunk.h"
+	"interpolate_helper.h"
+	"open-simplex-noise.h"
+	"biome.h"
+	"block.h"
+	"vec.h"
+
+1658855164 d:\Документы\codeblocks\minecraft_old\interpolate_helper.h
+
+1658872548 d:\Документы\codeblocks\minecraft_old\biome.h
 

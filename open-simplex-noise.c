@@ -345,7 +345,7 @@ double open_simplex_noise2(const struct osn_context *ctx, double x, double y)
 		value += attn_ext * attn_ext * extrapolate2(ctx, xsv_ext, ysv_ext, dx_ext, dy_ext);
 	}
 
-	return ((value / NORM_CONSTANT_2D)+1)/2;
+	return value / NORM_CONSTANT_2D;
 }
 
 /*
@@ -2248,4 +2248,12 @@ double open_simplex_noise4(const struct osn_context *ctx, double x, double y, do
 
 	return value / NORM_CONSTANT_4D;
 }
-
+float noise_2d(float x,float y,float a,float b,float c,struct osn_context *ctx){
+double xd,yd,ad,bd,cd;
+xd=(double)x;
+yd=(double)y;
+ad=(double)a;
+bd=(double)b;
+cd=(double)c;
+return (float)( (open_simplex_noise2(ctx,(xd)/ad,(yd)/ad)* bd)/cd);
+}

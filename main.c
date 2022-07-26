@@ -11,6 +11,7 @@
 #include <GL/glut.h>
 #include <glad/glad.h>
 #include <stdio.h>
+#include "generator.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image_write.h>
 #include <stb_image.h>
@@ -52,17 +53,17 @@ void timer(int t)
 void key(unsigned char key, int x, int y)
 {
     if(key=='w')
-        add_camera(0,0,0.2f);
+        add_camera(0,0,0.5f);
     if(key=='s')
-        add_camera(0,0,-0.2f);
+        add_camera(0,0,-0.5f);
     if(key=='a')
-        add_camera(0.2f,0,0);
+        add_camera(0.5f,0,0);
     if(key=='d')
-        add_camera(-0.2f,0,0);
+        add_camera(-0.5f,0,0);
     if(key=='z')
-        add_camera(0,-0.2f,0);
+        add_camera(0,-1,0);
     if(key=='x')
-        add_camera(0,0.2f,0);
+        add_camera(0,1,0);
     if(key=='2')
         glutFullScreen();
      if(key=='4'){
@@ -149,8 +150,12 @@ int main(int argc, char *argv[])
     printf("SEED:");
     float count2=0;
     scanf("%f",&count2);
-    seed=count2;
-    printf("FPS:");
+     printf("\nsmoothing:");
+     float count3=0;
+    scanf("%f",&count3);
+    smoothing=count3;
+    set_seed(count2);
+    printf("\nFPS:");
     scanf("%d",&FPS);
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);

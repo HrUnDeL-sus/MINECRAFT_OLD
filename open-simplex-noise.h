@@ -5,9 +5,9 @@
  * OpenSimplex (Simplectic) Noise in C.
  * Ported to C from Kurt Spencer's java implementation by Stephen M. Cameron
  *
- * v1.1 (October 6, 2014) 
+ * v1.1 (October 6, 2014)
  * - Ported to C
- * 
+ *
  * v1.1 (October 5, 2014)
  * - Added 2D and 4D implementations.
  * - Proper gradient sets for all dimensions, from a
@@ -26,7 +26,7 @@
 #elif (defined (_MSC_VER) || defined (__GNUC_GNU_INLINE__))
 	#include <stdint.h>
 	#define INLINE __inline
-#else 
+#else
 	/* ANSI C doesn't have inline or stdint.h. */
 	#define INLINE
 #endif
@@ -43,7 +43,7 @@ int open_simplex_noise_init_perm(struct osn_context *ctx, int16_t p[], int nelem
 double open_simplex_noise2(const struct osn_context *ctx, double x, double y);
 double open_simplex_noise3(const struct osn_context *ctx, double x, double y, double z);
 double open_simplex_noise4(const struct osn_context *ctx, double x, double y, double z, double w);
-
+float noise_2d(float x,float y,float a,float b,float c,struct osn_context *ctx);
 #ifdef __cplusplus
 	}
 #endif

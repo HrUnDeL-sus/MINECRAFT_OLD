@@ -55,6 +55,10 @@
 			<Add library="gdi32" />
 			<Add directory="C:/MinGW/lib" />
 		</Linker>
+		<Unit filename="biome.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="biome.h" />
 		<Unit filename="block.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -72,9 +76,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="chunk.h" />
+		<Unit filename="generator.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="generator.h" />
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="interpolate_helper.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="helpers/" />
+		</Unit>
+		<Unit filename="interpolate_helper.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

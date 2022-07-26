@@ -1,3 +1,4 @@
+#include "vec.h"
 #ifndef CHUNK_H_INCLUDED
 #define CHUNK_H_INCLUDED
 struct chunk
