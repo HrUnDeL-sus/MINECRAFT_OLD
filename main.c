@@ -1,4 +1,4 @@
-#include "noise.h"
+
 #include "world.h"
 #include "camera.h"
 #include "matrix.h"
@@ -12,6 +12,7 @@
 #include <glad/glad.h>
 #include <stdio.h>
 #include "generator.h"
+#include "gui.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image_write.h>
 #include <stb_image.h>
@@ -39,8 +40,10 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
 
-    rendering_world();
 
+
+    rendering_world();
+     draw_menu();
     glutSwapBuffers();
 
     t+=0.1f;
@@ -133,10 +136,16 @@ glAlphaFunc(GL_GREATER, 0.5f);
     GLuint shader[2];
     shader[0]=create_shader("base3d_shader.vert",GL_VERTEX_SHADER);
     shader[1]=create_shader("base3d_shader.frag",GL_FRAGMENT_SHADER);
-    default_shader_id=activate_shader(shader,2);
+    GLuint shader_gui[2];
+    shader_gui[0]=create_shader("gui_shader.vert",GL_VERTEX_SHADER);
+    shader_gui[1]=create_shader("gui_shader.frag",GL_FRAGMENT_SHADER);
+
+      gui_shader_id=activate_shader(shader_gui,2);
+      default_shader_id=activate_shader(shader,2);
      printf("CHANKS:");
         int count=0;
     scanf("%d",&count);
+    init_gui();
     init_chunks(count);
     init_world();
     _beginthread(  pre_draw_world,0,NULL);

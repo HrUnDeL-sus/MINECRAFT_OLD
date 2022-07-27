@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <math.h>
 #include "vec.h"
-#include "noise.h"
 #include "camera.h"
 #include "block.h"
 #include "matrix.h"
@@ -42,7 +41,7 @@ chunk_in_world=malloc(sizeof(struct chunk*)*size);
 for(int i=0;i<size;i+=1){
     chunk_in_world[i]=malloc(sizeof(struct chunk)*size);
     for(int q=0;q<size;q+=1){
-        init_chunk(&chunk_in_world[i][q]);
+       // init_chunk(&chunk_in_world[i][q]);
         printf("\nT: %d %d",i,q);
 
     }
@@ -63,6 +62,7 @@ memcpy(block_indexs_texture,block_indexs_texture_copy,9*sizeof(float)*count_bloc
  is_end2=2;
 }
  draw_cube(count_blocks);
+
 }
 
 void enable_index_texture()
@@ -71,8 +71,7 @@ void enable_index_texture()
     int frag=glGetAttribLocation(program,"idFrag");
 
     glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
-    glBufferData(GL_ARRAY_BUFFER, count_blocks *9* sizeof(float), NULL, GL_STATIC_READ);
-    glBufferSubData(GL_ARRAY_BUFFER,0,count_blocks *9* sizeof(float),block_indexs_texture);
+    glBufferData(GL_ARRAY_BUFFER, count_blocks *9* sizeof(float), block_indexs_texture, GL_STATIC_READ);
     is_first2=0;
      GLsizei vec3Size = sizeof(float)*3;
     glEnableVertexAttribArray(frag);
@@ -90,8 +89,7 @@ void enable_index_texture()
 void enable_transform_matrix()
 {
      glBindBuffer(GL_ARRAY_BUFFER, transform_matrix_buffer);
-    glBufferData(GL_ARRAY_BUFFER, count_blocks *16* sizeof(float), NULL, GL_STATIC_READ);
-    glBufferSubData(GL_ARRAY_BUFFER,0,count_blocks *16* sizeof(float),transform_matrix_floats);
+    glBufferData(GL_ARRAY_BUFFER, count_blocks *16* sizeof(float), transform_matrix_floats, GL_STATIC_READ);
     GLuint VAO = vao_block;
     GLsizei vec4Size = sizeof(float)*4;
     glBindVertexArray(VAO);
@@ -110,28 +108,30 @@ void enable_transform_matrix()
     enable_index_texture();
 }
 void fill_matrix_world(){
-free(transform_matrix_floats_copy);
+  free(transform_matrix_floats_copy);
 free(block_indexs_texture_copy);
 transform_matrix_floats_copy=malloc(16*sizeof(float)*count_blocks);
 block_indexs_texture_copy=malloc(9*sizeof(float)*count_blocks);
 int count_matrix1=0;
 int count_matrix2=0;
 int count=0;
+
  for(int x=0;x<count_chunks;x+=1){
         for(int z=0;z<count_chunks;z+=1){
-
               for(int i=0;i<chunk_in_world[x][z].count*16;i+=1){
                     transform_matrix_floats_copy[count_matrix1+i]=chunk_in_world[x][z].transform_matrix_floats[i];
               }
               for(int i=0;i<chunk_in_world[x][z].count*9;i+=1){
                     block_indexs_texture_copy[count_matrix2+i]=chunk_in_world[x][z].block_indexs_texture[i];
               }
-
                 count_matrix1+=chunk_in_world[x][z].count*16;
                 count_matrix2+=chunk_in_world[x][z].count*9;
+                free(chunk_in_world[x][z].transform_matrix_floats);
+                free(chunk_in_world[x][z].block_indexs_texture);
             count+=1;
         }
  }
+
 }
 void set_count(){
 int local_count=0;
@@ -155,6 +155,7 @@ void init_world(){
 
 void pre_draw_world (void *t)
 {
+    init_chunk();
     while(1==1){
             is_end2=1;
     static struct vec chunk_now;
@@ -162,37 +163,29 @@ void pre_draw_world (void *t)
     float x1=(float)count_chunks/2;
     float z1=(float)count_chunks/2;
     int is_new=0;
-    clock_t start = clock();
+
     for(int x=0;x<count_chunks;x+=1){
         for(int z=0;z<count_chunks;z+=1){
-
-                if(chunk_now.x-x1==chunk_in_world[x][z].position.x&&chunk_now.y-z1==chunk_in_world[x][z].position.y&&is_first==0){
-                         x1-=1;
-                    continue;
-                }
+                 printf("\nCHUNK:%d %d",x,z);
                 is_new=1;
                 chunk_in_world[x][z].position=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
 
             pre_rendering_chunk(&chunk_in_world[x][z]);
-            x1-=1;
+
+            z1-=1;
+
         }
-        z1-=1;
-        x1=(float)count_chunks/2;
+        x1-=1;
+        z1=(float)count_chunks/2;
 
     }
-    printf("\nTIME:%f",clock()-start);
     is_first=0;
     if(is_new==0)
         continue;
      set_count();
-
     is_end2=0;
-
     while(is_end2!=2){
-    }
 
     }
-
-
-
+}
 }

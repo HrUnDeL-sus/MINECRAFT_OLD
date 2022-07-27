@@ -97,6 +97,26 @@ int tileW = 16;           // number of pixels in a row of 1 tile
         }
     }
 }
+int load_standart_texture(char *name){
+ char third[512];
+    snprintf(third, sizeof third, "%s%s", path_shaders, name);
+    int width,height,cnt;
+    int texture;
+    unsigned char * data=stbi_load(third,&width,&height,&cnt,0);
+    int i=0;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, cnt==4?GL_RGBA:GL_RGB, GL_UNSIGNED_BYTE,data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    stbi_image_free(data);
+    return texture;
+}
 int load_blocks_textures(char * name)
 {
     char third[512];

@@ -18,6 +18,7 @@ struct block
 void fill_texture_index_block(int id, struct block * local_block);
 float vertex_standart_block[];
 int default_shader_id;
+
 int is_check;
 void draw_cube(const int count);
 GLuint vao_block;

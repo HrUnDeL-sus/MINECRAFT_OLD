@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <math.h>
 #include "vec.h"
-#include "noise.h"
+
 #include <glad/glad.h>
 #include "camera.h"
 #include "math_helper.h"
@@ -11,6 +11,7 @@
 #include "matrix.h"
 #include "texture.h"
 int default_shader_id=0;
+
 float vertex_standart_block[]=
 {
     -0.5,-0.5,-0.5, 1,
@@ -87,11 +88,10 @@ struct block
 
 void draw_cube(const int count)
 {
-
-
+    use_shader(default_shader_id);
     set_matrix4(get_camera_matrix_look_at(),"camera",default_shader_id);
    set_matrix4(get_camera_matrix_perpective(),"perspective",default_shader_id);
- use_shader(default_shader_id);
+
   glBindTexture(GL_TEXTURE_2D_ARRAY, id_tex);
     glBindVertexArray(vao_block);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_block);
