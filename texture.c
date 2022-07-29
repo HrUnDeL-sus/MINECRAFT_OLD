@@ -58,12 +58,8 @@ standart_texture_coord2[4]=id_down;
 standart_texture_coord2[5]=id_up;
 
 }
-void generate_tiles(unsigned char * data){
-int tileW = 16;           // number of pixels in a row of 1 tile
-    int tileH = 16;           // number of pixels in a column of 1 tile
+void generate_tiles(unsigned char * data,int tileW,int tileH,int tilesX,int tilesY){
     int channels = 4;          // 4 for RGBA
-    int tilesX = 16;
-    int tilesY = 16;
     int imageCount = tilesX * tilesY;
     glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA,
                  tileW, tileH, imageCount, 0,
@@ -117,7 +113,7 @@ int load_standart_texture(char *name){
     stbi_image_free(data);
     return texture;
 }
-int load_blocks_textures(char * name)
+int load_blocks_textures(char * name,int tileW,int tileH,int tilesX,int tilesY)
 {
     char third[512];
     snprintf(third, sizeof third, "%s%s", path_shaders, name);
@@ -130,7 +126,7 @@ int load_blocks_textures(char * name)
     printf("\n\nSIZE OF:%d %d %d",sizeof(data),width,height);
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D_ARRAY, texture);
-    generate_tiles(data);
+    generate_tiles(data,tileW,tileH,tilesX,tilesY);
     glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
     glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

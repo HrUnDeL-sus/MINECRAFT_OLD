@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "generator.h"
 #include "gui.h"
+#include "gui_text.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image_write.h>
 #include <stb_image.h>
@@ -35,15 +36,16 @@ void resize(int width, int height)
 }
 void display(void)
 {
-
+    printf("\nSTART");
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
 
 
 
-    rendering_world();
-   //  draw_menu();
+ //   rendering_world();
+ //draw_text("2");
+     draw_menu();
     glutSwapBuffers();
 
     t+=0.1f;
@@ -55,6 +57,7 @@ void timer(int t)
 }
 void key(unsigned char key, int x, int y)
 {
+    printf("\nKEY:%c",key);
     if(key=='w')
         add_camera(0,0,0.5f);
     if(key=='s')
@@ -139,15 +142,19 @@ glAlphaFunc(GL_GREATER, 0.5f);
     GLuint shader_gui[2];
     shader_gui[0]=create_shader("gui_shader.vert",GL_VERTEX_SHADER);
     shader_gui[1]=create_shader("gui_shader.frag",GL_FRAGMENT_SHADER);
-
+    GLuint shader_gui_text[2];
+    shader_gui_text[0]=create_shader("text_shader.vert",GL_VERTEX_SHADER);
+    shader_gui_text[1]=create_shader("text_shader.frag",GL_FRAGMENT_SHADER);
       gui_shader_id=activate_shader(shader_gui,2);
       default_shader_id=activate_shader(shader,2);
+      text_shader_id=activate_shader(shader_gui_text,2);
      printf("CHANKS:");
         int count=0;
     scanf("%d",&count);
     init_gui();
-    init_chunks(count);
-    init_world();
+    init_text();
+ //   init_chunks(count);
+  //  init_world();
     _beginthread(  pre_draw_world,0,NULL);
      printf("\n COUNT:%d",count);
 }

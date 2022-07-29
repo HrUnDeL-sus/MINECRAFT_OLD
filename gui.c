@@ -2,94 +2,85 @@
 #include "shader.h"
 #include <GL/glut.h>
 #include <glad/glad.h>
+#include "buffer.h"
+#include "vec.h"
+buffer_data background;
+buffer_data button;
 int gui_shader_id;
-typedef struct {
-int texture_id;
-int vao;
-int vod;
-int vot;
-int ebo;
-} gui_item;
-int texture_id_gui;
-gui_item background;
-gui_item button_active;
-float background_data[]={
-             1,  1, 0.0f, 5.0f, 5.0f, // top right
-             1, -1, 0.0f, 5.0f, -5.0f, // bottom right
-            -1, -1, 0.0f, -5.0f, -5.0f, // bottom left
-            -1,  1, 0.0f, -5.0f, 5.0f  // top left
+const float background_vod[]={
+             1,  1, 0.0f,
+             1, -1, 0.0f,
+            -1, -1, 0.0f,
+            -1,  1, 0.0f
 };
-float button_data[]={
-             1,  1, 0.0f, 0.5f, 0.5f, // top right
-             1, -1, 0.0f, 0.5f, 0.0f, // bottom right
-            -1, -1, 0.0f, 0.0f, 0.0f, // bottom left
-            -1,  1, 0.0f, 0.0f, 0  // top left
+const float background_vot[]={
+5.0f, 5.0f,
+5.0f, -5.0f,
+-5.0f, -5.0f,
+-5.0f, 5.0f
 };
-GLuint indices_background_data[] =
+const GLuint background_ebo[] =
         {
-               0, 1, 3,
-            1, 2, 3
+            1, 2, 3,
+            0,1,3
         };
-void init_button_active(){
-glGenVertexArrays(1,&button_active.vao);
-    glGenBuffers(1,&button_active.vod);
-    glGenBuffers(1,&button_active.vot);
-    glGenBuffers(1,&button_active.ebo);
-     glBindVertexArray(button_active.vao);
-    glBindBuffer(GL_ARRAY_BUFFER,button_active.vod);
-     glBufferData(GL_ARRAY_BUFFER, 20*sizeof(float), button_data, GL_STATIC_DRAW);
-     glEnableVertexAttribArray(0);
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),0);
-       glEnableVertexAttribArray(1);
-      glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),3 * sizeof(float));
-       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,button_active.ebo);
-       glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(GLuint), indices_background_data, GL_STATIC_DRAW);
-    glBindVertexArray(0);
-}
-void init_background(){
-background.texture_id=load_standart_texture("background.png");
-glGenVertexArrays(1,&background.vao);
-    glGenBuffers(1,&background.vod);
-    glGenBuffers(1,&background.vot);
-    glGenBuffers(1,&background.ebo);
-     glBindVertexArray(background.vao);
-    glBindBuffer(GL_ARRAY_BUFFER,background.vod);
-     glBufferData(GL_ARRAY_BUFFER, 20*sizeof(float), background_data, GL_STATIC_DRAW);
-     glEnableVertexAttribArray(0);
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),0);
-       glEnableVertexAttribArray(1);
-      glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),3 * sizeof(float));
-       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,background.ebo);
-       glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(GLuint), indices_background_data, GL_STATIC_DRAW);
-    glBindVertexArray(0);
-    init_button_active();
+const float background_data_size[2]={3,2};
+const float background_data_count[3]={12,8,6};
+
+const float button_vod[]={
+   -1,-1,0,
+        1,-1,0,
+        1, 1,0,
+        -1, 1,0,
+        -1,-1,0
+};
+const float button_vot[]={
+    0, 0.335f,  // forward
+    0.78f, 0.335f,  // forward
+    0.78f, 0.26f,  // forward
+    0, 0.26f,  // forward
+    0, 0.335f // forward
+};
+const GLuint button_ebo[] =
+        {
+            0, 1, 2,
+            2, 3, 4
+        };
+const float button_data_size[2]={3,2};
+const float button_data_count[3]={15,10,6};
+void init_gui_item(buffer_data * get,float *vod,float *vot,GLuint *ebo,float *size,float * count,char *name_texture,int use_texture){
+*get=create_buffer_data(size,count,vod,ebo,vot);
+if(use_texture==1)
+get->texture_id=load_standart_texture(name_texture);
+generate_standart_buffer(get);
 }
 void init_menu(){
-texture_id_gui=load_standart_texture("gui.png");
-init_background();
+init_gui_item(&background,background_vod,background_vot,background_ebo,background_data_size,background_data_count,"background.png",1);
+init_gui_item(&button,button_vod,button_vot,button_ebo,button_data_size,button_data_count,"gui.png",1);
 }
 void init_gui(){
 init_menu();
 }
-void draw_button_active(){
-  glBindTexture(GL_TEXTURE_2D,texture_id_gui);
-glBindVertexArray(button_active.vao);
-glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+void draw_gui_item(buffer_data get,struct vec poss,struct vec scale){
+ glBindTexture(GL_TEXTURE_2D,get.texture_id);
+set_vec2(scale.x,scale.y,"scale",gui_shader_id);
+set_vec2(poss.x,poss.y,"position",gui_shader_id);
+glBindVertexArray(get.vao);
+glBindBuffer(GL_ARRAY_BUFFER, get.vod);
+glBindBuffer(GL_ARRAY_BUFFER, get.ebo);
+glDrawElements(GL_TRIANGLES,get.count_data[2],GL_UNSIGNED_INT,0);
 glBindVertexArray(0);
 }
 void draw_background(){
-  glBindTexture(GL_TEXTURE_2D,background.texture_id);
-glBindVertexArray(background.vao);
-glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
-glBindVertexArray(0);
+ draw_gui_item(background,vec2(0,0),vec2(1,1));
+ draw_gui_item(button,vec2(0,0),vec2(0.5f,0.1f));
 }
 void draw_menu(){
-//printf("\nVALUE:%d %d %d",gui_backgroud_id,gui_shader_id,sizeof(background_data));
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_DEPTH);
 use_shader(gui_shader_id);
     draw_background();
-    draw_button_active();
+    draw_text("Singleplayer");
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_DEPTH);
 }

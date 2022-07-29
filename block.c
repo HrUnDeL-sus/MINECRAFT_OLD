@@ -317,7 +317,7 @@ void fill_texture_index_block(int id, struct block * local_block){
 void init_blocks()
 {
 
-     id_tex=load_blocks_textures("terrain.png");
+     id_tex=load_blocks_textures("terrain.png",16,16,16,16);
     init_standart_blocks();
 }
 

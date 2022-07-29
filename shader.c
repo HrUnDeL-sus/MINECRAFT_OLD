@@ -49,6 +49,23 @@ int create_shader(char* file_name,GLuint type)
     free(text);
     return shader;
 }
+void set_float(float n,char *name,int prog){
+int id=glGetUniformLocation(prog,name);
+    if(id==-1){
+        printf("\nCant find %s in shader %d",name,prog);
+    }
+    // printf("\nFind %s in shader %d",name,id);
+    glUniform1fv(id,1,&n);
+}
+void set_vec2(float x,float y,char *name,int prog){
+int id=glGetUniformLocation(prog,name);
+    if(id==-1){
+        printf("\nCant find %s in shader %d",name,prog);
+    }
+    // printf("\nFind %s in shader %d",name,id);
+    float v[2]={x,y};
+    glUniform2fv(id,1,v);
+}
 void set_matrix4(struct matrix4f mat,char* name,int prog)
 {
 

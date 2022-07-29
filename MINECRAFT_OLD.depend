@@ -477,7 +477,7 @@
 
 1655919369 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
-1658940975 source:d:\Документы\codeblocks\minecraft_old\block.c
+1659127244 source:d:\Документы\codeblocks\minecraft_old\block.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -498,7 +498,7 @@
 
 1656520233 d:\Документы\codeblocks\minecraft_old\math_helper.h
 
-1656520233 d:\Документы\codeblocks\minecraft_old\shader.h
+1659130938 d:\Документы\codeblocks\minecraft_old\shader.h
 	<glad/glad.h>
 
 1657298666 d:\Документы\codeblocks\minecraft_old\matrix.h
@@ -550,7 +550,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1659095309 source:d:\Документы\codeblocks\minecraft_old\main.c
+1659129993 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -565,6 +565,7 @@
 	<stdio.h>
 	"generator.h"
 	"gui.h"
+	"gui_text.h"
 	<stb_image_write.h>
 	<stb_image.h>
 
@@ -601,7 +602,7 @@
 	"vec.h"
 	"math_helper.h"
 
-1657398932 source:d:\Документы\codeblocks\minecraft_old\shader.c
+1659131021 source:d:\Документы\codeblocks\minecraft_old\shader.c
 	<glad/glad.h>
 	<stdlib.h>
 	<stdio.h>
@@ -615,7 +616,7 @@
 
 1658689389 d:\Документы\codeblocks\minecraft_old\world.h
 
-1659095703 source:d:\Документы\codeblocks\minecraft_old\world.c
+1659112872 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -634,7 +635,7 @@
 	<stdio.h>
 	<time.h>
 
-1658944542 source:d:\Документы\codeblocks\minecraft_old\texture.c
+1659126486 source:d:\Документы\codeblocks\minecraft_old\texture.c
 	<glad/glad.h>
 	"shader.h"
 	"vec.h"
@@ -663,7 +664,7 @@
 1512590989 c:\mingw\include\assert.h
 	<_mingw.h>
 
-1658932165 d:\Документы\codeblocks\minecraft_old\texture.h
+1659126174 d:\Документы\codeblocks\minecraft_old\texture.h
 
 1658072054 c:\mingw\include\stb_image_write.h
 	<stdio.h>
@@ -710,11 +711,27 @@
 
 1658872548 d:\Документы\codeblocks\minecraft_old\biome.h
 
-1658932715 d:\Документы\codeblocks\minecraft_old\gui.h
+1659124241 d:\Документы\codeblocks\minecraft_old\gui.h
 
-1659002750 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1659131874 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
 	<glad/glad.h>
+	"buffer.h"
+	"vec.h"
+
+1659123041 source:d:\Документы\codeblocks\minecraft_old\buffer.c
+	<glad/glad.h>
+
+1659105196 d:\Документы\codeblocks\minecraft_old\buffer.h
+
+1659131874 source:d:\Документы\codeblocks\minecraft_old\gui_text.c
+	"gui.h"
+	<glad/glad.h>
+	"texture.h"
+	"buffer.h"
+	"shader.h"
+
+1659128952 d:\Документы\codeblocks\minecraft_old\gui_text.h
 

@@ -7,4 +7,6 @@ int create_shader(char* file_name,GLuint type);
 int activate_shader(GLuint* shader,int count);
 void use_shader(int id);
 void set_matrix4(struct matrix4f mat,char* name,int prog);
+void set_vec2(float x,float y,char *name,int prog);
+void set_float(float n,char *name,int prog);
 #endif // SHADER_H_INCLUDED
