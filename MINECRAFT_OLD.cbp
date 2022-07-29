@@ -83,6 +83,10 @@
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="gui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui.h" />
 		<Unit filename="interpolate_helper.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="helpers/" />

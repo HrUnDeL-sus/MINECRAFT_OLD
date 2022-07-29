@@ -550,7 +550,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1658941489 source:d:\Документы\codeblocks\minecraft_old\main.c
+1659095309 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -615,7 +615,7 @@
 
 1658689389 d:\Документы\codeblocks\minecraft_old\world.h
 
-1658932176 source:d:\Документы\codeblocks\minecraft_old\world.c
+1659095703 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -712,7 +712,7 @@
 
 1658932715 d:\Документы\codeblocks\minecraft_old\gui.h
 
-1658944506 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1659002750 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>

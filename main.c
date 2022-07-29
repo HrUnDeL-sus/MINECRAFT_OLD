@@ -43,7 +43,7 @@ void display(void)
 
 
     rendering_world();
-     draw_menu();
+   //  draw_menu();
     glutSwapBuffers();
 
     t+=0.1f;
