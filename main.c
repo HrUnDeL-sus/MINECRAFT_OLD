@@ -14,6 +14,7 @@
 #include "generator.h"
 #include "gui.h"
 #include "gui_text.h"
+#include "gui_button.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image_write.h>
 #include <stb_image.h>
@@ -36,19 +37,13 @@ void resize(int width, int height)
 }
 void display(void)
 {
-    printf("\nSTART");
+
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
-
-
-
  //   rendering_world();
- //draw_text("2");
-     draw_menu();
+     draw_gui(1);
     glutSwapBuffers();
-
-    t+=0.1f;
 }
 void timer(int t)
 {
@@ -110,8 +105,12 @@ void wrap(int* x,int* y)
     *x=save_width/2;
     *y=save_height/2;
 }
+void mouse_click(int button,int state,int x,int y){
+  printf("\n%s",on_click(vec2((float)x-save_width/2,(float)y-save_height/2)));
+}
 void mouse(int x,int y)
 {
+
     if(is_check==1)
         return;
     static int last_x=0;
@@ -183,6 +182,7 @@ int main(int argc, char *argv[])
     glutKeyboardFunc(key);
     glutPassiveMotionFunc(mouse);
     glutIdleFunc(idle);
+    glutMouseFunc(mouse_click);
      glutTimerFunc(1000/FPS, timer, 0);
     init();
     glutMainLoop();

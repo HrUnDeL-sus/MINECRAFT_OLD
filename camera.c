@@ -4,7 +4,6 @@
 #include <math.h>
 #include "vec.h"
 #include "world.h"
-#include "noise.h"
 #include "math_helper.h"
 #include "raycast.h"
 #include "matrix.h"

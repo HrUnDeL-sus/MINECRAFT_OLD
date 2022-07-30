@@ -63,6 +63,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="block.h" />
+		<Unit filename="buffer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="buffer.h" />
 		<Unit filename="camera.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -87,6 +91,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="gui.h" />
+		<Unit filename="gui_text.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui_text.h" />
 		<Unit filename="interpolate_helper.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="helpers/" />

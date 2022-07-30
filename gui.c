@@ -4,9 +4,14 @@
 #include <glad/glad.h>
 #include "buffer.h"
 #include "vec.h"
+#include "gui_button.h"
+
 buffer_data background;
-buffer_data button;
+gui_item singleplay_button;
+gui_item exit_button;
 int gui_shader_id;
+int global_state=0;
+
 const float background_vod[]={
              1,  1, 0.0f,
              1, -1, 0.0f,
@@ -26,40 +31,37 @@ const GLuint background_ebo[] =
         };
 const float background_data_size[2]={3,2};
 const float background_data_count[3]={12,8,6};
-
-const float button_vod[]={
-   -1,-1,0,
-        1,-1,0,
-        1, 1,0,
-        -1, 1,0,
-        -1,-1,0
-};
-const float button_vot[]={
-    0, 0.335f,  // forward
-    0.78f, 0.335f,  // forward
-    0.78f, 0.26f,  // forward
-    0, 0.26f,  // forward
-    0, 0.335f // forward
-};
-const GLuint button_ebo[] =
-        {
-            0, 1, 2,
-            2, 3, 4
-        };
-const float button_data_size[2]={3,2};
-const float button_data_count[3]={15,10,6};
-void init_gui_item(buffer_data * get,float *vod,float *vot,GLuint *ebo,float *size,float * count,char *name_texture,int use_texture){
-*get=create_buffer_data(size,count,vod,ebo,vot);
+void init_gui_item(buffer_data * get,float size_data[2],float count_data[3],float *vod,float *ebo,float *vot,char *name_texture,int use_texture){
+*get=create_buffer_data(size_data,count_data,vod,ebo,vot);
 if(use_texture==1)
 get->texture_id=load_standart_texture(name_texture);
 generate_standart_buffer(get);
 }
+gui_item create_gui_item(struct vec pos,struct vec scale,char* text){
+gui_item get;
+//get.buffer=create_buffer_data(button_data_size,button_data_count,button_vod,button_ebo,button_vot);
+get.position=vec2(pos.x,pos.y);
+get.scale=vec2(scale.x,scale.y);
+get.text=text;
+get.size_text=get_size_text(get.text);
+return get;
+}
+
 void init_menu(){
-init_gui_item(&background,background_vod,background_vot,background_ebo,background_data_size,background_data_count,"background.png",1);
-init_gui_item(&button,button_vod,button_vot,button_ebo,button_data_size,button_data_count,"gui.png",1);
+init_gui_item(&background,background_data_size,background_data_count,background_vod,background_ebo,background_vot,"background.png",1);
+singleplay_button=create_gui_item(vec2(0,0),vec2(0.5f,0.1f),"Singleplay");
+exit_button=create_gui_item(vec2(0,-2),vec2(0.5f,0.1f),"Quit Game");
+init_gui_item(&singleplay_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
+
 }
 void init_gui(){
 init_menu();
+}
+char* on_click(struct vec pos){
+if(click_on_button(pos,singleplay_button)==1)
+    return "singleplay";
+else
+    return "none";
 }
 void draw_gui_item(buffer_data get,struct vec poss,struct vec scale){
  glBindTexture(GL_TEXTURE_2D,get.texture_id);
@@ -71,16 +73,25 @@ glBindBuffer(GL_ARRAY_BUFFER, get.ebo);
 glDrawElements(GL_TRIANGLES,get.count_data[2],GL_UNSIGNED_INT,0);
 glBindVertexArray(0);
 }
-void draw_background(){
- draw_gui_item(background,vec2(0,0),vec2(1,1));
- draw_gui_item(button,vec2(0,0),vec2(0.5f,0.1f));
-}
 void draw_menu(){
+
+   draw_gui_item(background,vec2(0,0),vec2(1,1));
+    printf("\nSTART_DRAW");
+    draw_button(singleplay_button);
+
+    use_shader(gui_shader_id);
+    draw_button(exit_button);
+}
+void draw_gui(int state){
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_DEPTH);
 use_shader(gui_shader_id);
-    draw_background();
-    draw_text("Singleplayer");
+global_state=state;
+if(state==1){
+draw_menu();
+}
+if(state==2)
+
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_DEPTH);
 }

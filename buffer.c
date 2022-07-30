@@ -47,5 +47,5 @@ void generate_standart_buffer(buffer_data * get){
        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,get->ebo);
        glBufferData(GL_ELEMENT_ARRAY_BUFFER, get->count_data[2]*sizeof(GLuint), get->ebo_data, GL_STATIC_DRAW);
     glBindVertexArray(0);
-     printf("\n\nCOUNT %f %f %f\nSize 2: %f %f\n D: %d %d %d",get->count_data[0],get->count_data[1],get->count_data[2],get->size_data[0],get->size_data[1],get->vao,get->vod,get->vot);
+  //   printf("\n\nCOUNT %f %f %f\nSize 2: %f %f\n D: %d %d %d",get->count_data[0],get->count_data[1],get->count_data[2],get->size_data[0],get->size_data[1],get->vao,get->vod,get->vot);
 }
