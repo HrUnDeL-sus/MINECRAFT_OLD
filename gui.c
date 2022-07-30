@@ -48,20 +48,23 @@ return get;
 }
 
 void init_menu(){
+printf("\nSTARTT");
 init_gui_item(&background,background_data_size,background_data_count,background_vod,background_ebo,background_vot,"background.png",1);
 singleplay_button=create_gui_item(vec2(0,0),vec2(0.5f,0.1f),"Singleplay");
 exit_button=create_gui_item(vec2(0,-2),vec2(0.5f,0.1f),"Quit Game");
-init_gui_item(&singleplay_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 
+init_gui_item(&singleplay_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
+init_gui_item(&exit_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 }
 void init_gui(){
 init_menu();
 }
-char* on_click(struct vec pos){
-if(click_on_button(pos,singleplay_button)==1)
-    return "singleplay";
-else
-    return "none";
+int on_click(struct vec pos){
+if(click_on_button(pos,singleplay_button)==1&&global_state==1)
+    return 0;
+else if(click_on_button(pos,exit_button)==1&&global_state==1)
+    return 1;
+return "none";
 }
 void draw_gui_item(buffer_data get,struct vec poss,struct vec scale){
  glBindTexture(GL_TEXTURE_2D,get.texture_id);
@@ -76,7 +79,7 @@ glBindVertexArray(0);
 void draw_menu(){
 
    draw_gui_item(background,vec2(0,0),vec2(1,1));
-    printf("\nSTART_DRAW");
+
     draw_button(singleplay_button);
 
     use_shader(gui_shader_id);

@@ -16,11 +16,10 @@
 #include "gui_text.h"
 #include "gui_button.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "settings.h"
 #include <stb_image_write.h>
 #include <stb_image.h>
-float save_width;
-float save_height;
-int FPS=30;
+
 float t=0;
 GLuint listName;
 void resize(int width, int height)
@@ -37,7 +36,6 @@ void resize(int width, int height)
 }
 void display(void)
 {
-
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
@@ -92,8 +90,7 @@ void key(unsigned char key, int x, int y)
         is_check=is_check==0?1:0;
         printf("IS CHECK: %d",is_check);
     }
-    if(key=='1')
-        exit(0);
+
 }
 void idle(void)
 {
@@ -106,7 +103,9 @@ void wrap(int* x,int* y)
     *y=save_height/2;
 }
 void mouse_click(int button,int state,int x,int y){
-  printf("\n%s",on_click(vec2((float)x-save_width/2,(float)y-save_height/2)));
+int data=on_click(vec2((float)x/save_width,(float)y/save_height));
+if(data==1)
+    exit(0);
 }
 void mouse(int x,int y)
 {
@@ -159,7 +158,7 @@ glAlphaFunc(GL_GREATER, 0.5f);
 }
 int main(int argc, char *argv[])
 {
-
+    printf("\n%s",argv[0]);
     path_shaders=find_path(argv[0]);
 
     printf("SEED:");

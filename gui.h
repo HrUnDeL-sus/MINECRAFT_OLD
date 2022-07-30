@@ -13,6 +13,6 @@ int size_text;
 int gui_shader_id;
 void draw_gui(int state);
 void init_gui();
-char* on_click(struct vec pos);
-void draw_gui_item(buffer_data get,struct vec poss,struct vec scale)
+int on_click(struct vec pos);
+void draw_gui_item(buffer_data get,struct vec poss,struct vec scale);
 #endif // GUI_H_INCLUDED

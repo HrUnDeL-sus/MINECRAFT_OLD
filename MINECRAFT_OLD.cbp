@@ -5,7 +5,7 @@
 		<Option title="MINECRAFT_OLD" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="helpers/" />
+		<Option virtualFolders="helpers/;gui_folder/" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/MINECRAFT_OLD" prefix_auto="1" extension_auto="1" />
@@ -87,14 +87,28 @@
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="glad.h" />
 		<Unit filename="gui.c">
 			<Option compilerVar="CC" />
+			<Option virtualFolder="gui_folder/" />
 		</Unit>
-		<Unit filename="gui.h" />
+		<Unit filename="gui.h">
+			<Option virtualFolder="gui_folder/" />
+		</Unit>
+		<Unit filename="gui_button.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="gui_folder/" />
+		</Unit>
+		<Unit filename="gui_button.h">
+			<Option virtualFolder="gui_folder/" />
+		</Unit>
 		<Unit filename="gui_text.c">
 			<Option compilerVar="CC" />
+			<Option virtualFolder="gui_folder/" />
 		</Unit>
-		<Unit filename="gui_text.h" />
+		<Unit filename="gui_text.h">
+			<Option virtualFolder="gui_folder/" />
+		</Unit>
 		<Unit filename="interpolate_helper.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="helpers/" />
@@ -129,6 +143,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="shader.h" />
+		<Unit filename="text_box_gui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="text_box_gui.h" />
 		<Unit filename="texture.c">
 			<Option compilerVar="CC" />
 		</Unit>
