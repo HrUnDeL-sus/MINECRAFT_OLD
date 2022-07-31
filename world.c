@@ -51,8 +51,8 @@ count_chunks=size;
 
 }
 void rendering_world(){
-if(is_end2==0){
 
+if(is_end2==0){
 free(transform_matrix_floats);
 free(block_indexs_texture);
 transform_matrix_floats=malloc(16*sizeof(float)*count_blocks);
@@ -61,8 +61,9 @@ memcpy(transform_matrix_floats,transform_matrix_floats_copy,16*sizeof(float)*cou
 memcpy(block_indexs_texture,block_indexs_texture_copy,9*sizeof(float)*count_blocks);
  enable_transform_matrix();
  is_end2=2;
-
+printf("\nCOUNT BLOCKS:%d",count_blocks);
 }
+
  draw_cube(count_blocks);
 
 }
@@ -120,8 +121,6 @@ int count=0;
 
  for(int x=0;x<count_chunks;x+=1){
         for(int z=0;z<count_chunks;z+=1){
-                if(chunk_in_world[x][z].transform_matrix_floats==NULL||chunk_in_world[x][z].block_indexs_texture==NULL)
-                continue;
               for(int i=0;i<chunk_in_world[x][z].count*16;i+=1){
                     transform_matrix_floats_copy[count_matrix1+i]=chunk_in_world[x][z].transform_matrix_floats[i];
               }

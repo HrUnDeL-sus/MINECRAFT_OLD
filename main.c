@@ -39,18 +39,22 @@ void display(void)
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
- //   rendering_world();
-     draw_gui(1);
+    if(global_state==3)
+    rendering_world();
+    if(global_state!=3)
+     draw_gui();
     glutSwapBuffers();
 }
 void timer(int t)
 {
     glutPostRedisplay();
-  glutTimerFunc(1000/FPS, timer, 0);
+  glutTimerFunc(1000/60, timer, 0);
 }
 void key(unsigned char key, int x, int y)
 {
-    printf("\nKEY:%c",key);
+    printf("\nKEY:%d",key);
+    if(on_key_press(key)!=-1)
+        return;
     if(key=='w')
         add_camera(0,0,0.5f);
     if(key=='s')
@@ -65,6 +69,8 @@ void key(unsigned char key, int x, int y)
         add_camera(0,1,0);
     if(key=='2')
         glutFullScreen();
+    if(key=='1')
+        exit(0);
      if(key=='4'){
             Sleep(100);
               char third[512];
@@ -104,8 +110,19 @@ void wrap(int* x,int* y)
 }
 void mouse_click(int button,int state,int x,int y){
 int data=on_click(vec2((float)x/save_width,(float)y/save_height));
+printf("\nDATA:%d",data);
 if(data==1)
     exit(0);
+if(data==0)
+    global_state=2;
+if(data==2){
+        set_seed(atoi(seed_text_box.text));
+        smoothing=atoi(smoothing_text_box.text);
+            init_chunks(atoi(chunks_text_box.text));
+            init_world();
+            _beginthread(  pre_draw_world,0,NULL);
+            global_state=3;
+}
 }
 void mouse(int x,int y)
 {
@@ -140,37 +157,20 @@ glAlphaFunc(GL_GREATER, 0.5f);
     GLuint shader_gui[2];
     shader_gui[0]=create_shader("gui_shader.vert",GL_VERTEX_SHADER);
     shader_gui[1]=create_shader("gui_shader.frag",GL_FRAGMENT_SHADER);
-    GLuint shader_gui_text[2];
+     GLuint shader_gui_text[2];
     shader_gui_text[0]=create_shader("text_shader.vert",GL_VERTEX_SHADER);
     shader_gui_text[1]=create_shader("text_shader.frag",GL_FRAGMENT_SHADER);
       gui_shader_id=activate_shader(shader_gui,2);
-      default_shader_id=activate_shader(shader,2);
       text_shader_id=activate_shader(shader_gui_text,2);
-     printf("CHANKS:");
-        int count=0;
-    scanf("%d",&count);
-    init_gui();
-    init_text();
- //   init_chunks(count);
-  //  init_world();
-    _beginthread(  pre_draw_world,0,NULL);
-     printf("\n COUNT:%d",count);
+      default_shader_id=activate_shader(shader,2);
+
+    printf("\nID: %d %d %d",default_shader_id,gui_shader_id,text_shader_id);
+     init_gui();
+   init_text();
 }
 int main(int argc, char *argv[])
 {
-    printf("\n%s",argv[0]);
     path_shaders=find_path(argv[0]);
-
-    printf("SEED:");
-    float count2=0;
-    scanf("%f",&count2);
-     printf("\nsmoothing:");
-     float count3=0;
-    scanf("%f",&count3);
-    smoothing=count3;
-    set_seed(count2);
-    printf("\nFPS:");
-    scanf("%d",&FPS);
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
@@ -179,10 +179,10 @@ int main(int argc, char *argv[])
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
+    glutMouseFunc(mouse_click);
     glutPassiveMotionFunc(mouse);
     glutIdleFunc(idle);
-    glutMouseFunc(mouse_click);
-     glutTimerFunc(1000/FPS, timer, 0);
+     glutTimerFunc(1000/60, timer, 0);
     init();
     glutMainLoop();
     return EXIT_SUCCESS;

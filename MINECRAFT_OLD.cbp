@@ -109,6 +109,13 @@
 		<Unit filename="gui_text.h">
 			<Option virtualFolder="gui_folder/" />
 		</Unit>
+		<Unit filename="gui_text_box.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="gui_folder/" />
+		</Unit>
+		<Unit filename="gui_text_box.h">
+			<Option virtualFolder="gui_folder/" />
+		</Unit>
 		<Unit filename="interpolate_helper.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="helpers/" />
@@ -139,14 +146,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="raycast.h" />
+		<Unit filename="settings.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="settings.h" />
 		<Unit filename="shader.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="shader.h" />
-		<Unit filename="text_box_gui.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="text_box_gui.h" />
 		<Unit filename="texture.c">
 			<Option compilerVar="CC" />
 		</Unit>

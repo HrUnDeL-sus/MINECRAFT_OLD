@@ -477,7 +477,7 @@
 
 1655919369 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
-1659190826 source:d:\Документы\codeblocks\minecraft_old\block.c
+1659259631 source:d:\Документы\codeblocks\minecraft_old\block.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -549,7 +549,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1659212296 source:d:\Документы\codeblocks\minecraft_old\main.c
+1659259681 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -603,7 +603,7 @@
 	"vec.h"
 	"math_helper.h"
 
-1659190826 source:d:\Документы\codeblocks\minecraft_old\shader.c
+1659259631 source:d:\Документы\codeblocks\minecraft_old\shader.c
 	<glad/glad.h>
 	<stdlib.h>
 	<stdio.h>
@@ -617,7 +617,7 @@
 
 1659190826 d:\Документы\codeblocks\minecraft_old\world.h
 
-1659190826 source:d:\Документы\codeblocks\minecraft_old\world.c
+1659256821 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -712,11 +712,11 @@
 
 1659190826 d:\Документы\codeblocks\minecraft_old\biome.h
 
-1659212248 d:\Документы\codeblocks\minecraft_old\gui.h
+1659254870 d:\Документы\codeblocks\minecraft_old\gui.h
 	"buffer.h"
 	"vec.h"
 
-1659212237 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1659254870 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -724,13 +724,14 @@
 	"buffer.h"
 	"vec.h"
 	"gui_button.h"
+	"gui_text_box.h"
 
 1659190826 source:d:\Документы\codeblocks\minecraft_old\buffer.c
 	<glad/glad.h>
 
 1659190826 d:\Документы\codeblocks\minecraft_old\buffer.h
 
-1659199676 source:d:\Документы\codeblocks\minecraft_old\gui_text.c
+1659259354 source:d:\Документы\codeblocks\minecraft_old\gui_text.c
 	"gui.h"
 	<glad/glad.h>
 	"texture.h"
@@ -740,14 +741,14 @@
 
 1659190826 d:\Документы\codeblocks\minecraft_old\gui_text.h
 
-1659202252 d:\Документы\codeblocks\minecraft_old\gui_button.h
+1659212698 d:\Документы\codeblocks\minecraft_old\gui_button.h
 	"buffer.h"
 	"gui.h"
 
 1659190826 source:d:\Документы\codeblocks\minecraft_old\text_box_gui.c
 	<glad/glad.h>
 
-1659212203 source:d:\Документы\codeblocks\minecraft_old\gui_button.c
+1659214172 source:d:\Документы\codeblocks\minecraft_old\gui_button.c
 	"buffer.h"
 	"vec.h"
 	"gui.h"
@@ -758,4 +759,10 @@
 1659211548 d:\Документы\codeblocks\minecraft_old\settings.h
 
 1659211585 source:d:\Документы\codeblocks\minecraft_old\settings.c
+
+1659217573 source:d:\Документы\codeblocks\minecraft_old\gui_text_box.c
+	<glad/glad.h>
+	"gui.h"
+
+1659217160 d:\Документы\codeblocks\minecraft_old\gui_text_box.h
 

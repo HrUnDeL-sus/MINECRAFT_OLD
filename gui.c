@@ -5,13 +5,17 @@
 #include "buffer.h"
 #include "vec.h"
 #include "gui_button.h"
-
+#include "gui_text_box.h"
 buffer_data background;
 gui_item singleplay_button;
 gui_item exit_button;
+gui_item seed_text_box;
+gui_item smoothing_text_box;
+gui_item chunks_text_box;
+gui_item start_button;
 int gui_shader_id;
-int global_state=0;
-
+int global_state=1;
+int active_text_box=-1;
 const float background_vod[]={
              1,  1, 0.0f,
              1, -1, 0.0f,
@@ -46,55 +50,112 @@ get.text=text;
 get.size_text=get_size_text(get.text);
 return get;
 }
+void init_settings_game(){
 
+seed_text_box=create_gui_item(vec2(0,0),vec2(0.5f,0.1f),"");
+smoothing_text_box=create_gui_item(vec2(0,-3),vec2(0.5f,0.1f),"");
+chunks_text_box=create_gui_item(vec2(0,-6),vec2(0.5f,0.1f),"");
+start_button=create_gui_item(vec2(0,-8),vec2(0.5f,0.1f),"Generate");
+init_gui_item(&seed_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
+init_gui_item(&smoothing_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
+init_gui_item(&chunks_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
+init_text_box(&seed_text_box);
+init_text_box(&smoothing_text_box);
+init_text_box(&chunks_text_box);
+init_gui_item(&start_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
+}
 void init_menu(){
-printf("\nSTARTT");
 init_gui_item(&background,background_data_size,background_data_count,background_vod,background_ebo,background_vot,"background.png",1);
 singleplay_button=create_gui_item(vec2(0,0),vec2(0.5f,0.1f),"Singleplay");
 exit_button=create_gui_item(vec2(0,-2),vec2(0.5f,0.1f),"Quit Game");
-
 init_gui_item(&singleplay_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 init_gui_item(&exit_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 }
 void init_gui(){
 init_menu();
+init_settings_game();
+}
+int on_key_press(char k){
+if(active_text_box==0)
+    k!=8?add_char_to_text_box(k,&seed_text_box):remove_char_to_text_box(&seed_text_box);
+else if(active_text_box==1)
+    k!=8?add_char_to_text_box(k,&smoothing_text_box):remove_char_to_text_box(&smoothing_text_box);
+else if(active_text_box==2)
+    k!=8?add_char_to_text_box(k,&chunks_text_box):remove_char_to_text_box(&chunks_text_box);
+    return active_text_box;
+};
+int on_click_item(struct vec position_mouse,gui_item get_button){
+    position_mouse.y-=0.5f;
+    position_mouse.x-=0.5f;
+    position_mouse.y*=-1;
+    get_button.position=vec2((get_button.position.x/20),(get_button.position.y/20));
+    get_button.scale=vec2(get_button.scale.x/2,get_button.scale.y/2);
+return ((position_mouse.x>get_button.position.x-get_button.scale.x)&&position_mouse.x<(get_button.position.x+get_button.scale.x)&&
+        (position_mouse.y>get_button.position.y-get_button.scale.y)&&position_mouse.y<(get_button.position.y+get_button.scale.y));
 }
 int on_click(struct vec pos){
-if(click_on_button(pos,singleplay_button)==1&&global_state==1)
+if(on_click_item(pos,singleplay_button)==1&&global_state==1)
     return 0;
-else if(click_on_button(pos,exit_button)==1&&global_state==1)
+else if(on_click_item(pos,exit_button)==1&&global_state==1)
     return 1;
-return "none";
+else if(on_click_item(pos,start_button)==1&&global_state==2)
+    return 2;
+else if(on_click_item(pos,chunks_text_box)==1&&global_state==2)
+     active_text_box=2;
+else if(on_click_item(pos,seed_text_box)==1&&global_state==2)
+         active_text_box=0;
+else if(on_click_item(pos,smoothing_text_box)==1&&global_state==2)
+     active_text_box=1;
+else
+    active_text_box=-1;
+return -1;
 }
-void draw_gui_item(buffer_data get,struct vec poss,struct vec scale){
+void draw_gui_item(buffer_data get,gui_item get_item){
  glBindTexture(GL_TEXTURE_2D,get.texture_id);
-set_vec2(scale.x,scale.y,"scale",gui_shader_id);
-set_vec2(poss.x,poss.y,"position",gui_shader_id);
+set_vec2(get_item.scale.x,get_item.scale.y,"scale",gui_shader_id);
+set_vec2(get_item.position.x,get_item.position.y,"position",gui_shader_id);
 glBindVertexArray(get.vao);
 glBindBuffer(GL_ARRAY_BUFFER, get.vod);
 glBindBuffer(GL_ARRAY_BUFFER, get.ebo);
 glDrawElements(GL_TRIANGLES,get.count_data[2],GL_UNSIGNED_INT,0);
 glBindVertexArray(0);
 }
+void draw_settings_game(){
+    gui_item background_item;
+    background_item.position=vec2(0,0);
+    background_item.scale=vec2(1,1);
+   draw_gui_item(background,background_item);
+ draw_text_box(seed_text_box);
+ draw_text(vec2(0,5),"SEED:");
+ draw_text(vec2(-2,-5),"SMOOTHING:");
+ draw_text(vec2(-2,-15),"CHUNKS:");
+  draw_text(vec2(-25,15),"1-exit.2-fullsreen.3-bind mouse.4-screenshot.");
+   draw_text(vec2(-25,10),"wasd-move.z-down. x-up");
+  use_shader(gui_shader_id);
+ draw_text_box(smoothing_text_box);
+  use_shader(gui_shader_id);
+ draw_text_box(chunks_text_box);
+ use_shader(gui_shader_id);
+ draw_button(start_button);
+}
 void draw_menu(){
-
-   draw_gui_item(background,vec2(0,0),vec2(1,1));
-
+    gui_item background_item;
+    background_item.position=vec2(0,0);
+    background_item.scale=vec2(1,1);
+   draw_gui_item(background,background_item);
     draw_button(singleplay_button);
-
     use_shader(gui_shader_id);
     draw_button(exit_button);
 }
-void draw_gui(int state){
+void draw_gui(){
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_DEPTH);
 use_shader(gui_shader_id);
-global_state=state;
-if(state==1){
+if(global_state==1){
 draw_menu();
 }
-if(state==2)
-
+if(global_state==2)
+    draw_settings_game();
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_DEPTH);
 }

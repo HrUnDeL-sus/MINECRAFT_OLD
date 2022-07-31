@@ -88,6 +88,8 @@ struct block
 
 void draw_cube(const int count)
 {
+      glEnable(GL_DEPTH_TEST);
+  glEnable(GL_DEPTH);
     use_shader(default_shader_id);
     set_matrix4(get_camera_matrix_look_at(),"camera",default_shader_id);
    set_matrix4(get_camera_matrix_perpective(),"perspective",default_shader_id);

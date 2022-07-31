@@ -5,7 +5,7 @@
 #include "rand_helper.h"
 #include "matrix.h"
 char* path_shaders;
-GLuint program;
+ GLuint  program;
 char* load_shader_from_file(char* file_name)
 {
     static int len=8000;
@@ -28,13 +28,11 @@ void print_log(GLuint shader)
     GLuint ok=0;
     GLchar log[2000];
     glGetShaderiv(shader,GL_COMPILE_STATUS,&ok);
-    if(!ok)
-    {
+
         glGetShaderInfoLog(shader,2000,NULL,log);
         printf("\nLog:%s",log);
 
     }
-}
 int create_shader(char* file_name,GLuint type)
 {
     char third[512];
@@ -78,11 +76,12 @@ void set_matrix4(struct matrix4f mat,char* name,int prog)
 }
 void use_shader(int id)
 {
+
     glUseProgram(id);
 }
 int activate_shader(GLuint* shader,int count)
 {
-    program=glCreateProgram();
+  program=glCreateProgram();
     for(int i=0; i<count; i+=1)
     {
         glAttachShader(program,shader[i]);

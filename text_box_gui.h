@@ -1,6 +1,0 @@
-#ifndef TEXT_BOX_GUI_H_INCLUDED
-#define TEXT_BOX_GUI_H_INCLUDED
-
-
-
-#endif // TEXT_BOX_GUI_H_INCLUDED
