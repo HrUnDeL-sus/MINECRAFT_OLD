@@ -1,4 +1,5 @@
 struct vec camera_position;
+struct vec camera_angle;
 struct matrix4f get_camera_matrix_look_at();
 struct matrix4f get_camera_matrix_perpective();
 void set_camera_matrix_look_at(struct matrix4f  a);

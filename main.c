@@ -52,17 +52,17 @@ void timer(int t)
 }
 void key(unsigned char key, int x, int y)
 {
-    printf("\nKEY:%d",key);
+
     if(on_key_press(key)!=-1)
         return;
     if(key=='w')
-        add_camera(0,0,0.5f);
+        add_camera(0,0,0.2f);
     if(key=='s')
-        add_camera(0,0,-0.5f);
+        add_camera(0,0,-0.2f);
     if(key=='a')
-        add_camera(0.5f,0,0);
+        add_camera(0.2f,0,0);
     if(key=='d')
-        add_camera(-0.5f,0,0);
+        add_camera(-0.2f,0,0);
     if(key=='z')
         add_camera(0,-1,0);
     if(key=='x')
@@ -94,7 +94,7 @@ void key(unsigned char key, int x, int y)
     if(key=='3')
     {
         is_check=is_check==0?1:0;
-        printf("IS CHECK: %d",is_check);
+
     }
 
 }
@@ -110,7 +110,6 @@ void wrap(int* x,int* y)
 }
 void mouse_click(int button,int state,int x,int y){
 int data=on_click(vec2((float)x/save_width,(float)y/save_height));
-printf("\nDATA:%d",data);
 if(data==1)
     exit(0);
 if(data==0)

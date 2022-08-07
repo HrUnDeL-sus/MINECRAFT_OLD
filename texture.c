@@ -43,7 +43,7 @@ float standart_texture_coord[]=
 };
 void get_texture_coord_lite(int id,float* standart_texture_coord2){
 for(int i=0;i<6;i+=1){
-    standart_texture_coord2[i]=id;
+    standart_texture_coord2[i]=(float)id;
 
 }
 //printf("\n");

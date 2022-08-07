@@ -182,3 +182,12 @@ struct matrix4f look_at_matrix(const struct vec eye,const struct vec target, con
     mat.m[3][3] = 1.0f;
     return mat;
 }
+void matrix4_to_float_array(float* m,struct matrix4f get){
+int q=0;
+for(int i=0;i<4;i+=1){
+    for(int b=0;b<4;b+=1){
+        m[q]=get.m[i][b];
+        q+=1;
+    }
+}
+}

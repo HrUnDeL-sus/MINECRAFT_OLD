@@ -1,15 +1,15 @@
 #include "vec.h"
+#include "block.h"
 #ifndef CHUNK_H_INCLUDED
 #define CHUNK_H_INCLUDED
-struct chunk
+typedef struct
 {
     struct vec position;
     int count;
-    float* transform_matrix_floats;
-    float* block_indexs_texture;
-};
-void init_chunk();
-void pre_rendering_chunk(struct chunk* get_chunk);
+    block *** chunk_blocks;
+} chunk;
+void init_chunk(chunk* get_chunk);
+void pre_rendering_chunk(chunk* get_chunk);
 void reset_count_and_noise();
 
 #endif // CHUNK_H_INCLUDED

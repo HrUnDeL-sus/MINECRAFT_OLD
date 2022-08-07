@@ -12,4 +12,5 @@ struct matrix4f perspective_martix(float vertical_field_of_view_in_deg, float as
 struct matrix4f look_at_matrix(const struct vec eye,const struct vec target, const struct vec up);
 struct matrix4f multi_matrix(struct matrix4f left, struct matrix4f right);
 void draw_matrix(struct matrix4f mat);
+void matrix4_to_float_array(float* m,struct matrix4f get);
 #endif // MATRIX_H_INCLUDED

@@ -8,8 +8,9 @@ float T;
 float N;
 };
 struct biome_info biome_info_array[]={
-200,4,16,
-100,16,16
+100,4,16,
+50,16,16,
+500,16,16
 };
 struct vec get_position_biome(float x1,float y1){
     struct vec pos;
@@ -23,9 +24,11 @@ return noise_2d(x1,y1,biome_info_array[id].amplitude,biome_info_array[id].T,biom
 float get_biome_generator(float x1,float y1){
 int id_biome=0;
 float val=noise_2d(roundf(x1/320),roundf(y1/320),1,1,1,ctx);
-if(val>0)
+if(val>0&&val<0.5f)
     id_biome=0;
-else
+else if(val>0.5f&&val<0.8f)
     id_biome=1;
-return get_biome_generator_id(id_biome,x1,y1);
+else
+    id_biome=2;
+return ((get_biome_generator_id(id_biome,x1,y1)+1)/2);
 }
