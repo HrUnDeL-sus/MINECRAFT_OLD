@@ -10,6 +10,7 @@
 #include "shader.h"
 #include "matrix.h"
 #include "texture.h"
+
 int default_shader_id=0;
 
 float vertex_standart_block[]=
@@ -316,6 +317,20 @@ block_info info;
          if(local_block.id==70){
              info.scale.y=0.05f;
              offset.y=0.45f;
+         }
+         for(float i=1;i<10;i+=1){
+         struct vec  ray=camera_position;
+         float z_angle=-sinf(deegres_to_radiar(yaw))*cosf(deegres_to_radiar(pitch));
+           float x_angle=-cosf(deegres_to_radiar(yaw))*cosf(deegres_to_radiar(pitch));
+           float y_angle=-sinf(deegres_to_radiar(pitch));
+         ray.z=ray.z+z_angle*i;
+         ray.x=ray.x+x_angle*i;
+         ray.y=ray.y+y_angle*i;
+         if(abs(local_block.pos_z-(int)ray.z)==0&&abs(local_block.pos_x-(int)ray.x)==0&&abs(local_block.pos_y-(int)ray.y)==0){
+
+            info.scale=multi_v3_f(info.scale,0);
+            break;
+         }
          }
          info.position.x=(float)local_block.pos_x+offset.x;
          info.position.y=(float)local_block.pos_y+offset.y;

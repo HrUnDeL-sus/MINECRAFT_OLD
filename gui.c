@@ -6,11 +6,12 @@
 #include "vec.h"
 #include "gui_button.h"
 #include "gui_text_box.h"
+
 buffer_data background;
 gui_item singleplay_button;
 gui_item exit_button;
 gui_item seed_text_box;
-gui_item smoothing_text_box;
+gui_item name_text_box;
 gui_item chunks_text_box;
 gui_item start_button;
 int gui_shader_id;
@@ -52,15 +53,15 @@ return get;
 }
 void init_settings_game(){
 
-seed_text_box=create_gui_item(vec2(0,0),vec2(0.5f,0.1f),"");
-smoothing_text_box=create_gui_item(vec2(0,-3),vec2(0.5f,0.1f),"");
+seed_text_box=create_gui_item(vec2(0,-3),vec2(0.5f,0.1f),"");
+name_text_box=create_gui_item(vec2(0,0),vec2(0.5f,0.1f),"");
 chunks_text_box=create_gui_item(vec2(0,-6),vec2(0.5f,0.1f),"");
 start_button=create_gui_item(vec2(0,-8),vec2(0.5f,0.1f),"Generate");
 init_gui_item(&seed_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
-init_gui_item(&smoothing_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
+init_gui_item(&name_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
 init_gui_item(&chunks_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
 init_text_box(&seed_text_box);
-init_text_box(&smoothing_text_box);
+init_text_box(&name_text_box);
 init_text_box(&chunks_text_box);
 init_gui_item(&start_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 }
@@ -79,7 +80,7 @@ int on_key_press(char k){
 if(active_text_box==0)
     k!=8?add_char_to_text_box(k,&seed_text_box):remove_char_to_text_box(&seed_text_box);
 else if(active_text_box==1)
-    k!=8?add_char_to_text_box(k,&smoothing_text_box):remove_char_to_text_box(&smoothing_text_box);
+    k!=8?add_char_to_text_box(k,&name_text_box):remove_char_to_text_box(&name_text_box);
 else if(active_text_box==2)
     k!=8?add_char_to_text_box(k,&chunks_text_box):remove_char_to_text_box(&chunks_text_box);
     return active_text_box;
@@ -104,7 +105,7 @@ else if(on_click_item(pos,chunks_text_box)==1&&global_state==2)
      active_text_box=2;
 else if(on_click_item(pos,seed_text_box)==1&&global_state==2)
          active_text_box=0;
-else if(on_click_item(pos,smoothing_text_box)==1&&global_state==2)
+else if(on_click_item(pos,name_text_box)==1&&global_state==2)
      active_text_box=1;
 else
     active_text_box=-1;
@@ -126,13 +127,13 @@ void draw_settings_game(){
     background_item.scale=vec2(1,1);
    draw_gui_item(background,background_item);
  draw_text_box(seed_text_box);
- draw_text(vec2(0,5),"SEED:");
- draw_text(vec2(-2,-5),"SMOOTHING:");
+ draw_text(vec2(0,5),"NAME:");
+ draw_text(vec2(-2,-5),"SEED:");
  draw_text(vec2(-2,-15),"CHUNKS:");
   draw_text(vec2(-25,15),"1-exit.2-fullsreen.3-bind mouse.4-screenshot.");
    draw_text(vec2(-25,10),"wasd-move.z-down. x-up");
   use_shader(gui_shader_id);
- draw_text_box(smoothing_text_box);
+ draw_text_box(name_text_box);
   use_shader(gui_shader_id);
  draw_text_box(chunks_text_box);
  use_shader(gui_shader_id);

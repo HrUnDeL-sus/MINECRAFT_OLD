@@ -13,7 +13,7 @@ int index;
 } gui_item;
 int gui_shader_id;
 gui_item seed_text_box;
-gui_item smoothing_text_box;
+gui_item name_text_box;
 gui_item chunks_text_box;
 int global_state;
 void draw_gui();

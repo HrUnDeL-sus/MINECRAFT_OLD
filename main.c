@@ -6,6 +6,7 @@
 #include "char_array_helper.h"
 #include "shader.h"
 #include <stdlib.h>
+#include "world_manager.h"
 #include <process.h>
 #include <windows.h>
 #include <GL/glut.h>
@@ -19,7 +20,7 @@
 #include "settings.h"
 #include <stb_image_write.h>
 #include <stb_image.h>
-
+#include <direct.h>
 float t=0;
 GLuint listName;
 void resize(int width, int height)
@@ -56,13 +57,13 @@ void key(unsigned char key, int x, int y)
     if(on_key_press(key)!=-1)
         return;
     if(key=='w')
-        add_camera(0,0,0.2f);
+        add_camera(0,0,0.5f);
     if(key=='s')
-        add_camera(0,0,-0.2f);
+        add_camera(0,0,-0.5f);
     if(key=='a')
-        add_camera(0.2f,0,0);
+        add_camera(0.5f,0,0);
     if(key=='d')
-        add_camera(-0.2f,0,0);
+        add_camera(-0.5f,0,0);
     if(key=='z')
         add_camera(0,-1,0);
     if(key=='x')
@@ -115,8 +116,12 @@ if(data==1)
 if(data==0)
     global_state=2;
 if(data==2){
-        set_seed(atoi(seed_text_box.text));
-        smoothing=atoi(smoothing_text_box.text);
+
+        main_world_info.smoothing=5;
+        main_world_info.seed=atoi(seed_text_box.text);
+        create_world_folder(name_text_box.text);
+        printf("\nSEED:%d",main_world_info.seed);
+         set_seed(main_world_info.seed);
             init_chunks(atoi(chunks_text_box.text));
             init_world();
             _beginthread(  pre_draw_world,0,NULL);
@@ -174,7 +179,7 @@ int main(int argc, char *argv[])
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-    glutCreateWindow("GLUT Shapes");
+    glutCreateWindow("CRAFTMINE");
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
     glutKeyboardFunc(key);

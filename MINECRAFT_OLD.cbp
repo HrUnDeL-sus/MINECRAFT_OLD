@@ -42,6 +42,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=gnu++11" />
 			<Add directory="C:/MinGW/include" />
 		</Compiler>
 		<Linker>
@@ -166,6 +167,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="world.h" />
+		<Unit filename="world_manager.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="world_manager.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

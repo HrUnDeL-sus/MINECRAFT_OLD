@@ -38,7 +38,7 @@ void apply_camera_matrix()
     camera_matrix_look_at=look_at_matrix(camera_position,
                                          vec3(camera_position.x+camera_angle.x,camera_position.y+camera_angle.y,camera_position.z+camera_angle.z),
                                          vec3(0,1,0));
-
+    //   printf("\nYAW: %f",yaw);
 }
 void set_camera(float x,float y,float z)
 {
@@ -72,18 +72,16 @@ void rotate_camera(float l_pitch,float l_yaw)
     yaw-=l_yaw*SPEED;
     pitch-=l_pitch*SPEED;
     if(pitch>89)
-        pitch=89;
+        pitch=88;
     if(pitch>-89)
-        pitch=-89;
+        pitch=-88;
     camera_ray.angle=vec2(yaw,pitch);
     camera_angle.x=cosf(deegres_to_radiar(yaw))*cosf(deegres_to_radiar(pitch));
     camera_angle.y=sinf(deegres_to_radiar(pitch));
     camera_angle.z=cosf(deegres_to_radiar(pitch))*sinf(deegres_to_radiar(yaw));
-    camera_angle=normalize_v3(camera_angle);
-//camera_angle=normalize_v3(camera_angle);
     right=cross(vec3(cosf(deegres_to_radiar(yaw)),0,sinf(deegres_to_radiar(yaw))),vec3(0,1,0));
-//printf("\nANGLE: %f %f %f",camera_angle.x,camera_angle.y,camera_angle.z);
-//x_angle+=cosf(pitch)*cosf(yaw);
-//y_angle+=sinf(pitch);
-//z_angle+=cosf(pitch)*sinf(yaw);
+    struct vec  ray=add_v3_v3(camera_position,vec3(cosf(deegres_to_radiar(yaw)),
+                                                        -sinf(deegres_to_radiar(pitch)),
+                                                        sinf(deegres_to_radiar(yaw))));
+
 }

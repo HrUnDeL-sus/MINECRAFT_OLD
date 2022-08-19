@@ -8,9 +8,9 @@ float T;
 float N;
 };
 struct biome_info biome_info_array[]={
-100,4,16,
-50,16,16,
-500,16,16
+30,8,16,
+40,4,16,
+50,2,16
 };
 struct vec get_position_biome(float x1,float y1){
     struct vec pos;

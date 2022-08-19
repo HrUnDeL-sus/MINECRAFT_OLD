@@ -11,5 +11,5 @@ typedef struct
 void init_chunk(chunk* get_chunk);
 void pre_rendering_chunk(chunk* get_chunk);
 void reset_count_and_noise();
-
+void clear_blocks(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,chunk * back);
 #endif // CHUNK_H_INCLUDED

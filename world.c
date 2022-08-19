@@ -15,27 +15,27 @@
 #include <process.h>
 #include <stdio.h>
 #include <time.h>
+#include "world_manager.h"
 float* transform_matrix_floats;
 float* block_indexs_texture;
 float* transform_matrix_floats_copy;
 float* block_indexs_texture_copy;
-float seed=0;
 int count_chunks;
-int is_first=1;
-int is_first2=1;
 int count_blocks;
 chunk ** chunk_in_world;
-int id_tex;
+
+struct vec chunk_last;
 unsigned int transform_matrix_buffer;
 unsigned int texture_buffer;
-struct block*** blocks;
 int is_end2=0;
-struct vec chunk_last;
-void rendering_chunks()
+typedef struct
 {
-
-
-}
+    int seed;
+    int smoothing;
+    char path_world[512];
+    char path_world_chunks[512];
+} world_info;
+world_info main_world_info= {0,5};
 void init_chunks(int size)
 {
     chunk_in_world=malloc(sizeof(chunk*)*size);
@@ -67,7 +67,7 @@ void rendering_world()
         memcpy(block_indexs_texture,block_indexs_texture_copy,9*sizeof(float)*count_blocks);
         enable_transform_matrix();
         is_end2=2;
-        printf("\nCOPPY");
+
     }
 
     draw_cube(count_blocks);
@@ -81,7 +81,7 @@ void enable_index_texture()
 
     glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
     glBufferData(GL_ARRAY_BUFFER, count_blocks *9* sizeof(float), block_indexs_texture, GL_STATIC_READ);
-    is_first2=0;
+
     GLsizei vec3Size = sizeof(float)*3;
     glEnableVertexAttribArray(frag);
     glVertexAttribPointer(frag, 3, GL_FLOAT, GL_FALSE,  3*vec3Size,0);
@@ -146,7 +146,8 @@ void fill_matrix_world(int l_count)
                         matrix4_to_float_array(transform_mat,multi_matrix(transform_matrix(block_info.position),scale_matrix(block_info.scale)));
 
                         float texture_matrix[9];
-                        for(int i=0;i<6;i+=1){
+                        for(int i=0; i<6; i+=1)
+                        {
                             texture_matrix[i]=block_info.id_text[i];
                         }
                         texture_matrix[6]=(float)block_info.is_cross;
@@ -160,7 +161,7 @@ void fill_matrix_world(int l_count)
                         }
                         count_matrix1+=16;
                         count_matrix2+=9;
-                         count+=1;
+                        count+=1;
 
                     }
                 }
@@ -170,7 +171,7 @@ void fill_matrix_world(int l_count)
         progress+=1;
         printf("\n PROGRESS:%d/%d",progress,count_chunks*2);
     }
-    printf("\n EEEENNNNNDDDDD");
+
 }
 void set_count()
 {
@@ -182,7 +183,7 @@ void set_count()
             local_count+=chunk_in_world[x][z].count;
         }
     }
-    printf("\n LOCAL COUNT:%d",local_count);
+
     fill_matrix_world(local_count);
     count_blocks=local_count;
 }
@@ -194,18 +195,35 @@ void init_world()
     transform_matrix_floats=malloc(1);
     block_indexs_texture=malloc(1);
 
-    printf("\n ENd Init");
-}
 
+}
+void clear_chunks()
+{
+    for(int x=0; x<count_chunks; x+=1)
+    {
+        for(int z=0; z<count_chunks; z+=1)
+        {
+            chunk * left_chunk=x==0?NULL:&chunk_in_world[x-1][z];
+            chunk * right_chunk=x==count_chunks-1?NULL:&chunk_in_world[x+1][z];
+            chunk * back_chunk=z==0?NULL:&chunk_in_world[x][z-1];
+            chunk * forward_chunk=z==count_chunks-1?NULL:&chunk_in_world[x][z+1];
+            clear_blocks(&chunk_in_world[x][z],left_chunk,right_chunk,forward_chunk,back_chunk);
+        }
+    }
+}
 void pre_draw_world (void *t)
 {
-     int is_new=0;
+    int is_new=0;
+    int z=0;
     while(1==1)
     {
         clock_t  start=time(NULL);
         is_end2=1;
         struct vec chunk_now;
         chunk_now=vec2(roundf(camera_position.x/16),roundf(camera_position.z/16));
+        if(chunk_last.x==chunk_now.x&&chunk_last.y==chunk_now.y)
+            continue;
+        chunk_last=chunk_now;
         float x1=(float)count_chunks/2;
         float z1=(float)count_chunks/2;
 
@@ -213,32 +231,30 @@ void pre_draw_world (void *t)
         {
             for(int z=0; z<count_chunks; z+=1)
             {
-                if(is_new!=0&&(fabs(chunk_in_world[x][z].position.x-chunk_now.x)<(int)x1)&&
-                   (fabs(chunk_in_world[x][z].position.y-chunk_now.y)<(int)z1)
-                   )
-                    continue;
-
-                chunk_in_world[x][z].position=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
-
+                  chunk_in_world[x][z].position=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
+                 printf("\nCHUNK IS START:%d %d",x,z);
+                if(chunk_is_save(chunk_in_world[x][z])==0)
                 pre_rendering_chunk(&chunk_in_world[x][z]);
-                 printf("\nChunk Render:%d/%d %d/%d",x,count_chunks,z,count_chunks);
+                else
+                load_chunk(&chunk_in_world[x][z]);
+                if(chunk_is_save(chunk_in_world[x][z])==0)
+                    save_chunk(chunk_in_world[x][z]);
                 z1-=1;
 
             }
             x1-=1;
             z1=(float)count_chunks/2;
 
-
         }
-        is_first=0;
+        clear_chunks();
         set_count();
         is_end2=0;
         clock_t before=time(NULL)-start;
-        printf("\nTIME REDERING:%d",before%1000);
         while(is_end2!=2)
         {
 
         }
-         is_new=1;
+        is_new=1;
+        Sleep(100);
     }
 }
