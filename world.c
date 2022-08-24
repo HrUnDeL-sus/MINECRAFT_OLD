@@ -227,7 +227,7 @@ chunk find_chunk_in_position(struct vec position){
 position=vec2((float)(int)(position.x),(float)(int)(position.y));
 for(int x=0;x<count_chunks;x+=1){
     for(int y=0;y<count_chunks;y+=1){
-     //   printf("\nMY POSITION:%f %f %f %f",position.x,position.y,chunk_in_world[x][y].position.x,chunk_in_world[x][y].position.y);
+        printf("\nMY POSITION:%f %f %f %f",position.x,position.y,chunk_in_world[x][y].position.x,chunk_in_world[x][y].position.y);
         if(chunk_in_world[x][y].position.x==position.x&&chunk_in_world[x][y].position.y==position.y)
             return chunk_in_world[x][y];
     }
@@ -245,7 +245,7 @@ void pre_draw_world (void *t)
         init_position_chunks();
     while(1==1)
     {
-
+    //    Sleep(1000);
         int count_chunks_local=0;
         clock_t  start=time(NULL);
         is_end2=1;
@@ -256,7 +256,7 @@ void pre_draw_world (void *t)
         chunk_last=chunk_now;
         float x1=(float)count_chunks/2;
         float z1=(float)count_chunks/2;
-       // printf("\nDIRECTION:%f %f",direction.x,direction.y);
+//printf("\nDIRECTION:%f %f",direction.x,direction.y);
         int x_start=count_chunks-1;
         for(int x=0; x<count_chunks; x+=1)
         {
@@ -265,28 +265,29 @@ void pre_draw_world (void *t)
                struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
                 chunk_in_world[x][z].position=pos_chunk;
                 struct vec pos_chunk_local=vec2((float)x,(float)z);
+                if(is_new==0){
                 while(add_chunk_in_thread(pos_chunk_local)==0){
 
                 }
-               // Sleep(10);
+                }
                 z1-=1;
-               //  printf("\nCOUNT: %d %d",x,z);
+                // printf("\nCOUNT: %d %d",x,z);
             }
             x1-=1;
             z1=(float)count_chunks/2;
 
         }
          init_threads_for_rendering();
-      //    printf("\nCOUNT REDNERING CHUNKS:%d",count_chunks_local);
-        while(all_thead_finished()!=0)
-
+        //  printf("\nCOUNT REDNERING CHUNKS:%d",count_chunks_local);
+        while(all_thead_finished()!=0);
+        clock_t before=time(NULL)-start;
+        printf("\nTIME:%f",before);
         clear_chunks();
         set_count();
         is_end2=0;
         if(is_new==0)
             global_state=4;
         while(is_end2!=2);
-       // clock_t before=time(NULL)-start;
 
         is_new=1;
 

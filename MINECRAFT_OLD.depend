@@ -525,7 +525,7 @@
 	<math.h>
 	<string.h>
 
-1661357859 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1661362102 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -552,7 +552,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1661279399 source:d:\Документы\codeblocks\minecraft_old\main.c
+1661362651 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -624,7 +624,7 @@
 1661357253 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1661361914 source:d:\Документы\codeblocks\minecraft_old\world.c
+1661364055 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -815,7 +815,7 @@
 
 1661097646 d:\Документы\codeblocks\minecraft_old\collision.h
 
-1661361840 source:d:\Документы\codeblocks\minecraft_old\thread_render.c
+1661363910 source:d:\Документы\codeblocks\minecraft_old\thread_render.c
 	"chunk.h"
 	<process.h>
 	<windows.h>
