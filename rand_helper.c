@@ -4,6 +4,5 @@
 #include <math.h>
 float get_rand()
 {
-
     return rand() / RAND_MAX;
 }

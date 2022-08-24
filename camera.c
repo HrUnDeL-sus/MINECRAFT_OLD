@@ -7,7 +7,7 @@
 #include "math_helper.h"
 #include "raycast.h"
 #include "matrix.h"
-struct vec camera_position= {25,100,25};
+struct vec camera_position= {0,0,0};
 struct vec camera_angle= {0,0,0};
 struct vec up = {0,1,0};
 struct vec right = {1,0,0};
@@ -42,7 +42,9 @@ void apply_camera_matrix()
 }
 void set_camera(float x,float y,float z)
 {
-
+camera_position.x=x;
+camera_position.y=y;
+camera_position.z=z;
 }
 
 void add_camera(float x,float y,float z)

@@ -81,6 +81,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="chunk.h" />
+		<Unit filename="collision.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="collision.h" />
 		<Unit filename="generator.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -138,6 +142,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="open-simplex-noise.h" />
+		<Unit filename="player.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="player.h" />
 		<Unit filename="rand_helper.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="helpers/" />

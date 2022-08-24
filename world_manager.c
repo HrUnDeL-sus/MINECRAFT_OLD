@@ -5,45 +5,7 @@
 #include "world.h"
 #include "chunk.h"
 #include "block.h"
-int save_struct(char * filename, void *p,int size)
-{
-    FILE * fp;
-    char *c;
-    printf("\nFILE PATH:%s",filename);
-    if ((fp = fopen(filename, "wb")) == NULL)
-    {
-        perror("Error occured while opening file 2");
-        return 1;
-    }
-    c = (char *)p;
-    for (int i = 0; i < size; i++)
-    {
-        putc(*c++, fp);
-    }
-    fclose(fp);
-    return 0;
-}
-void * load_struct(char * filename,int size)
-{
-    FILE * fp;
-    char *c;
-    int i;
-    void * ptr = (void *) malloc(size);
 
-    if ((fp = fopen(filename, "rb")) == NULL)
-    {
-        perror("Error occured while opening file");
-        return 1;
-    }
-    c = (char *)ptr;
-    while ((i = getc(fp))!=EOF)
-    {
-        *c = i;
-        c++;
-    }
-    fclose(fp);
-    return ptr;
-}
 //fix
 char * get_chunk_path(chunk  get)
 {
@@ -53,8 +15,8 @@ char * get_chunk_path(chunk  get)
     char name2[512];
     char name3[512];
     char name4[512];
-    snprintf(name4, sizeof name4, "%ld", (int)get.position.y);
-    snprintf(name3, sizeof name3, "%ld", (int)get.position.x);
+    snprintf(name4, sizeof name4, "%ld", (int)get.position.x);
+    snprintf(name3, sizeof name3, "%ld", (int)get.position.y);
     snprintf(name2, sizeof name2, "%s %s", "_", name4);
     snprintf(name22, sizeof name22, "%s %s", name3,name2);
     snprintf(name222, sizeof name222, "%s %s", "/chnk ",name22);
@@ -85,12 +47,9 @@ void load_chunk(chunk * get)
                   get->chunk_blocks[x][y][z].pos_x=start_x;
                    get->chunk_blocks[x][y][z].pos_y=y;
                     get->chunk_blocks[x][y][z].pos_z=start_z;
-             //   printf("\nDATA LOAD: %d %d %d %d %d",get->chunk_blocks[x][y][z].pos_x,get->chunk_blocks[x][y][z].pos_y,get->chunk_blocks[x][y][z].pos_z,get->chunk_blocks[x][y][z].id,get->chunk_blocks[x][y][z].is_enable);
-
                 start_z=start_z+1;
             }
              start_z=(int)get->position.y*16;
-         //   printf("\n");
         }
         start_x+=1;
 
@@ -148,29 +107,28 @@ void create_world_folder(char * name)
     char path[512];
     char path_chunk[512];
     char info_world[512];
+    FILE *fp;
+
     snprintf(path, sizeof path, "%s%s", path_shaders, name);
-    snprintf(info_world, sizeof info_world, "%s%s", path, "/info.txt");
-    if(world_is_create(name)==1)
+    snprintf(info_world, sizeof info_world, "%s%s", path, "/info_world");
+
+    if((fp=fopen(info_world, "rb")!=NULL))
     {
-        void * t=load_struct(info_world,sizeof(main_world_info));
-        main_world_info=*((world_info*)t);
+        fp=fopen(info_world, "rb");
+        printf("\nIS NULL:%d %s",fp==NULL,info_world);
+        fread(&main_world_info,sizeof(world_info),1,fp);
+        fclose(fp);
         return;
     }
+
     mkdir(path);
     snprintf(path_chunk, sizeof path_chunk, "%s%s", path, "/chunks");
     memcpy(main_world_info.path_world,path,512);
     memcpy(main_world_info.path_world_chunks,path_chunk,512);
 
     mkdir(path_chunk);
-    save_struct(info_world,(void *) &main_world_info,sizeof(main_world_info));
-}
-int world_is_create(char *name)
-{
-    DIR *dir;
-
-    char path[512];
-    snprintf(path, sizeof path, "%s%s", path_shaders, name);
-    printf("\nPATH:%s",path);
-    return (dir=opendir(path))!=NULL;
+    fp=fopen(info_world, "wb");
+    fwrite(&main_world_info,sizeof(world_info),1,fp);
+    fclose(fp);
 }
 

@@ -121,6 +121,13 @@ glBindBuffer(GL_ARRAY_BUFFER, get.ebo);
 glDrawElements(GL_TRIANGLES,get.count_data[2],GL_UNSIGNED_INT,0);
 glBindVertexArray(0);
 }
+void draw_load(){
+  gui_item background_item;
+    background_item.position=vec2(0,0);
+    background_item.scale=vec2(1,1);
+   draw_gui_item(background,background_item);
+    draw_text(vec2(0,0),"Loading...");
+}
 void draw_settings_game(){
     gui_item background_item;
     background_item.position=vec2(0,0);
@@ -157,6 +164,8 @@ draw_menu();
 }
 if(global_state==2)
     draw_settings_game();
+if(global_state==3)
+    draw_load();
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_DEPTH);
 }

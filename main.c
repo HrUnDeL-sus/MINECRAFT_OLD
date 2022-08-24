@@ -21,6 +21,7 @@
 #include <stb_image_write.h>
 #include <stb_image.h>
 #include <direct.h>
+#include "player.h"
 float t=0;
 GLuint listName;
 void resize(int width, int height)
@@ -40,15 +41,19 @@ void display(void)
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
-    if(global_state==3)
-    rendering_world();
-    if(global_state!=3)
+    if(global_state==4){
+         rendering_world();
+         save_player();
+    }
+
+    if(global_state!=4)
      draw_gui();
     glutSwapBuffers();
 }
 void timer(int t)
 {
     glutPostRedisplay();
+
   glutTimerFunc(1000/60, timer, 0);
 }
 void key(unsigned char key, int x, int y)
@@ -57,23 +62,23 @@ void key(unsigned char key, int x, int y)
     if(on_key_press(key)!=-1)
         return;
     if(key=='w')
-        add_camera(0,0,0.5f);
+       move_player(vec3(0,0,0.5f));
     if(key=='s')
-        add_camera(0,0,-0.5f);
+        move_player(vec3(0,0,-0.5f));
     if(key=='a')
-        add_camera(0.5f,0,0);
+         move_player(vec3(0.5f,0,0));
     if(key=='d')
-        add_camera(-0.5f,0,0);
+        move_player(vec3(-0.5f,0,0));
     if(key=='z')
-        add_camera(0,-1,0);
+        move_player(vec3(0,-1,0));
     if(key=='x')
-        add_camera(0,1,0);
+        move_player(vec3(0,1,0));
     if(key=='2')
         glutFullScreen();
     if(key=='1')
         exit(0);
      if(key=='4'){
-            Sleep(100);
+
               char third[512];
     int time_int=time(NULL);
     char  time_char[64];
@@ -91,6 +96,7 @@ void key(unsigned char key, int x, int y)
         stbi_write_png(third,save_width,save_height,4,arry,4*save_width);
      //   stbi_image_free(arry);
      free(arry);
+      Sleep(10);
      }
     if(key=='3')
     {
@@ -120,6 +126,7 @@ if(data==2){
         main_world_info.smoothing=5;
         main_world_info.seed=atoi(seed_text_box.text);
         create_world_folder(name_text_box.text);
+         load_player();
         printf("\nSEED:%d",main_world_info.seed);
          set_seed(main_world_info.seed);
             init_chunks(atoi(chunks_text_box.text));
@@ -146,6 +153,7 @@ void mouse(int x,int y)
 }
 void init()
 {
+
     gladLoadGL();
     glClearColor(1,1,1,1);
     glEnable(GL_DEPTH_TEST);
@@ -189,5 +197,8 @@ int main(int argc, char *argv[])
      glutTimerFunc(1000/60, timer, 0);
     init();
     glutMainLoop();
+    printf("\nEXIIRRRR");
+    int t=0;
+    scanf("%d",&t);
     return EXIT_SUCCESS;
 }

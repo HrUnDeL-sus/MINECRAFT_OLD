@@ -24,9 +24,9 @@ struct vec pos;
 block_info get_block_info(block local_block);
 float vertex_standart_block[];
 int default_shader_id;
-
 int is_check;
 void draw_cube(const int count);
+
 GLuint vao_block;
 GLuint vao_cross_block;
 #endif // BLOCK_H_INCLUDED

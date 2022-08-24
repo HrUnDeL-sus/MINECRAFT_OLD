@@ -188,5 +188,6 @@ void pre_rendering_chunk(chunk* get_chunk)
     free_block(get_chunk->chunk_blocks);
     get_chunk->count=0;
     generate_landscape(get_chunk);
-
+  //  printf("\nCOUNT ALL:%d",get_chunk->count);
+     save_chunk(*get_chunk);
 }

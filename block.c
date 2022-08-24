@@ -3,14 +3,12 @@
 #include <windows.h>
 #include <math.h>
 #include "vec.h"
-
 #include <glad/glad.h>
 #include "camera.h"
 #include "math_helper.h"
 #include "shader.h"
 #include "matrix.h"
 #include "texture.h"
-
 int default_shader_id=0;
 
 float vertex_standart_block[]=
@@ -318,7 +316,7 @@ block_info info;
              info.scale.y=0.05f;
              offset.y=0.45f;
          }
-         for(float i=1;i<10;i+=1){
+      /*   for(float i=1;i<10;i+=1){
          struct vec  ray=camera_position;
          float z_angle=-sinf(deegres_to_radiar(yaw))*cosf(deegres_to_radiar(pitch));
            float x_angle=-cosf(deegres_to_radiar(yaw))*cosf(deegres_to_radiar(pitch));
@@ -331,7 +329,7 @@ block_info info;
             info.scale=multi_v3_f(info.scale,0);
             break;
          }
-         }
+         }*/
          info.position.x=(float)local_block.pos_x+offset.x;
          info.position.y=(float)local_block.pos_y+offset.y;
          info.position.z=(float)local_block.pos_z+offset.z;

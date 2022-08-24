@@ -16,6 +16,8 @@
 #include <stdio.h>
 #include <time.h>
 #include "world_manager.h"
+#include "gui.h"
+#include "thread_render.h"
 float* transform_matrix_floats;
 float* block_indexs_texture;
 float* transform_matrix_floats_copy;
@@ -116,6 +118,16 @@ void enable_transform_matrix()
     glVertexAttribDivisor(6, 1);
     enable_index_texture();
 }
+block get_block_in_chunk_in_position(chunk get_chunk,struct vec pos){
+            printf("\nPOS Y:%f",pos.y);
+for(int x=0;x<16;x+=1){
+        for(int z=0;z<16;z+=1){
+            block local_block=get_chunk.chunk_blocks[x][(int)pos.y][z];
+            if(local_block.pos_x==(int)pos.x&&local_block.pos_z==(int)pos.z&&local_block.pos_y==(unsigned char)pos.y)
+                return local_block;
+        }
+}
+}
 void fill_matrix_world(int l_count)
 {
     free(transform_matrix_floats_copy);
@@ -169,9 +181,8 @@ void fill_matrix_world(int l_count)
 
         }
         progress+=1;
-        printf("\n PROGRESS:%d/%d",progress,count_chunks*2);
+      //  printf("\n PROGRESS:%d/%d",progress,count_chunks*2);
     }
-
 }
 void set_count()
 {
@@ -181,6 +192,7 @@ void set_count()
         for(int z=0; z<count_chunks; z+=1)
         {
             local_count+=chunk_in_world[x][z].count;
+         //     printf("\nLOCAL COUNT:%d %d %d",local_count,x,z);
         }
     }
 
@@ -211,50 +223,72 @@ void clear_chunks()
         }
     }
 }
+chunk find_chunk_in_position(struct vec position){
+position=vec2((float)(int)(position.x),(float)(int)(position.y));
+for(int x=0;x<count_chunks;x+=1){
+    for(int y=0;y<count_chunks;y+=1){
+     //   printf("\nMY POSITION:%f %f %f %f",position.x,position.y,chunk_in_world[x][y].position.x,chunk_in_world[x][y].position.y);
+        if(chunk_in_world[x][y].position.x==position.x&&chunk_in_world[x][y].position.y==position.y)
+            return chunk_in_world[x][y];
+    }
+}
+}
+chunk get_chunk_in_position(struct vec position){
+struct vec final_vec=vec2(position.x/16,position.z/16);
+    return  find_chunk_in_position(final_vec);
+}
+
 void pre_draw_world (void *t)
 {
     int is_new=0;
-    int z=0;
+        struct vec chunk_now;
+        init_position_chunks();
     while(1==1)
     {
+
+        int count_chunks_local=0;
         clock_t  start=time(NULL);
         is_end2=1;
-        struct vec chunk_now;
+        struct vec direction;
+
         chunk_now=vec2(roundf(camera_position.x/16),roundf(camera_position.z/16));
-        if(chunk_last.x==chunk_now.x&&chunk_last.y==chunk_now.y)
-            continue;
+        direction=sub_v2_v2(chunk_now,chunk_last);
         chunk_last=chunk_now;
         float x1=(float)count_chunks/2;
         float z1=(float)count_chunks/2;
-
+       // printf("\nDIRECTION:%f %f",direction.x,direction.y);
+        int x_start=count_chunks-1;
         for(int x=0; x<count_chunks; x+=1)
         {
             for(int z=0; z<count_chunks; z+=1)
             {
-                  chunk_in_world[x][z].position=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
-                 printf("\nCHUNK IS START:%d %d",x,z);
-                if(chunk_is_save(chunk_in_world[x][z])==0)
-                pre_rendering_chunk(&chunk_in_world[x][z]);
-                else
-                load_chunk(&chunk_in_world[x][z]);
-                if(chunk_is_save(chunk_in_world[x][z])==0)
-                    save_chunk(chunk_in_world[x][z]);
-                z1-=1;
+               struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
+                chunk_in_world[x][z].position=pos_chunk;
+                struct vec pos_chunk_local=vec2((float)x,(float)z);
+                while(add_chunk_in_thread(pos_chunk_local)==0){
 
+                }
+               // Sleep(10);
+                z1-=1;
+               //  printf("\nCOUNT: %d %d",x,z);
             }
             x1-=1;
             z1=(float)count_chunks/2;
 
         }
+         init_threads_for_rendering();
+      //    printf("\nCOUNT REDNERING CHUNKS:%d",count_chunks_local);
+        while(all_thead_finished()!=0)
+
         clear_chunks();
         set_count();
         is_end2=0;
-        clock_t before=time(NULL)-start;
-        while(is_end2!=2)
-        {
+        if(is_new==0)
+            global_state=4;
+        while(is_end2!=2);
+       // clock_t before=time(NULL)-start;
 
-        }
         is_new=1;
-        Sleep(100);
+
     }
 }
