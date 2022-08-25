@@ -525,7 +525,7 @@
 	<math.h>
 	<string.h>
 
-1661362102 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1661441957 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -624,7 +624,7 @@
 1661357253 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1661364055 source:d:\Документы\codeblocks\minecraft_old\world.c
+1661435838 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -815,12 +815,12 @@
 
 1661097646 d:\Документы\codeblocks\minecraft_old\collision.h
 
-1661363910 source:d:\Документы\codeblocks\minecraft_old\thread_render.c
+1661441913 source:d:\Документы\codeblocks\minecraft_old\thread_render.c
 	"chunk.h"
 	<process.h>
 	<windows.h>
 	"vec.h"
 	"world.h"
 
-1661360736 d:\Документы\codeblocks\minecraft_old\thread_render.h
+1661430112 d:\Документы\codeblocks\minecraft_old\thread_render.h
 

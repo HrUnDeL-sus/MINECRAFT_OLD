@@ -265,11 +265,10 @@ void pre_draw_world (void *t)
                struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
                 chunk_in_world[x][z].position=pos_chunk;
                 struct vec pos_chunk_local=vec2((float)x,(float)z);
-                if(is_new==0){
-                while(add_chunk_in_thread(pos_chunk_local)==0){
 
-                }
-                }
+                if(is_new==0)
+                while(add_chunk_in_thread(pos_chunk_local)==0);
+
                 z1-=1;
                 // printf("\nCOUNT: %d %d",x,z);
             }
@@ -277,12 +276,14 @@ void pre_draw_world (void *t)
             z1=(float)count_chunks/2;
 
         }
+        reset_threads();
+        if(is_new==0)
          init_threads_for_rendering();
         //  printf("\nCOUNT REDNERING CHUNKS:%d",count_chunks_local);
         while(all_thead_finished()!=0);
-        clock_t before=time(NULL)-start;
-        printf("\nTIME:%f",before);
         clear_chunks();
+         clock_t before=time(NULL)-start;
+        printf("\nTIME:%f",before);
         set_count();
         is_end2=0;
         if(is_new==0)

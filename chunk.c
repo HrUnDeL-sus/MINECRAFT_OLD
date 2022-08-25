@@ -60,105 +60,105 @@ void clear_blocks(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,ch
                 if(blocks_copy[x1][y1][z1].is_enable==0)
                     continue;
 
-                    if( (x1==0&&z1>0&&z1<15&&left!=NULL&&
+                if( (x1==0&&z1>0&&z1<15&&left!=NULL&&
+                        blocks_copy[x1][y1+1][z1].is_enable==1&&
+                        blocks_copy[x1][y1-1][z1].is_enable==1&&
+                        blocks_copy[x1][y1][z1+1].is_enable==1&&
+                        blocks_copy[x1][y1][z1-1].is_enable==1&&
+                        blocks_copy[x1+1][y1][z1].is_enable==1&&
+                        (left->chunk_blocks[15][y1][z1].is_enable==1||left->chunk_blocks[15][y1][z1].is_enable==2)
+                    ) ||
+                        (x1==15&&z1>0&&z1<15&&right!=NULL&&
                          blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1+1].is_enable==1&&
-                              blocks_copy[x1][y1][z1-1].is_enable==1&&
-                              blocks_copy[x1+1][y1][z1].is_enable==1&&
-                              (left->chunk_blocks[15][y1][z1].is_enable==1||left->chunk_blocks[15][y1][z1].is_enable==2)
-                         ) ||
-                       (x1==15&&z1>0&&z1<15&&right!=NULL&&
-                         blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1+1].is_enable==1&&
-                              blocks_copy[x1][y1][z1-1].is_enable==1&&
-                              blocks_copy[x1-1][y1][z1].is_enable==1&&
-                              right->chunk_blocks[0][y1][z1].is_enable==1
+                         blocks_copy[x1][y1-1][z1].is_enable==1&&
+                         blocks_copy[x1][y1][z1+1].is_enable==1&&
+                         blocks_copy[x1][y1][z1-1].is_enable==1&&
+                         blocks_copy[x1-1][y1][z1].is_enable==1&&
+                         right->chunk_blocks[0][y1][z1].is_enable==1
                         )||
-                       (z1==0&&x1>0&&x1<15&&back!=NULL&&
+                        (z1==0&&x1>0&&x1<15&&back!=NULL&&
                          blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1+1].is_enable==1&&
-                              blocks_copy[x1-1][y1][z1].is_enable==1&&
-                              blocks_copy[x1+1][y1][z1].is_enable==1&&
-                              (back->chunk_blocks[x1][y1][15].is_enable==1||back->chunk_blocks[x1][y1][15].is_enable==2)
+                         blocks_copy[x1][y1-1][z1].is_enable==1&&
+                         blocks_copy[x1][y1][z1+1].is_enable==1&&
+                         blocks_copy[x1-1][y1][z1].is_enable==1&&
+                         blocks_copy[x1+1][y1][z1].is_enable==1&&
+                         (back->chunk_blocks[x1][y1][15].is_enable==1||back->chunk_blocks[x1][y1][15].is_enable==2)
                         )||
-                       (z1==15&&x1>0&&x1<15&&forward!=NULL&&
+                        (z1==15&&x1>0&&x1<15&&forward!=NULL&&
                          blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1-1].is_enable==1&&
-                              blocks_copy[x1-1][y1][z1].is_enable==1&&
-                              blocks_copy[x1+1][y1][z1].is_enable==1&&
-                              (forward->chunk_blocks[x1][y1][0].is_enable==1||forward->chunk_blocks[x1][y1][0].is_enable==2)
+                         blocks_copy[x1][y1-1][z1].is_enable==1&&
+                         blocks_copy[x1][y1][z1-1].is_enable==1&&
+                         blocks_copy[x1-1][y1][z1].is_enable==1&&
+                         blocks_copy[x1+1][y1][z1].is_enable==1&&
+                         (forward->chunk_blocks[x1][y1][0].is_enable==1||forward->chunk_blocks[x1][y1][0].is_enable==2)
                         )||
-                       (x1>0&&x1<15&&z1>0&&z1<15&&
-                             blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1+1].is_enable==1&&
-                              blocks_copy[x1][y1][z1-1].is_enable==1&&
-                              blocks_copy[x1+1][y1][z1].is_enable==1&&
-                              blocks_copy[x1-1][y1][z1].is_enable==1
-                             )||
-                       (x1==0&&z1==0&&left!=NULL&&back!=NULL&&
+                        (x1>0&&x1<15&&z1>0&&z1<15&&
                          blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1+1].is_enable==1&&
-                              (left->chunk_blocks[15][y1][z1].is_enable==2||left->chunk_blocks[15][y1][z1].is_enable==1)&&
-                              blocks_copy[x1+1][y1][z1].is_enable==1&&
-                              (back->chunk_blocks[x1][y1][15].is_enable==2||back->chunk_blocks[x1][y1][15].is_enable==1)
+                         blocks_copy[x1][y1-1][z1].is_enable==1&&
+                         blocks_copy[x1][y1][z1+1].is_enable==1&&
+                         blocks_copy[x1][y1][z1-1].is_enable==1&&
+                         blocks_copy[x1+1][y1][z1].is_enable==1&&
+                         blocks_copy[x1-1][y1][z1].is_enable==1
                         )||
-                        (x1==15&&z1==0&&right!=NULL&&back!=NULL&&
+                        (x1==0&&z1==0&&left!=NULL&&back!=NULL&&
                          blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1+1].is_enable==1&&
-                              (right->chunk_blocks[0][y1][z1].is_enable==2||right->chunk_blocks[0][y1][z1].is_enable==1)&&
-                              blocks_copy[x1-1][y1][z1].is_enable==1&&
-                              (back->chunk_blocks[x1][y1][15].is_enable==2||back->chunk_blocks[x1][y1][15].is_enable==1)
-                         )||
-                         (x1==0&&z1==0&&left!=NULL&&back!=NULL&&
-                         blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1+1].is_enable==1&&
-                              (left->chunk_blocks[15][y1][z1].is_enable==2||left->chunk_blocks[15][y1][z1].is_enable==1)&&
-                              blocks_copy[x1+1][y1][z1].is_enable==1&&
-                              (back->chunk_blocks[x1][y1][15].is_enable==2||back->chunk_blocks[x1][y1][15].is_enable==1)
+                         blocks_copy[x1][y1-1][z1].is_enable==1&&
+                         blocks_copy[x1][y1][z1+1].is_enable==1&&
+                         (left->chunk_blocks[15][y1][z1].is_enable==2||left->chunk_blocks[15][y1][z1].is_enable==1)&&
+                         blocks_copy[x1+1][y1][z1].is_enable==1&&
+                         (back->chunk_blocks[x1][y1][15].is_enable==2||back->chunk_blocks[x1][y1][15].is_enable==1)
                         )||
                         (x1==15&&z1==0&&right!=NULL&&back!=NULL&&
                          blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1+1].is_enable==1&&
-                              (right->chunk_blocks[0][y1][z1].is_enable==2||right->chunk_blocks[0][y1][z1].is_enable==1)&&
-                              blocks_copy[x1-1][y1][z1].is_enable==1&&
-                              (back->chunk_blocks[x1][y1][15].is_enable==2||back->chunk_blocks[x1][y1][15].is_enable==1)
-                         )||
-                         (x1==0&&z1==15&&left!=NULL&&forward!=NULL&&
+                         blocks_copy[x1][y1-1][z1].is_enable==1&&
+                         blocks_copy[x1][y1][z1+1].is_enable==1&&
+                         (right->chunk_blocks[0][y1][z1].is_enable==2||right->chunk_blocks[0][y1][z1].is_enable==1)&&
+                         blocks_copy[x1-1][y1][z1].is_enable==1&&
+                         (back->chunk_blocks[x1][y1][15].is_enable==2||back->chunk_blocks[x1][y1][15].is_enable==1)
+                        )||
+                        (x1==0&&z1==0&&left!=NULL&&back!=NULL&&
                          blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1-1].is_enable==1&&
-                              (left->chunk_blocks[15][y1][z1].is_enable==2||left->chunk_blocks[15][y1][z1].is_enable==1)&&
-                              blocks_copy[x1+1][y1][z1].is_enable==1&&
-                              (forward->chunk_blocks[x1][y1][15].is_enable==2||forward->chunk_blocks[x1][y1][15].is_enable==1)
+                         blocks_copy[x1][y1-1][z1].is_enable==1&&
+                         blocks_copy[x1][y1][z1+1].is_enable==1&&
+                         (left->chunk_blocks[15][y1][z1].is_enable==2||left->chunk_blocks[15][y1][z1].is_enable==1)&&
+                         blocks_copy[x1+1][y1][z1].is_enable==1&&
+                         (back->chunk_blocks[x1][y1][15].is_enable==2||back->chunk_blocks[x1][y1][15].is_enable==1)
+                        )||
+                        (x1==15&&z1==0&&right!=NULL&&back!=NULL&&
+                         blocks_copy[x1][y1+1][z1].is_enable==1&&
+                         blocks_copy[x1][y1-1][z1].is_enable==1&&
+                         blocks_copy[x1][y1][z1+1].is_enable==1&&
+                         (right->chunk_blocks[0][y1][z1].is_enable==2||right->chunk_blocks[0][y1][z1].is_enable==1)&&
+                         blocks_copy[x1-1][y1][z1].is_enable==1&&
+                         (back->chunk_blocks[x1][y1][15].is_enable==2||back->chunk_blocks[x1][y1][15].is_enable==1)
+                        )||
+                        (x1==0&&z1==15&&left!=NULL&&forward!=NULL&&
+                         blocks_copy[x1][y1+1][z1].is_enable==1&&
+                         blocks_copy[x1][y1-1][z1].is_enable==1&&
+                         blocks_copy[x1][y1][z1-1].is_enable==1&&
+                         (left->chunk_blocks[15][y1][z1].is_enable==2||left->chunk_blocks[15][y1][z1].is_enable==1)&&
+                         blocks_copy[x1+1][y1][z1].is_enable==1&&
+                         (forward->chunk_blocks[x1][y1][15].is_enable==2||forward->chunk_blocks[x1][y1][15].is_enable==1)
                         )||
                         (x1==15&&z1==15&&right!=NULL&&forward!=NULL&&
                          blocks_copy[x1][y1+1][z1].is_enable==1&&
-                              blocks_copy[x1][y1-1][z1].is_enable==1&&
-                              blocks_copy[x1][y1][z1-1].is_enable==1&&
-                              (right->chunk_blocks[0][y1][z1].is_enable==2||right->chunk_blocks[0][y1][z1].is_enable==1)&&
-                              blocks_copy[x1-1][y1][z1].is_enable==1&&
-                              (forward->chunk_blocks[x1][y1][15].is_enable==2||forward->chunk_blocks[x1][y1][15].is_enable==1)
-                         )
+                         blocks_copy[x1][y1-1][z1].is_enable==1&&
+                         blocks_copy[x1][y1][z1-1].is_enable==1&&
+                         (right->chunk_blocks[0][y1][z1].is_enable==2||right->chunk_blocks[0][y1][z1].is_enable==1)&&
+                         blocks_copy[x1-1][y1][z1].is_enable==1&&
+                         (forward->chunk_blocks[x1][y1][15].is_enable==2||forward->chunk_blocks[x1][y1][15].is_enable==1)
+                        )
 
-                       )
-                    {
-                        get_chunk->chunk_blocks[x1][y1][z1].is_enable=2;
+                  )
+                {
+                    get_chunk->chunk_blocks[x1][y1][z1].is_enable=2;
 
-                        get_chunk->count-=1;
-                    }
-                   // printf("\nIS ENABLE: %d %d",get_chunk->chunk_blocks[x1][y1][z1].is_enable, blocks_copy[x1][y1][z1].is_enable==1);
+                    get_chunk->count-=1;
                 }
+                // printf("\nIS ENABLE: %d %d",get_chunk->chunk_blocks[x1][y1][z1].is_enable, blocks_copy[x1][y1][z1].is_enable==1);
             }
         }
+    }
 }
 void write_chunk(chunk get_chunk)
 {
@@ -185,9 +185,17 @@ void free_block(block*** get_block)
 }
 void pre_rendering_chunk(chunk* get_chunk)
 {
-    free_block(get_chunk->chunk_blocks);
+    if(chunk_is_save(*get_chunk)==0)
+    {
+            free_block(get_chunk->chunk_blocks);
     get_chunk->count=0;
     generate_landscape(get_chunk);
-  //  printf("\nCOUNT ALL:%d",get_chunk->count);
-     save_chunk(*get_chunk);
+    //  printf("\nCOUNT ALL:%d",get_chunk->count);
+    save_chunk(*get_chunk);
+    }
+    else
+    {
+        load_chunk(get_chunk);
+    }
+
 }

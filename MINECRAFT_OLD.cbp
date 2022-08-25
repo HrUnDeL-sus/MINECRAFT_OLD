@@ -167,6 +167,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="texture.h" />
+		<Unit filename="thread_render.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="thread_render.h" />
 		<Unit filename="vec.c">
 			<Option compilerVar="CC" />
 		</Unit>
