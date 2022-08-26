@@ -3,7 +3,6 @@
 #define WORLD_H_INCLUDED
 typedef struct{
 int seed;
-int smoothing;
 char path_world[512];
 char path_world_chunks[512];
 } world_info;
@@ -17,4 +16,5 @@ void init_world();
 void init_chunks(int size);
 chunk get_chunk_in_position(struct vec position);
 block get_block_in_chunk_in_position(chunk get_chunk,struct vec pos);
+block * get_block_in_position(struct vec pos);
 #endif // WORLD_H_INCLUDED

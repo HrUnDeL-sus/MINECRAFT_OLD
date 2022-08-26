@@ -85,6 +85,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="collision.h" />
+		<Unit filename="config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="config.h" />
 		<Unit filename="generator.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -27,6 +27,7 @@ block*** malloc_blocks()
 }
 void init_chunk(chunk* get_chunk)
 {
+    get_chunk->was_modified=0;
     get_chunk->chunk_blocks=malloc_blocks();
 }
 void copy_blocks(block*** blocks1,block*** blocks2)

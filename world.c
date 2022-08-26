@@ -18,6 +18,7 @@
 #include "world_manager.h"
 #include "gui.h"
 #include "thread_render.h"
+#include "config.h"
 float* transform_matrix_floats;
 float* block_indexs_texture;
 float* transform_matrix_floats_copy;
@@ -165,7 +166,7 @@ void fill_matrix_world(int l_count)
                         texture_matrix[6]=(float)block_info.is_cross;
                         for(int i=0; i<16; i+=1)
                         {
-                            transform_matrix_floats_copy[count_matrix1+i]=transform_mat[i];
+                           transform_matrix_floats_copy[count_matrix1+i]=transform_mat[i];
                         }
                         for(int i=0; i<9; i+=1)
                         {
@@ -223,25 +224,33 @@ void clear_chunks()
         }
     }
 }
-chunk find_chunk_in_position(struct vec position){
+chunk * find_chunk_in_position(struct vec position){
 position=vec2((float)(int)(position.x),(float)(int)(position.y));
 for(int x=0;x<count_chunks;x+=1){
     for(int y=0;y<count_chunks;y+=1){
         printf("\nMY POSITION:%f %f %f %f",position.x,position.y,chunk_in_world[x][y].position.x,chunk_in_world[x][y].position.y);
         if(chunk_in_world[x][y].position.x==position.x&&chunk_in_world[x][y].position.y==position.y)
-            return chunk_in_world[x][y];
+            return &chunk_in_world[x][y];
     }
 }
 }
-chunk get_chunk_in_position(struct vec position){
+chunk * get_chunk_in_position(struct vec position){
 struct vec final_vec=vec2(position.x/16,position.z/16);
     return  find_chunk_in_position(final_vec);
 }
+block * get_block_in_position(struct vec pos){
+chunk * get_chunk=get_chunk_in_position(pos);
+get_chunk->was_modified=1;
+struct vec final_pos=vec2(fabs(pos.x-(get_chunk->position.x*16)),fabs(pos.z-(get_chunk->position.z*16)));
+return &get_chunk->chunk_blocks[(int)final_pos.x][pos.y>255?255:(int)pos.y][(int)final_pos.z];
+}
+
 
 void pre_draw_world (void *t)
 {
     int is_new=0;
         struct vec chunk_now;
+          if(main_config.use_threads!=0)
         init_position_chunks();
     while(1==1)
     {
@@ -262,11 +271,16 @@ void pre_draw_world (void *t)
         {
             for(int z=0; z<count_chunks; z+=1)
             {
-               struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
+                  struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
                 chunk_in_world[x][z].position=pos_chunk;
+                if(main_config.use_threads==0)
+                {
+                    pre_rendering_chunk(&chunk_in_world[x][z]);
+                    z1-=1;
+                    continue;
+                }
                 struct vec pos_chunk_local=vec2((float)x,(float)z);
-
-                if(is_new==0)
+                if(is_new==0&&main_config.use_threads!=0)
                 while(add_chunk_in_thread(pos_chunk_local)==0);
 
                 z1-=1;
@@ -276,10 +290,11 @@ void pre_draw_world (void *t)
             z1=(float)count_chunks/2;
 
         }
+         if(main_config.use_threads!=0)
         reset_threads();
-        if(is_new==0)
+        if(is_new==0&&main_config.use_threads!=0)
          init_threads_for_rendering();
-        //  printf("\nCOUNT REDNERING CHUNKS:%d",count_chunks_local);
+        if(main_config.use_threads!=0)
         while(all_thead_finished()!=0);
         clear_chunks();
          clock_t before=time(NULL)-start;

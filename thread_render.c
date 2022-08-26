@@ -3,18 +3,18 @@
 #include <windows.h>
 #include "vec.h"
 #include "world.h"
-#define COUNT_POSITION_CHUNKS 124
-#define COUNT_THEADS 4
-struct vec position_chunks[COUNT_THEADS][COUNT_POSITION_CHUNKS];
-int is_finished[COUNT_THEADS];
+#include "config.h"
+struct vec **position_chunks;
+int *is_finished;
 void thread_draw_chunks(void * id_v)
 {
     int  id=(int)id_v;
  while(1==1){
          is_finished[id]=1;
          int count_rendering=0;
-        for(int i=0; i<COUNT_POSITION_CHUNKS; i+=1)
+        for(int i=0; i<main_config.count_chunks_in_thread; i+=1)
         {
+
              if(position_chunks[id][i].x==-1)
             {
                 continue;
@@ -27,20 +27,24 @@ void thread_draw_chunks(void * id_v)
 }
 }
 void init_position_chunks(){
-for(int i=0;i<COUNT_THEADS;i+=1){
-    for(int q=0;q<COUNT_POSITION_CHUNKS;q+=1)
+position_chunks=malloc(sizeof(struct vec*)*main_config.count_theads);
+is_finished=malloc(sizeof(int)*main_config.count_theads);
+printf("\nI:%d %d",main_config.count_theads,main_config.count_chunks_in_thread);
+for(int i=0;i<main_config.count_theads;i+=1){
+        position_chunks[i]=malloc(sizeof(struct vec)*main_config.count_chunks_in_thread);
+    for(int q=0;q<main_config.count_chunks_in_thread;q+=1)
         position_chunks[i][q].x=-1;
 }
 }
 void reset_threads(){
- for(int i=0; i<COUNT_THEADS; i+=1)
+ for(int i=0; i<main_config.count_theads; i+=1)
     {
         is_finished[i]=1;
     }
 }
 void init_threads_for_rendering()
 {
-    for(int i=0; i<COUNT_THEADS; i+=1)
+    for(int i=0; i<main_config.count_theads; i+=1)
     {
         _beginthread(thread_draw_chunks,1,(void *)i);
 
@@ -50,7 +54,7 @@ void init_threads_for_rendering()
 int all_thead_finished()
 {
     int count=0;
-    for(int i=0;i<COUNT_THEADS;i+=1){
+    for(int i=0;i<main_config.count_theads;i+=1){
         count+=is_finished[i];
     }
   //  printf("\nCOUNT:%d",count);
@@ -58,9 +62,9 @@ int all_thead_finished()
 }
 int add_chunk_in_thread(struct vec get)
 {
-    for(int i=0; i<COUNT_THEADS; i+=1)
+    for(int i=0; i<main_config.count_theads; i+=1)
     {
-        for(int q=0;q<COUNT_POSITION_CHUNKS;q+=1){
+        for(int q=0;q<main_config.count_chunks_in_thread;q+=1){
         //    printf("\nPOSITION CHUNK:%f",position_chunks[i][q].x);
             if(position_chunks[i][q].x==-1){
                 position_chunks[i][q]=get;

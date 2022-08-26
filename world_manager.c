@@ -5,7 +5,7 @@
 #include "world.h"
 #include "chunk.h"
 #include "block.h"
-
+#include "config.h"
 //fix
 char * get_chunk_path(chunk  get)
 {

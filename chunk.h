@@ -7,6 +7,7 @@ typedef struct
     struct vec position;
     int count;
     block *** chunk_blocks;
+    int was_modified;
 } chunk;
 void init_chunk(chunk* get_chunk);
 void pre_rendering_chunk(chunk* get_chunk);

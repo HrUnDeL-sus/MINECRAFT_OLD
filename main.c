@@ -22,6 +22,7 @@
 #include <stb_image.h>
 #include <direct.h>
 #include "player.h"
+#include "config.h"
 float t=0;
 GLuint listName;
 void resize(int width, int height)
@@ -54,7 +55,7 @@ void timer(int t)
 {
     glutPostRedisplay();
 
-  glutTimerFunc(1000/60, timer, 0);
+  glutTimerFunc(1000/(float)main_config.fps, timer, 0);
 }
 void key(unsigned char key, int x, int y)
 {
@@ -116,14 +117,17 @@ void wrap(int* x,int* y)
     *y=save_height/2;
 }
 void mouse_click(int button,int state,int x,int y){
+if(global_state==4){
+block  * get=get_block_in_position(camera_position);
+get->is_enable=1;
+get->id=100;
+}
 int data=on_click(vec2((float)x/save_width,(float)y/save_height));
 if(data==1)
     exit(0);
 if(data==0)
     global_state=2;
 if(data==2){
-
-        main_world_info.smoothing=5;
         main_world_info.seed=atoi(seed_text_box.text);
         create_world_folder(name_text_box.text);
          load_player();
@@ -183,6 +187,10 @@ glAlphaFunc(GL_GREATER, 0.5f);
 int main(int argc, char *argv[])
 {
     path_shaders=find_path(argv[0]);
+    if(has_config())
+        load_config();
+    else
+        save_config();
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
@@ -194,7 +202,7 @@ int main(int argc, char *argv[])
     glutMouseFunc(mouse_click);
     glutPassiveMotionFunc(mouse);
     glutIdleFunc(idle);
-     glutTimerFunc(1000/60, timer, 0);
+     glutTimerFunc(1000/(float)main_config.fps, timer, 0);
     init();
     glutMainLoop();
     printf("\nEXIIRRRR");

@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "world.h"
 #include "world_manager.h"
+#include "config.h"
 const float SIZE_CHUNK=16;
 struct osn_context *ctx;
 int seed;
@@ -34,7 +35,7 @@ void generate_landscape(chunk* get_chunk)
 
               float count=0;
                 float noise=0;
-            for(int i=1;i<main_world_info.smoothing;i+=1){
+            for(int i=1;i<main_config.smoothing;i+=1){
                      noise+=two_interpolate
                      (
                       x1-i,z1-i,x1+i,z1+i,x1,z1,
