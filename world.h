@@ -14,6 +14,7 @@ void rendering_world();
 void pre_draw_world (void *t);
 void init_world();
 void init_chunks(int size);
+void fill_matrix_world(int l_count,chunk get_chunk,int x,int y);
 chunk get_chunk_in_position(struct vec position);
 block get_block_in_chunk_in_position(chunk get_chunk,struct vec pos);
 block * get_block_in_position(struct vec pos);

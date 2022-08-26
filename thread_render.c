@@ -21,6 +21,7 @@ void thread_draw_chunks(void * id_v)
             }
             struct vec  get_vec=position_chunks[id][i];
              pre_rendering_chunk(&chunk_in_world[(int)get_vec.x][(int)get_vec.y]);
+             fill_matrix_world(chunk_in_world[(int)get_vec.x][(int)get_vec.y].count,chunk_in_world[(int)get_vec.x][(int)get_vec.y],(int)get_vec.x,(int)get_vec.y);
         }
             is_finished[id]=0;
             while(is_finished[id]==0);
