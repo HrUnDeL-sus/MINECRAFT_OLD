@@ -63,13 +63,13 @@ void key(unsigned char key, int x, int y)
     if(on_key_press(key)!=-1)
         return;
     if(key=='w')
-       move_player(vec3(0,0,0.5f));
+       move_player(vec3(0,0,0.1f));
     if(key=='s')
-        move_player(vec3(0,0,-0.5f));
+        move_player(vec3(0,0,-0.1f));
     if(key=='a')
-         move_player(vec3(0.5f,0,0));
+         move_player(vec3(0.1f,0,0));
     if(key=='d')
-        move_player(vec3(-0.5f,0,0));
+        move_player(vec3(-0.1f,0,0));
     if(key=='z')
         move_player(vec3(0,-1,0));
     if(key=='x')
@@ -118,9 +118,12 @@ void wrap(int* x,int* y)
 }
 void mouse_click(int button,int state,int x,int y){
 if(global_state==4){
-block  * get=get_block_in_position(camera_position);
+can_modify_copy=1;
+block  * get=get_block_in_position(vec3(camera_position.x,camera_position.y,camera_position.z));
+if(get!=NULL){
 get->is_enable=1;
-get->id=100;
+get->id=50;
+}
 }
 int data=on_click(vec2((float)x/save_width,(float)y/save_height));
 if(data==1)

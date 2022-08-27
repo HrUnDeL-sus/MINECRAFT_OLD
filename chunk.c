@@ -10,6 +10,7 @@
 #include "biome.h"
 #include "chunk.h"
 #include "world_manager.h"
+#include <time.h>
 block*** blocks_copy;
 struct osn_context *ctx;
 block*** malloc_blocks()
@@ -188,11 +189,13 @@ void pre_rendering_chunk(chunk* get_chunk)
 {
     if(chunk_is_save(*get_chunk)==0)
     {
-            free_block(get_chunk->chunk_blocks);
+    free_block(get_chunk->chunk_blocks);
     get_chunk->count=0;
     generate_landscape(get_chunk);
-    //  printf("\nCOUNT ALL:%d",get_chunk->count);
-    save_chunk(*get_chunk);
+    }
+    else if(get_chunk->was_modified==1){
+        save_chunk(*get_chunk);
+            get_chunk->was_modified=0;
     }
     else
     {
