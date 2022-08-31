@@ -63,13 +63,13 @@ void key(unsigned char key, int x, int y)
     if(on_key_press(key)!=-1)
         return;
     if(key=='w')
-       move_player(vec3(0,0,0.1f));
+       move_player(vec3(0,0,0.5f));
     if(key=='s')
-        move_player(vec3(0,0,-0.1f));
+        move_player(vec3(0,0,-0.5f));
     if(key=='a')
-         move_player(vec3(0.1f,0,0));
+         move_player(vec3(0.5f,0,0));
     if(key=='d')
-        move_player(vec3(-0.1f,0,0));
+        move_player(vec3(-0.5f,0,0));
     if(key=='z')
         move_player(vec3(0,-1,0));
     if(key=='x')
@@ -90,7 +90,7 @@ void key(unsigned char key, int x, int y)
      sprintf(time_char,"%ld", time_int);
       snprintf(name3, sizeof name3, "%s%s", name, time_char);
         snprintf(name4, sizeof name4, "%s%s", name3, name2);
-    snprintf(third, sizeof third, "%s%s", path_shaders, name4);
+    snprintf(third, sizeof third, "%s%s", main_world_info.path_sceenshot_folder, name4);
             unsigned char * arry=malloc(4*save_width*save_height*sizeof(unsigned char));
         glReadPixels(0, 0, save_width, save_height, GL_RGBA, GL_UNSIGNED_BYTE, arry);
         stbi_write_set_flip_vertically_on_save(1);
@@ -110,6 +110,39 @@ void idle(void)
 {
 
 }
+void modified_block(int state)
+{
+    for(float i=0;i<3;i+=0.25f){
+      struct vec ray=add_v3_v3(camera_position,multi_v3_f(camera_angle,-i));
+        info_new_block  * get=get_info_new_block_in_position(ray);
+        if(get==NULL)
+        {
+            continue;
+        }
+         if(get->new_block.is_enable==1&&state==0){
+              info_new_block  * get2;
+             do{
+             i-=0.25f;
+                ray=add_v3_v3(camera_position,multi_v3_f(camera_angle,-i));
+                 get2=get_info_new_block_in_position(ray);
+             }while(get2->new_block.is_enable!=0);
+             get2->new_block.is_enable=1;
+             get2->new_block.id=32;
+             get2->is_active=1;
+             position_update_chunk=&get2->chunk_position;
+             return;
+
+         }
+        if(get->new_block.is_enable==1&&state==1)
+        {
+
+             get->new_block.is_enable=0;
+             get->is_active=1;
+             position_update_chunk=&get->chunk_position;
+            return;
+        }
+    }
+}
 void wrap(int* x,int* y)
 {
     glutWarpPointer(save_width/2,save_height/2);
@@ -118,12 +151,7 @@ void wrap(int* x,int* y)
 }
 void mouse_click(int button,int state,int x,int y){
 if(global_state==4){
-can_modify_copy=1;
-block  * get=get_block_in_position(vec3(camera_position.x,camera_position.y,camera_position.z));
-if(get!=NULL){
-get->is_enable=1;
-get->id=50;
-}
+modified_block(button==1?0:1);
 }
 int data=on_click(vec2((float)x/save_width,(float)y/save_height));
 if(data==1)
@@ -190,6 +218,7 @@ glAlphaFunc(GL_GREATER, 0.5f);
 int main(int argc, char *argv[])
 {
     path_shaders=find_path(argv[0]);
+    init_folders();
     if(has_config())
         load_config();
     else

@@ -102,16 +102,25 @@ int chunk_is_save(chunk get)
         return 0;
     }
 }
+void init_folders(){
+    char path[512];
+    char path_screenshots[512];
+     char path_chunk_folder[512];
+     snprintf(path_chunk_folder, sizeof path_chunk_folder, "%s%s", path_shaders, "/worlds/");
+      snprintf(path_screenshots, sizeof path_screenshots, "%s%s", path_shaders, "/sceenshots/");
+     mkdir(path_chunk_folder);
+       mkdir(path_screenshots);
+       memcpy(main_world_info.path_world_folder,path_chunk_folder,512);
+       memcpy(main_world_info.path_sceenshot_folder,path_screenshots,512);
+}
 void create_world_folder(char * name)
 {
     char path[512];
     char path_chunk[512];
     char info_world[512];
     FILE *fp;
-
-    snprintf(path, sizeof path, "%s%s", path_shaders, name);
+    snprintf(path, sizeof path, "%s%s", main_world_info.path_world_folder, name);
     snprintf(info_world, sizeof info_world, "%s%s", path, "/info_world");
-
     if((fp=fopen(info_world, "rb")!=NULL))
     {
         fp=fopen(info_world, "rb");
@@ -122,6 +131,7 @@ void create_world_folder(char * name)
     }
 
     mkdir(path);
+    printf("\nPATH:%s",path);
     snprintf(path_chunk, sizeof path_chunk, "%s%s", path, "/chunks");
     memcpy(main_world_info.path_world,path,512);
     memcpy(main_world_info.path_world_chunks,path_chunk,512);

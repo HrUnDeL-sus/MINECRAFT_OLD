@@ -4,7 +4,6 @@
 #include "vec.h"
 #include "world.h"
 #include "config.h"
-#include "rand_helper.h"
 struct vec **position_chunks;
 int *is_finished;
 void thread_draw_chunks(void * id_v)
@@ -15,12 +14,14 @@ void thread_draw_chunks(void * id_v)
          int count_rendering=0;
         for(int i=0; i<main_config.count_chunks_in_thread; i+=1)
         {
+
              if(position_chunks[id][i].x==-1)
             {
                 continue;
             }
             struct vec  get_vec=position_chunks[id][i];
              pre_rendering_chunk(&chunk_in_world[(int)get_vec.x][(int)get_vec.y]);
+
         }
             is_finished[id]=0;
             while(is_finished[id]==0);
@@ -29,6 +30,7 @@ void thread_draw_chunks(void * id_v)
 void init_position_chunks(){
 position_chunks=malloc(sizeof(struct vec*)*main_config.count_theads);
 is_finished=malloc(sizeof(int)*main_config.count_theads);
+printf("\nI:%d %d",main_config.count_theads,main_config.count_chunks_in_thread);
 for(int i=0;i<main_config.count_theads;i+=1){
         position_chunks[i]=malloc(sizeof(struct vec)*main_config.count_chunks_in_thread);
     for(int q=0;q<main_config.count_chunks_in_thread;q+=1)
@@ -56,16 +58,18 @@ int all_thead_finished()
     for(int i=0;i<main_config.count_theads;i+=1){
         count+=is_finished[i];
     }
+  //  printf("\nCOUNT:%d",count);
     return count;
 }
 int add_chunk_in_thread(struct vec get)
 {
-    for(int i=get_rand_int(0,main_config.count_theads); i<main_config.count_theads; i+=1)
+    for(int i=0; i<main_config.count_theads; i+=1)
     {
         for(int q=0;q<main_config.count_chunks_in_thread;q+=1){
+        //    printf("\nPOSITION CHUNK:%f",position_chunks[i][q].x);
             if(position_chunks[i][q].x==-1){
                 position_chunks[i][q]=get;
-           //     printf("\nADD TO THREAD:%d",i);
+         //       printf("\nSTART RENDERING:%d %f %f",i,get.x,get.y);
                 return 1;
             }
         }

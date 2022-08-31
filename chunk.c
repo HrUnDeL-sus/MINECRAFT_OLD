@@ -10,9 +10,9 @@
 #include "biome.h"
 #include "chunk.h"
 #include "world_manager.h"
-#include <time.h>
 block*** blocks_copy;
 struct osn_context *ctx;
+struct vec * position_update_chunk;
 block*** malloc_blocks()
 {
     union block *** block_malloc=malloc(SIZE_CHUNK*sizeof(block**));
@@ -48,10 +48,7 @@ void clear_blocks(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,ch
 {
     if(blocks_copy==NULL)
         blocks_copy=malloc_blocks();
-
     copy_blocks(blocks_copy,get_chunk->chunk_blocks);
-
-
     for(int x1=0; x1<16; x1+=1)
     {
         for(int y1=1; y1<255; y1+=1)
@@ -172,6 +169,66 @@ void write_chunk(chunk get_chunk)
     }
 
 }
+void fill_matrix(chunk * cnk)
+{
+     while(cnk->can_rednering==2);
+    cnk->can_rednering=0;
+   // printf("\nX: %d Y: %d %d",x,y,transform_matrix_floats[x][y].count);
+     cnk->matrix_data.count=0;
+    cnk->texture_data.count=0;
+    free(cnk->matrix_data.indexs);
+    free(cnk->texture_data.indexs);
+ //    free(cnk.matrix_data_copy.indexs);
+ //   free(cnk.texture_data_copy.indexs);
+    cnk->matrix_data.count=cnk->count;
+    cnk->texture_data.count=cnk->count;
+    cnk->matrix_data.indexs=malloc(16*sizeof(float)*cnk->count);
+    cnk->texture_data.indexs=malloc(9*sizeof(float)*cnk->count);
+    int count_matrix1=0;
+    int count_matrix2=0;
+    int count=0;
+    int progress=0;
+    for(int x_block=0; x_block<16; x_block+=1)
+    {
+        for(int y_block=0; y_block<256; y_block+=1)
+        {
+            for(int z_block=0; z_block<16; z_block+=1)
+            {
+                if(cnk->chunk_blocks[x_block][y_block][z_block].is_enable!=1)
+                    continue;
+
+                block_info block_info=get_block_info(cnk->chunk_blocks[x_block][y_block][z_block]);
+                struct matrix4f trans=multi_matrix(transform_matrix(block_info.position),scale_matrix(block_info.scale));
+                float transform_mat[16];
+                matrix4_to_float_array(transform_mat,multi_matrix(transform_matrix(block_info.position),scale_matrix(block_info.scale)));
+
+                float texture_matrix[9];
+                for(int i=0; i<6; i+=1)
+                {
+                    texture_matrix[i]=block_info.id_text[i];
+                }
+                texture_matrix[6]=(float)block_info.is_cross;
+                for(int i=0; i<16; i+=1)
+                {
+                    cnk->matrix_data.indexs[count_matrix1+i]=transform_mat[i];
+                }
+                for(int i=0; i<9; i+=1)
+                {
+                    cnk->texture_data.indexs[count_matrix2+i]=texture_matrix[i];
+                }
+                count_matrix1+=16;
+                count_matrix2+=9;
+                count+=1;
+       //         printf("\nCOUNT:%d %d",count,cnk->count);
+            }
+        }
+    }
+    cnk->matrix_data_copy.indexs=realloc(cnk->matrix_data.indexs,16*sizeof(float)*cnk->count);
+    cnk->texture_data_copy.indexs=realloc(cnk->texture_data.indexs,9*sizeof(float)*cnk->count);
+     cnk->count_copy=cnk->count;
+     cnk->can_rednering=1;
+  //   Sleep(10);
+}
 void free_block(block*** get_block)
 {
     for(int x=0; x<16; x+=1)
@@ -185,21 +242,50 @@ void free_block(block*** get_block)
         }
     }
 }
+void clear_nearest_blocks(chunk * get_chunk,struct vec position){
+for(int x=(int)position.x-1;x<=(int)position.x+1;x+=1){
+    for(int y=(int)position.y-1;y<=(int)position.y+1;y+=1){
+        for(int z=(int)position.z-1;z<=(int)position.z+1;z+=1){
+            if(get_chunk->chunk_blocks[x][y][z].is_enable==2){
+                get_chunk->chunk_blocks[x][y][z].is_enable=1;
+                get_chunk->count+=1;
+            }
+        }
+    }
+}
+}
+void check_chunk_is_active(){
+if(position_update_chunk!=NULL){
+    printf("\nACTIVEE:");
+    chunk * active_chunk=&chunk_in_world[(int)position_update_chunk->x][(int)position_update_chunk->y];
+    while(active_chunk->can_rednering!=1);
+    active_chunk->can_rednering=0;
+    printf("\nACTIVEE2:");
+            struct vec local_vec=active_chunk->main_info_new_block.local_position;
+            active_chunk->chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z]=active_chunk->main_info_new_block.new_block;
+            active_chunk->count-=1;
+          //  clear_nearest_blocks(&chunk_in_world[(int)active_chunk->main_info_new_block.chunk_position.x][(int)active_chunk->main_info_new_block.chunk_position.y],local_vec);
+
+            fill_matrix(&active_chunk);
+            save_chunk(*active_chunk);
+            active_chunk->main_info_new_block.is_active=0;
+            active_chunk=NULL;
+             active_chunk->can_rednering=1;
+}
+}
 void pre_rendering_chunk(chunk* get_chunk)
 {
+    check_chunk_is_active();
     if(chunk_is_save(*get_chunk)==0)
     {
-    free_block(get_chunk->chunk_blocks);
+            free_block(get_chunk->chunk_blocks);
     get_chunk->count=0;
     generate_landscape(get_chunk);
-    }
-    else if(get_chunk->was_modified==1){
-        save_chunk(*get_chunk);
-            get_chunk->was_modified=0;
     }
     else
     {
         load_chunk(get_chunk);
     }
+    fill_matrix(get_chunk);
 
 }
