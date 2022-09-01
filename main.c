@@ -112,7 +112,7 @@ void idle(void)
 }
 void modified_block(int state)
 {
-    for(float i=0;i<3;i+=1){
+    for(float i=0;i<6;i+=1){
       struct vec ray=add_v3_v3(camera_position,multi_v3_f(camera_angle,-i));
         info_new_block  * get=get_info_new_block_in_position(ray);
         if(get==NULL)
@@ -122,7 +122,7 @@ void modified_block(int state)
          if(get->new_block.is_enable==1&&state==0){
               info_new_block  * get2;
              do{
-             i-=0.25f;
+             i-=0.5f;
                 ray=add_v3_v3(camera_position,multi_v3_f(camera_angle,-i));
                  get2=get_info_new_block_in_position(ray);
              }while(get2->new_block.is_enable!=0);
@@ -240,6 +240,6 @@ int main(int argc, char *argv[])
     glutMainLoop();
     printf("\nEXIIRRRR");
     int t=0;
-    scanf("%d",&t);
+   printf("\nSDFRGHRHDSRGERG");
     return EXIT_SUCCESS;
 }

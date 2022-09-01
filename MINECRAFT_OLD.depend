@@ -513,7 +513,7 @@
 	"raycast.h"
 	"matrix.h"
 
-1662016177 d:\Документы\codeblocks\minecraft_old\chunk.h
+1662031098 d:\Документы\codeblocks\minecraft_old\chunk.h
 	"vec.h"
 	"block.h"
 
@@ -525,7 +525,7 @@
 	<math.h>
 	<string.h>
 
-1662016177 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1662034240 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -552,7 +552,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1662014107 source:d:\Документы\codeblocks\minecraft_old\main.c
+1662034327 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -625,7 +625,7 @@
 1662016157 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1662013867 source:d:\Документы\codeblocks\minecraft_old\world.c
+1662032803 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -786,7 +786,7 @@
 1661972835 d:\Документы\codeblocks\minecraft_old\world_manager.h
 	"chunk.h"
 
-1661972868 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
+1662017608 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
 	"shader.h"
 	<dirent.h>
 	<stdlib.h>

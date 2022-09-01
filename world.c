@@ -61,7 +61,7 @@ void rendering_world()
             chunk_in_world[x][y].can_rednering=2;
             enable_transform_matrix(x,y);
               draw_cube(chunk_in_world[x][y].count);
-            //ww  printf("\nRENDERIGN:%d %d",x,y);
+            printf("\nRENDERIGN:%d %d",x,y);
               chunk_in_world[x][y].can_rednering=1;
         }
     }
@@ -166,6 +166,7 @@ void clear_chunks()
         for(int z=0; z<count_chunks; z+=1)
         {
             clear_chunk(x,z);
+             check_chunk_is_active();
         }
     }
 }
@@ -207,7 +208,7 @@ if(chunk_in_world[x][z].main_info_new_block.is_active==1){
             chunk_in_world[x][z].count-=1;
             else
                 chunk_in_world[x][z].count+=1;
-            clear_nearest_blocks(x,z,local_vec);
+        //    clear_nearest_blocks(x,z,local_vec);
             fill_matrix(&chunk_in_world[x][z]);
             save_chunk(chunk_in_world[x][z]);
             chunk_in_world[x][z].main_info_new_block.is_active=0;
@@ -247,7 +248,7 @@ float x1=(float)count_chunks/2;
         {
             for(int z=0; z<count_chunks; z+=1)
             {
-              //   printf("\nCHUNK: %d %d",x,z);
+
                 struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
 
                 chunk_in_world[x][z].position=pos_chunk;
@@ -269,25 +270,24 @@ void pre_draw_world (void *t)
         clock_t  start=time(NULL);
         is_end2=1;
         struct vec direction;
-        Sleep(100);
         chunk_now=vec2(roundf(camera_position.x/16),roundf(camera_position.z/16));
         direction=sub_v2_v2(chunk_now,chunk_last);
         chunk_last=chunk_now;
         float x1=(float)count_chunks/2;
         float z1=(float)count_chunks/2;
-//printf("\nDIRECTION:%f %f",direction.x,direction.y);
         int x_start=count_chunks-1;
         init_new_position_chunks();
          for(int x=0; x<count_chunks; x+=1)
         {
             for(int z=0; z<count_chunks; z+=1)
             {
+
                 if(main_config.use_threads==0)
                 {
+                     printf("\nCHUNK:%d %d",x,z);
                     pre_rendering_chunk(&chunk_in_world[x][z]);
-                    if(chunk_last.x==chunk_now.x&&chunk_last.y==chunk_now.y)
+                    if(is_new!=0&&chunk_last.x==chunk_now.x&&chunk_last.y==chunk_now.y)
                     check_chunk_is_active();
-                   // printf("\nTTTT:%d",chunk_in_world[x][z].can_rednering);
                     z1-=1;
                     continue;
                 }
@@ -310,12 +310,9 @@ void pre_draw_world (void *t)
             while(all_thead_finished()!=0);
        clear_chunks();
         clock_t before=time(NULL)-start;
-     //   printf("\nTIME:%f",before);
         is_end2=0;
         if(is_new==0)
             global_state=4;
-      // while(is_end2!=2);
-      //  Sleep(100000);
         is_new=1;
 
     }

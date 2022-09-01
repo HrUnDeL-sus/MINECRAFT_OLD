@@ -30,6 +30,8 @@ void init_chunk(chunk* get_chunk)
 {
     get_chunk->was_modified=0;
     get_chunk->chunk_blocks=malloc_blocks();
+    get_chunk->texture_data_copy.indexs=malloc(1);
+    get_chunk->matrix_data_copy.indexs=malloc(1);
 }
 void copy_blocks(block*** blocks1,block*** blocks2)
 {
@@ -175,10 +177,11 @@ void fill_matrix(chunk * cnk)
    // printf("\nX: %d Y: %d %d",x,y,transform_matrix_floats[x][y].count);
      cnk->matrix_data.count=0;
     cnk->texture_data.count=0;
-    free(cnk->matrix_data.indexs);
-    free(cnk->texture_data.indexs);
- //    free(cnk.matrix_data_copy.indexs);
- //   free(cnk.texture_data_copy.indexs);
+    printf("\nA6");
+
+    free(&cnk->matrix_data.indexs);
+
+    free(&cnk->texture_data.indexs);
     cnk->matrix_data.count=cnk->count;
     cnk->texture_data.count=cnk->count;
     cnk->matrix_data.indexs=malloc(16*sizeof(float)*cnk->count);
@@ -222,11 +225,17 @@ void fill_matrix(chunk * cnk)
             }
         }
     }
-    cnk->matrix_data_copy.indexs=realloc(cnk->matrix_data.indexs,16*sizeof(float)*cnk->count);
-    cnk->texture_data_copy.indexs=realloc(cnk->texture_data.indexs,9*sizeof(float)*cnk->count);
+        free(cnk->matrix_data_copy.indexs);
+    free(cnk->texture_data_copy.indexs);
+    Sleep(1);
+        cnk->matrix_data_copy.indexs=calloc(16*cnk->count,sizeof(float));
+    cnk->texture_data_copy.indexs=calloc(9*cnk->count,sizeof(float));
+      printf("\nA28");
+    memcpy(cnk->matrix_data_copy.indexs,cnk->matrix_data.indexs,16*sizeof(float)*cnk->count);
+    memcpy(cnk->texture_data_copy.indexs,cnk->texture_data.indexs,9*sizeof(float)*cnk->count);
+     printf("\nA8");
      cnk->count_copy=cnk->count;
      cnk->can_rednering=1;
-  //   Sleep(10);
 }
 void free_block(block*** get_block)
 {
@@ -245,17 +254,20 @@ void free_block(block*** get_block)
 
 void pre_rendering_chunk(chunk* get_chunk)
 {
-
+    printf("\nSTART CHUNK");
     if(chunk_is_save(*get_chunk)==0)
     {
+          printf("\nA");
             free_block(get_chunk->chunk_blocks);
     get_chunk->count=0;
     generate_landscape(get_chunk);
+       printf("\nA2");
     }
     else
     {
         load_chunk(get_chunk);
     }
     fill_matrix(get_chunk);
+     printf("\nA3");
 
 }
