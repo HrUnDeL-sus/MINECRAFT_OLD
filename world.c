@@ -118,12 +118,38 @@ void init_world()
     glGenBuffers(1, &transform_matrix_buffer);
     glGenBuffers(1, &texture_buffer);
 }
-void clear_chunks()
+void clear_nearest_blocks(int x,int z,struct vec position){
+ chunk * left_chunk=x==0?NULL:&chunk_in_world[x-1][z];
+            chunk * right_chunk=x==count_chunks-1?NULL:&chunk_in_world[x+1][z];
+            chunk * back_chunk=z==0?NULL:&chunk_in_world[x][z-1];
+            chunk * forward_chunk=z==count_chunks-1?NULL:&chunk_in_world[x][z+1];
+            chunk * get_chunk=&chunk_in_world[x][z];
+            printf("\n IS NULL:%d %d %d %d",right_chunk==NULL,back_chunk==NULL,forward_chunk==NULL,left_chunk==NULL);
+for(int x=(int)position.x-1;x<=(int)position.x+1;x+=1){
+    for(int y=(int)position.y-1;y<=(int)position.y+1;y+=1){
+        for(int z=(int)position.z-1;z<=(int)position.z+1;z+=1){
+            if(
+               (x==-1&&left_chunk->chunk_blocks[15][y][z].is_enable==2)||
+            (x==count_chunks&&right_chunk->chunk_blocks[0][y][z].is_enable==2)||
+            (z==-1&&back_chunk->chunk_blocks[x][y][15].is_enable==2)||
+            (z==count_chunks&&forward_chunk->chunk_blocks[x][y][0].is_enable==2)||
+            (get_chunk->chunk_blocks[x][y][z].is_enable==2)
+               ){
+
+                int final_x=x==-1?0:x;
+                final_x=x==count_chunks?count_chunks-1:x;
+                int final_z=z==-1?0:z;
+                final_z=x==count_chunks?count_chunks-1:z;
+                                   printf("\nPOS:%d %d %d   New pos: %d %d %d",x,y,z,final_x,y,final_z);
+                get_chunk->chunk_blocks[final_x][y][final_z].is_enable=1;
+                get_chunk->count+=1;
+            }
+        }
+    }
+}
+}
+void clear_chunk(int x, int z)
 {
-    for(int x=0; x<count_chunks; x+=1)
-    {
-        for(int z=0; z<count_chunks; z+=1)
-        {
             chunk * left_chunk=x==0?NULL:&chunk_in_world[x-1][z];
             chunk * right_chunk=x==count_chunks-1?NULL:&chunk_in_world[x+1][z];
             chunk * back_chunk=z==0?NULL:&chunk_in_world[x][z-1];
@@ -132,6 +158,14 @@ void clear_chunks()
             fill_matrix(&chunk_in_world[x][z]);
             if(chunk_is_save(chunk_in_world[x][z])==0)
                     save_chunk(chunk_in_world[x][z]);
+}
+void clear_chunks()
+{
+    for(int x=0; x<count_chunks; x+=1)
+    {
+        for(int z=0; z<count_chunks; z+=1)
+        {
+            clear_chunk(x,z);
         }
     }
 }
@@ -142,12 +176,46 @@ chunk * find_chunk_in_position(struct vec position)
     {
         for(int y=0; y<count_chunks; y+=1)
         {
-            printf("\nMY POSITION:%f %f %f %f",position.x,position.y,chunk_in_world[x][y].position.x,chunk_in_world[x][y].position.y);
-            chunk_in_world[x][y].main_info_new_block.chunk_position=vec2((int)x,(int)y);
-            if(chunk_in_world[x][y].position.x==position.x&&chunk_in_world[x][y].position.y==position.y)
+          //  printf("\nMY POSITION:%f %f %f %f",position.x,position.y,chunk_in_world[x][y].position.x,chunk_in_world[x][y].position.y);
+
+            if(chunk_in_world[x][y].position.x==position.x&&chunk_in_world[x][y].position.y==position.y){
+                chunk_in_world[x][y].last_position=chunk_in_world[x][y].position;
                 return &chunk_in_world[x][y];
+            }
+
         }
     }
+}
+void check_chunk_is_active(){
+ for(int x=0; x<count_chunks; x+=1)
+        {
+            for(int z=0; z<count_chunks; z+=1)
+            {
+if(chunk_in_world[x][z].main_info_new_block.is_active==1){
+    printf("\nx: %f %f y: %f %f",chunk_in_world[x][z].last_position.x,chunk_in_world[x][z].position.x,chunk_in_world[x][z].last_position.y,chunk_in_world[x][z].position.y);
+
+    while(chunk_in_world[x][z].can_rednering!=1);
+        if(chunk_in_world[x][z].last_position.x!=chunk_in_world[x][z].position.x||chunk_in_world[x][z].last_position.y!=chunk_in_world[x][z].position.y)
+    {
+        chunk_in_world[x][z].main_info_new_block.is_active=0;
+        continue;
+    }
+    chunk_in_world[x][z].can_rednering=0;
+            struct vec local_vec=chunk_in_world[x][z].main_info_new_block.local_position;
+            chunk_in_world[x][z].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z]=chunk_in_world[x][z].main_info_new_block.new_block;
+            if(chunk_in_world[x][z].main_info_new_block.new_block.is_enable==0)
+            chunk_in_world[x][z].count-=1;
+            else
+                chunk_in_world[x][z].count+=1;
+            clear_nearest_blocks(x,z,local_vec);
+            fill_matrix(&chunk_in_world[x][z]);
+            save_chunk(chunk_in_world[x][z]);
+            chunk_in_world[x][z].main_info_new_block.is_active=0;
+            chunk_in_world[x][z].can_rednering=1;
+}
+
+}
+        }
 }
 chunk * get_chunk_in_position(struct vec position){
 struct vec final_vec=vec2(position.x/16,position.z/16);
@@ -171,6 +239,24 @@ for(int x=0;x<16;x+=1){
 }
 return NULL;
 }
+void init_new_position_chunks(){
+struct vec chunk_now=vec2(roundf(camera_position.x/16),roundf(camera_position.z/16));
+float x1=(float)count_chunks/2;
+        float z1=(float)count_chunks/2;
+ for(int x=0; x<count_chunks; x+=1)
+        {
+            for(int z=0; z<count_chunks; z+=1)
+            {
+              //   printf("\nCHUNK: %d %d",x,z);
+                struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
+
+                chunk_in_world[x][z].position=pos_chunk;
+                 z1-=1;
+            }
+            x1-=1;
+            z1=(float)count_chunks/2;
+        }
+}
 void pre_draw_world (void *t)
 {
     int is_new=0;
@@ -191,16 +277,16 @@ void pre_draw_world (void *t)
         float z1=(float)count_chunks/2;
 //printf("\nDIRECTION:%f %f",direction.x,direction.y);
         int x_start=count_chunks-1;
-        for(int x=0; x<count_chunks; x+=1)
+        init_new_position_chunks();
+         for(int x=0; x<count_chunks; x+=1)
         {
             for(int z=0; z<count_chunks; z+=1)
             {
-                 printf("\nCHUNK: %d %d",x,z);
-                struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
-                chunk_in_world[x][z].position=pos_chunk;
                 if(main_config.use_threads==0)
                 {
                     pre_rendering_chunk(&chunk_in_world[x][z]);
+                    if(chunk_last.x==chunk_now.x&&chunk_last.y==chunk_now.y)
+                    check_chunk_is_active();
                    // printf("\nTTTT:%d",chunk_in_world[x][z].can_rednering);
                     z1-=1;
                     continue;
@@ -224,7 +310,7 @@ void pre_draw_world (void *t)
             while(all_thead_finished()!=0);
        clear_chunks();
         clock_t before=time(NULL)-start;
-        printf("\nTIME:%f",before);
+     //   printf("\nTIME:%f",before);
         is_end2=0;
         if(is_new==0)
             global_state=4;

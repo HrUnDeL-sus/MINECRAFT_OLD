@@ -112,7 +112,7 @@ void idle(void)
 }
 void modified_block(int state)
 {
-    for(float i=0;i<3;i+=0.25f){
+    for(float i=0;i<3;i+=1){
       struct vec ray=add_v3_v3(camera_position,multi_v3_f(camera_angle,-i));
         info_new_block  * get=get_info_new_block_in_position(ray);
         if(get==NULL)
@@ -129,7 +129,7 @@ void modified_block(int state)
              get2->new_block.is_enable=1;
              get2->new_block.id=32;
              get2->is_active=1;
-             position_update_chunk=&get2->chunk_position;
+
              return;
 
          }
@@ -138,7 +138,7 @@ void modified_block(int state)
 
              get->new_block.is_enable=0;
              get->is_active=1;
-             position_update_chunk=&get->chunk_position;
+
             return;
         }
     }
@@ -150,8 +150,9 @@ void wrap(int* x,int* y)
     *y=save_height/2;
 }
 void mouse_click(int button,int state,int x,int y){
-if(global_state==4){
-modified_block(button==1?0:1);
+if(global_state==4&&state==0){
+printf("\nBUTTON:%d %d",button,state);
+modified_block(button==2?0:1);
 }
 int data=on_click(vec2((float)x/save_width,(float)y/save_height));
 if(data==1)

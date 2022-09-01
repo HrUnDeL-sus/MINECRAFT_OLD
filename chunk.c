@@ -58,7 +58,6 @@ void clear_blocks(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,ch
 
                 if(blocks_copy[x1][y1][z1].is_enable==0)
                     continue;
-
                 if( (x1==0&&z1>0&&z1<15&&left!=NULL&&
                         blocks_copy[x1][y1+1][z1].is_enable==1&&
                         blocks_copy[x1][y1-1][z1].is_enable==1&&
@@ -242,40 +241,11 @@ void free_block(block*** get_block)
         }
     }
 }
-void clear_nearest_blocks(chunk * get_chunk,struct vec position){
-for(int x=(int)position.x-1;x<=(int)position.x+1;x+=1){
-    for(int y=(int)position.y-1;y<=(int)position.y+1;y+=1){
-        for(int z=(int)position.z-1;z<=(int)position.z+1;z+=1){
-            if(get_chunk->chunk_blocks[x][y][z].is_enable==2){
-                get_chunk->chunk_blocks[x][y][z].is_enable=1;
-                get_chunk->count+=1;
-            }
-        }
-    }
-}
-}
-void check_chunk_is_active(){
-if(position_update_chunk!=NULL){
-    printf("\nACTIVEE:");
-    chunk * active_chunk=&chunk_in_world[(int)position_update_chunk->x][(int)position_update_chunk->y];
-    while(active_chunk->can_rednering!=1);
-    active_chunk->can_rednering=0;
-    printf("\nACTIVEE2:");
-            struct vec local_vec=active_chunk->main_info_new_block.local_position;
-            active_chunk->chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z]=active_chunk->main_info_new_block.new_block;
-            active_chunk->count-=1;
-          //  clear_nearest_blocks(&chunk_in_world[(int)active_chunk->main_info_new_block.chunk_position.x][(int)active_chunk->main_info_new_block.chunk_position.y],local_vec);
 
-            fill_matrix(&active_chunk);
-            save_chunk(*active_chunk);
-            active_chunk->main_info_new_block.is_active=0;
-            active_chunk=NULL;
-             active_chunk->can_rednering=1;
-}
-}
+
 void pre_rendering_chunk(chunk* get_chunk)
 {
-    check_chunk_is_active();
+
     if(chunk_is_save(*get_chunk)==0)
     {
             free_block(get_chunk->chunk_blocks);

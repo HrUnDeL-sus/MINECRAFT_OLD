@@ -9,13 +9,15 @@ typedef struct
 } data_indexs;
 typedef struct{
 struct vec local_position;
-struct vec chunk_position;
+int chunk_x;
+int chunk_z;
 block new_block;
 int is_active;
 } info_new_block;
 typedef struct
 {
     struct vec position;
+    struct vec last_position;
     int count;
     int count_copy;
     block *** chunk_blocks;
@@ -33,6 +35,5 @@ void fill_matrix(chunk * cnk);
 void init_chunk(chunk* get_chunk);
 void pre_rendering_chunk(chunk* get_chunk);
 void reset_count_and_noise();
-void clear_nearest_blocks(chunk * get_chunk,struct vec position);
 void clear_blocks(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,chunk * back);
 #endif // CHUNK_H_INCLUDED
