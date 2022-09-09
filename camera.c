@@ -38,7 +38,7 @@ void apply_camera_matrix()
     camera_matrix_look_at=look_at_matrix(camera_position,
                                          vec3(camera_position.x+camera_angle.x,camera_position.y+camera_angle.y,camera_position.z+camera_angle.z),
                                          vec3(0,1,0));
-    //   printf("\nYAW: %f",yaw);
+     //  printf("\nYAW: %f",pitch);
 }
 void set_camera(float x,float y,float z)
 {
@@ -71,12 +71,13 @@ void add_camera(float x,float y,float z)
 }
 void rotate_camera(float l_pitch,float l_yaw)
 {
+    float last_pitch=pitch;
     yaw-=l_yaw*SPEED;
     pitch-=l_pitch*SPEED;
-    if(pitch>89)
-        pitch=88;
-    if(pitch>-89)
-        pitch=-88;
+    if(pitch>60)
+        pitch=59;
+     if(pitch<-60)
+        pitch=-59;
     camera_ray.angle=vec2(yaw,pitch);
     camera_angle.x=cosf(deegres_to_radiar(yaw))*cosf(deegres_to_radiar(pitch));
     camera_angle.y=sinf(deegres_to_radiar(pitch));

@@ -1,16 +1,15 @@
 #include "vec.h"
 #include "block.h"
+#include "info_indexs.h"
 #ifndef CHUNK_H_INCLUDED
 #define CHUNK_H_INCLUDED
-typedef struct
-{
-     float * indexs;
-     int count;
-} data_indexs;
+
+
 typedef struct{
 struct vec local_position;
 int chunk_x;
 int chunk_z;
+int state;
 block new_block;
 int is_active;
 } info_new_block;
@@ -23,10 +22,8 @@ typedef struct
     block *** chunk_blocks;
     int was_modified;
     int can_rednering;
-        data_indexs texture_data;
-        data_indexs matrix_data;
-        data_indexs texture_data_copy;
-        data_indexs matrix_data_copy;
+    info_indexs all_info_indexs;
+    info_indexs clear_info_indexs;
     info_new_block main_info_new_block;
 
 } chunk;

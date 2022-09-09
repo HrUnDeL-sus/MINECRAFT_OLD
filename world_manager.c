@@ -21,7 +21,7 @@ char * get_chunk_path(chunk  get)
     snprintf(name22, sizeof name22, "%s %s", name3,name2);
     snprintf(name222, sizeof name222, "%s %s", "/chnk ",name22);
     snprintf(name1, 512*sizeof(char), "%s%s", main_world_info.path_world_chunks, name222);
-    printf("\n{ATH:%s",name1);
+  //  printf("\n{ATH:%s",name1);
     return name1;
 }
 void load_chunk(chunk * get)

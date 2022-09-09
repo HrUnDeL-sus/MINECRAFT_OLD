@@ -25,6 +25,7 @@
 #include "config.h"
 float t=0;
 GLuint listName;
+
 void resize(int width, int height)
 {
     const float ar = (float) width / (float) height;
@@ -39,17 +40,22 @@ void resize(int width, int height)
 }
 void display(void)
 {
+     now_tick = GetTickCount()*0.001;
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
     if(global_state==4){
          rendering_world();
          save_player();
+       //  modified_block(2);
     }
 
-    if(global_state!=4)
+  //  if(global_state!=4)
      draw_gui();
     glutSwapBuffers();
+     last_tick = GetTickCount()*0.001;
+    fps_count = 1/(last_tick-now_tick);
+   // printf("\nFPS:%f",fps_count);
 }
 void timer(int t)
 {
@@ -63,13 +69,13 @@ void key(unsigned char key, int x, int y)
     if(on_key_press(key)!=-1)
         return;
     if(key=='w')
-       move_player(vec3(0,0,0.5f));
+       move_player(vec3(0,0,0.2f));
     if(key=='s')
-        move_player(vec3(0,0,-0.5f));
+        move_player(vec3(0,0,-0.2f));
     if(key=='a')
-         move_player(vec3(0.5f,0,0));
+         move_player(vec3(0.2f,0,0));
     if(key=='d')
-        move_player(vec3(-0.5f,0,0));
+        move_player(vec3(-0.2f,0,0));
     if(key=='z')
         move_player(vec3(0,-1,0));
     if(key=='x')
@@ -110,33 +116,50 @@ void idle(void)
 {
 
 }
+float RayPlaneIntersect( struct vec rayPos, struct vec rayDir, struct vec p )
+{
+    struct vec N=vec3(1,1,1);
+ const float eps = 1.0e-5f;
+ float ratio = dot_v3(N, rayDir);   // косинус нормали с лучом
+ if (fabs(ratio) < eps) return -1.0f;  // луч параллелен плоскости
+ float d = dot_v3(N,sub_v3_v3(p, rayPos));  // расстояние от плоскости до rayPos по нормали
+ return d / ratio;     // возвращаем расстояние по лучу
+}
 void modified_block(int state)
 {
+    struct vec ray=camera_position;
+    printf("\n");
     for(float i=0;i<6;i+=1){
-      struct vec ray=add_v3_v3(camera_position,multi_v3_f(camera_angle,-i));
-        info_new_block  * get=get_info_new_block_in_position(ray);
+      ray=add_v3_v3(ray,camera_angle);
+        info_new_block  * get=get_info_new_block_in_position(vec3(ray.x,ray.y,ray.z));
+    //     float result=RayPlaneIntersect(camera_position,camera_angle,vec3((float)get->new_block.pos_x,(float)get->new_block.pos_y,(float)get->new_block.pos_z));
+
         if(get==NULL)
         {
             continue;
         }
          if(get->new_block.is_enable==1&&state==0){
               info_new_block  * get2;
-             do{
-             i-=0.5f;
-                ray=add_v3_v3(camera_position,multi_v3_f(camera_angle,-i));
+              do{
+             i-=1;
                  get2=get_info_new_block_in_position(ray);
-             }while(get2->new_block.is_enable!=0);
+                  ray=add_v3_v3(camera_position,camera_angle);
+            } while(get2->new_block.is_enable!=0);
+
              get2->new_block.is_enable=1;
              get2->new_block.id=32;
              get2->is_active=1;
-
-             return;
+            return;
 
          }
-        if(get->new_block.is_enable==1&&state==1)
+        if(get->new_block.is_enable==1)
         {
-
+          //  printf("\nRESULT: %f",result);
+            get->state=state;
+            if(state==1)
              get->new_block.is_enable=0;
+             else if(state==2)
+                get->new_block.id=3;
              get->is_active=1;
 
             return;
@@ -163,7 +186,7 @@ if(data==2){
         main_world_info.seed=atoi(seed_text_box.text);
         create_world_folder(name_text_box.text);
          load_player();
-        printf("\nSEED:%d",main_world_info.seed);
+
          set_seed(main_world_info.seed);
             init_chunks(atoi(chunks_text_box.text));
             init_world();
@@ -174,7 +197,7 @@ if(data==2){
 void mouse(int x,int y)
 {
 
-    if(is_check==1)
+    if(global_state!=4)
         return;
     static int last_x=0;
     static int last_y=0;
@@ -193,12 +216,10 @@ void init()
     gladLoadGL();
     glClearColor(1,1,1,1);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glEnable(GL_ALPHA_TEST);
-glAlphaFunc(GL_GREATER, 0.5f);
-   // glEnable(GL_MULTISAMPLE);
-   glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-    glDepthFunc(GL_LESS);
+glEnable(GL_BLEND);
+glEnable(GL_ALPHA_TEST);
+glAlphaFunc(GL_GREATER,0.3f);
+glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     GLuint shader[2];
     shader[0]=create_shader("base3d_shader.vert",GL_VERTEX_SHADER);
     shader[1]=create_shader("base3d_shader.frag",GL_FRAGMENT_SHADER);

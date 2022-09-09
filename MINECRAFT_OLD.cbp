@@ -56,6 +56,9 @@
 			<Add library="gdi32" />
 			<Add directory="C:/MinGW/lib" />
 		</Linker>
+		<Unit filename="MINECRAFT_OLD.cbp" />
+		<Unit filename="MINECRAFT_OLD.depend" />
+		<Unit filename="MINECRAFT_OLD.layout" />
 		<Unit filename="biome.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -125,6 +128,10 @@
 		<Unit filename="gui_text_box.h">
 			<Option virtualFolder="gui_folder/" />
 		</Unit>
+		<Unit filename="info_indexs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="info_indexs.h" />
 		<Unit filename="interpolate_helper.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="helpers/" />
@@ -142,6 +149,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="matrix.h" />
+		<Unit filename="minecraft_shader.frag" />
 		<Unit filename="open-simplex-noise.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -167,6 +175,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="shader.h" />
+		<Unit filename="sort.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sort.h" />
 		<Unit filename="texture.c">
 			<Option compilerVar="CC" />
 		</Unit>

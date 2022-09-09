@@ -266,8 +266,7 @@ block_info info;
         if(local_block.id==117)
             get_texture_coord_lite(223,info.id_text);
         if(local_block.id==118)
-            get_texture_coord_lite(222,info.id_text);
-
+             get_texture_coord_full(181,181,181,181,181,222,info.id_text);
          if(local_block.id==119)
             get_texture_coord_lite(237,info.id_text);
          if(local_block.id==120)
@@ -301,6 +300,7 @@ block_info info;
              info.scale.y=0.5f;
          offset.y=-0.25;
         }
+
         if(local_block.id==83||local_block.id==84||local_block.id==67||local_block.id==68)
         {
              info.scale.z=0.3f;
@@ -311,6 +311,9 @@ block_info info;
             info.scale.y=0.6f;
              info.scale.z=0.1f;
               info.scale.x=0.1f;
+        }
+        if(local_block.id==118){
+             info.scale.y=0.9f;
         }
          if(local_block.id==70){
              info.scale.y=0.05f;

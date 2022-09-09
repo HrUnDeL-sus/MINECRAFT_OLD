@@ -6,7 +6,9 @@
 #include "vec.h"
 #include "gui_button.h"
 #include "gui_text_box.h"
-
+#include "world.h"
+#include "thread_render.h"
+#include "config.h"
 buffer_data background;
 gui_item singleplay_button;
 gui_item exit_button;
@@ -155,6 +157,21 @@ void draw_menu(){
     use_shader(gui_shader_id);
     draw_button(exit_button);
 }
+void draw_debug(){
+char buffer[64];
+snprintf(buffer, sizeof buffer, "%f", roundf(fps_count));
+draw_text(vec2(0,30),buffer);
+float start_y=25;
+if(main_config.use_threads==0)
+    return;
+for(int i=0;i<main_config.count_theads;i+=1){
+    char buffer2[64];
+
+snprintf(buffer2, sizeof buffer2, "%d", count_chunks_in_threads[i]);
+draw_text(vec2(0,start_y),buffer2);
+start_y-=2;
+}
+}
 void draw_gui(){
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_DEPTH);
@@ -166,6 +183,9 @@ if(global_state==2)
     draw_settings_game();
 if(global_state==3)
     draw_load();
+if(global_state==4)
+ draw_debug();
+
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_DEPTH);
 }

@@ -19,10 +19,12 @@
 #include "gui.h"
 #include "thread_render.h"
 #include "config.h"
+#include "sort.h"
 int count_chunks;
 int count_blocks;
 chunk ** chunk_in_world;
 struct vec chunk_last;
+ struct vec chunk_now;
 unsigned int transform_matrix_buffer;
 unsigned int texture_buffer;
 int is_end2=0;
@@ -56,12 +58,16 @@ void rendering_world()
 {
     for(int x=0;x<count_chunks;x+=1){
         for(int y=0;y<count_chunks;y+=1){
-            if(chunk_in_world[x][y].can_rednering==0)
-                continue;
+            while(chunk_in_world[x][y].can_rednering==0);
+
             chunk_in_world[x][y].can_rednering=2;
-            enable_transform_matrix(x,y);
-              draw_cube(chunk_in_world[x][y].count);
-            printf("\nRENDERIGN:%d %d",x,y);
+                   enable_transform_matrix(chunk_in_world[x][y].all_info_indexs);
+              draw_cube(chunk_in_world[x][y].all_info_indexs.matrix_data_copy.count);
+                enable_transform_matrix(chunk_in_world[x][y].clear_info_indexs);
+        draw_cube(chunk_in_world[x][y].clear_info_indexs.matrix_data_copy.count);
+
+ // glDisable(GL_ALPHA_TEST);
+          //  printf("\nRENDERIGN:%d %d",x,y);
               chunk_in_world[x][y].can_rednering=1;
         }
     }
@@ -69,13 +75,12 @@ void rendering_world()
       //  is_end2=2;
 }
 
-void enable_index_texture(int x, int y)
+void enable_index_texture(info_indexs get)
 {
-    chunk get_chunk=chunk_in_world[x][y];
     int frag=glGetAttribLocation(program,"idFrag");
 
     glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
-    glBufferData(GL_ARRAY_BUFFER, get_chunk.count_copy *9* sizeof(float), get_chunk.texture_data_copy.indexs, GL_STATIC_READ);
+    glBufferData(GL_ARRAY_BUFFER,  get.matrix_data_copy.count *9* sizeof(float), get.texture_data_copy.indexs, GL_STATIC_READ);
 
     GLsizei vec3Size = sizeof(float)*3;
     glEnableVertexAttribArray(frag);
@@ -90,11 +95,11 @@ void enable_index_texture(int x, int y)
     glBindVertexArray(0);
 
 }
-void enable_transform_matrix(int x,int y)
+void enable_transform_matrix(info_indexs get)
 {
-    chunk get_chunk=chunk_in_world[x][y];
     glBindBuffer(GL_ARRAY_BUFFER, transform_matrix_buffer);
-    glBufferData(GL_ARRAY_BUFFER, get_chunk.count_copy *16* sizeof(float), get_chunk.matrix_data_copy.indexs, GL_STATIC_READ);
+   // printf("\nCOUNT: %d %d %d",x,y,get_chunk.count_copy);
+    glBufferData(GL_ARRAY_BUFFER, get.matrix_data_copy.count *16* sizeof(float), get.matrix_data_copy.indexs, GL_STATIC_READ);
     GLuint VAO = vao_block;
     GLsizei vec4Size = sizeof(float)*4;
     glBindVertexArray(VAO);
@@ -110,43 +115,13 @@ void enable_transform_matrix(int x,int y)
     glVertexAttribDivisor(4, 1);
     glVertexAttribDivisor(5, 1);
     glVertexAttribDivisor(6, 1);
-    enable_index_texture(x,y);
+    enable_index_texture(get);
 }
 void init_world()
 {
     init_blocks();
     glGenBuffers(1, &transform_matrix_buffer);
     glGenBuffers(1, &texture_buffer);
-}
-void clear_nearest_blocks(int x,int z,struct vec position){
- chunk * left_chunk=x==0?NULL:&chunk_in_world[x-1][z];
-            chunk * right_chunk=x==count_chunks-1?NULL:&chunk_in_world[x+1][z];
-            chunk * back_chunk=z==0?NULL:&chunk_in_world[x][z-1];
-            chunk * forward_chunk=z==count_chunks-1?NULL:&chunk_in_world[x][z+1];
-            chunk * get_chunk=&chunk_in_world[x][z];
-            printf("\n IS NULL:%d %d %d %d",right_chunk==NULL,back_chunk==NULL,forward_chunk==NULL,left_chunk==NULL);
-for(int x=(int)position.x-1;x<=(int)position.x+1;x+=1){
-    for(int y=(int)position.y-1;y<=(int)position.y+1;y+=1){
-        for(int z=(int)position.z-1;z<=(int)position.z+1;z+=1){
-            if(
-               (x==-1&&left_chunk->chunk_blocks[15][y][z].is_enable==2)||
-            (x==count_chunks&&right_chunk->chunk_blocks[0][y][z].is_enable==2)||
-            (z==-1&&back_chunk->chunk_blocks[x][y][15].is_enable==2)||
-            (z==count_chunks&&forward_chunk->chunk_blocks[x][y][0].is_enable==2)||
-            (get_chunk->chunk_blocks[x][y][z].is_enable==2)
-               ){
-
-                int final_x=x==-1?0:x;
-                final_x=x==count_chunks?count_chunks-1:x;
-                int final_z=z==-1?0:z;
-                final_z=x==count_chunks?count_chunks-1:z;
-                                   printf("\nPOS:%d %d %d   New pos: %d %d %d",x,y,z,final_x,y,final_z);
-                get_chunk->chunk_blocks[final_x][y][final_z].is_enable=1;
-                get_chunk->count+=1;
-            }
-        }
-    }
-}
 }
 void clear_chunk(int x, int z)
 {
@@ -155,9 +130,8 @@ void clear_chunk(int x, int z)
             chunk * back_chunk=z==0?NULL:&chunk_in_world[x][z-1];
             chunk * forward_chunk=z==count_chunks-1?NULL:&chunk_in_world[x][z+1];
             clear_blocks(&chunk_in_world[x][z],left_chunk,right_chunk,forward_chunk,back_chunk);
-            fill_matrix(&chunk_in_world[x][z]);
-            if(chunk_is_save(chunk_in_world[x][z])==0)
-                    save_chunk(chunk_in_world[x][z]);
+             fill_matrix(&chunk_in_world[x][z]);
+
 }
 void clear_chunks()
 {
@@ -165,8 +139,9 @@ void clear_chunks()
     {
         for(int z=0; z<count_chunks; z+=1)
         {
+             printf("\nX: %d Z: %d",x,z);
             clear_chunk(x,z);
-             check_chunk_is_active();
+
         }
     }
 }
@@ -193,8 +168,6 @@ void check_chunk_is_active(){
             for(int z=0; z<count_chunks; z+=1)
             {
 if(chunk_in_world[x][z].main_info_new_block.is_active==1){
-    printf("\nx: %f %f y: %f %f",chunk_in_world[x][z].last_position.x,chunk_in_world[x][z].position.x,chunk_in_world[x][z].last_position.y,chunk_in_world[x][z].position.y);
-
     while(chunk_in_world[x][z].can_rednering!=1);
         if(chunk_in_world[x][z].last_position.x!=chunk_in_world[x][z].position.x||chunk_in_world[x][z].last_position.y!=chunk_in_world[x][z].position.y)
     {
@@ -203,13 +176,13 @@ if(chunk_in_world[x][z].main_info_new_block.is_active==1){
     }
     chunk_in_world[x][z].can_rednering=0;
             struct vec local_vec=chunk_in_world[x][z].main_info_new_block.local_position;
+            load_chunk(&chunk_in_world[x][z]);
             chunk_in_world[x][z].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z]=chunk_in_world[x][z].main_info_new_block.new_block;
             if(chunk_in_world[x][z].main_info_new_block.new_block.is_enable==0)
             chunk_in_world[x][z].count-=1;
-            else
+            else if(chunk_in_world[x][z].main_info_new_block.state!=2)
                 chunk_in_world[x][z].count+=1;
-        //    clear_nearest_blocks(x,z,local_vec);
-            fill_matrix(&chunk_in_world[x][z]);
+                fill_matrix(&chunk_in_world[x][z]);
             save_chunk(chunk_in_world[x][z]);
             chunk_in_world[x][z].main_info_new_block.is_active=0;
             chunk_in_world[x][z].can_rednering=1;
@@ -261,7 +234,7 @@ float x1=(float)count_chunks/2;
 void pre_draw_world (void *t)
 {
     int is_new=0;
-    struct vec chunk_now;
+
     if(main_config.use_threads!=0)
         init_position_chunks();
     while(1==1)
@@ -279,12 +252,12 @@ void pre_draw_world (void *t)
         init_new_position_chunks();
          for(int x=0; x<count_chunks; x+=1)
         {
+
             for(int z=0; z<count_chunks; z+=1)
             {
 
                 if(main_config.use_threads==0)
                 {
-                     printf("\nCHUNK:%d %d",x,z);
                     pre_rendering_chunk(&chunk_in_world[x][z]);
                     if(is_new!=0&&chunk_last.x==chunk_now.x&&chunk_last.y==chunk_now.y)
                     check_chunk_is_active();

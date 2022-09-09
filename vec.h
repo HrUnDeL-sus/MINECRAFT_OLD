@@ -9,7 +9,8 @@ struct vec
     float y;
     float z;
 };
-
+struct vec fabsf_v3(struct vec get);
+struct vec fabsf_v2(struct vec get);
 struct vec vec2(float x,float y);
 
 void print_vec(struct vec v,char name[10]);

@@ -157,7 +157,7 @@ struct matrix4f multi_matrix(struct matrix4f left, struct matrix4f right)
 struct matrix4f look_at_matrix(const struct vec eye,const struct vec target, const struct vec up)
 {
     struct matrix4f mat;
-    struct vec n =multi_v3_f(normalize_v3(sub_v3_v3(eye,target)),-1);
+    struct vec n =multi_v3_f(normalize_v3(sub_v3_v3(eye,target)),1);
     struct vec u =multi_v3_f(normalize_v3(cross(up,n)),-1);
     struct vec v=normalize_v3(cross(u,n));
 

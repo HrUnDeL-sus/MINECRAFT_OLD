@@ -13,7 +13,9 @@ struct osn_context *ctx;
 int seed;
 void set_seed(int seed_local)
 {
-    seed=seed_local;
+
+    seed=seed_local==0?rand():seed_local;
+     printf("\nSEED:%d",seed);
     open_simplex_noise(seed, &ctx);
 }
 void generate_landscape(chunk* get_chunk)
@@ -73,11 +75,15 @@ void generate_landscape(chunk* get_chunk)
             {
                 if(get_chunk->chunk_blocks[x_block][(int)i][z_block].is_enable==1)
                     continue;
+                if(i!=64)
+                    get_chunk->chunk_blocks[x_block][(int)i][z_block].is_enable=0;
+                else
+                      get_chunk->chunk_blocks[x_block][(int)i][z_block].is_enable=1;
                  get_chunk->chunk_blocks[x_block][(int)i][z_block].pos_x=(int)x1;
                  get_chunk->chunk_blocks[x_block][(int)i][z_block].pos_y=(unsigned char)i;
                   get_chunk->chunk_blocks[x_block][(int)i][z_block].pos_z=(int)z1;
-                get_chunk->chunk_blocks[x_block][(int)i][z_block].is_enable=1;
-                get_chunk->chunk_blocks[x_block][(int)i][z_block].id=122;
+
+                get_chunk->chunk_blocks[x_block][(int)i][z_block].id=118;
                 get_chunk->count+=1;
                /* if(chunk_is_save(*get_chunk)==0)
                             save_block(*get_chunk, get_chunk->chunk_blocks[x_block][(int)i][z_block]);*/

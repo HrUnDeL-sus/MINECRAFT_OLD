@@ -14,6 +14,7 @@ void print_vec(struct vec v,char name[10])
 {
     printf("\nVector %s %f %f %f",name,v.x,v.y,v.z);
 }
+
 struct vec vec3(float x,float y,float z)
 {
     struct vec vecc3= {x,y,z};
@@ -99,4 +100,9 @@ struct vec sub_v3_v3(struct vec a,struct vec b)
 {
     return vec3(a.x-b.x,a.y-b.y,a.z-b.z);
 }
-
+struct vec fabsf_v3(struct vec get){
+return vec3(fabsf(get.x),fabsf(get.y),fabsf(get.z));
+}
+struct vec fabsf_v2(struct vec get){
+return vec2(fabsf(get.x),fabsf(get.y));
+}
