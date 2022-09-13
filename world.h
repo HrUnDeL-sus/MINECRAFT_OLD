@@ -9,6 +9,7 @@ char path_world_folder[512];
 char path_sceenshot_folder[512];
 
 } world_info;
+int id_block;
 struct vec chunk_last;
  struct vec chunk_now;
 float now_tick;

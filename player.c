@@ -21,13 +21,7 @@ if(!has_player_collision_with_block(camera_position_local))
     camera_position=camera_position_local;*/
 }
 void move_player(struct vec position_move){
- struct vec camera_position_local=camera_position;
- add_camera(position_move.x,position_move.y,position_move.z);
-//info_new_block  * get=get_info_new_block_in_position(vec3(camera_position.x,camera_position.y-2,camera_position.z));
-//if(get!=NULL&&get->new_block.is_enable==1){
-  //  camera_position=camera_position_local;
-//set_camera(camera_position.x,camera_position.y,camera_position.z);
-//}
+add_camera(position_move.x,position_move.y,position_move.z);
  main_player.position=camera_position;
 
 

@@ -157,17 +157,22 @@ void draw_menu(){
     use_shader(gui_shader_id);
     draw_button(exit_button);
 }
+void draw_pointer(){
+draw_text(vec2(0,0),"T");
+}
 void draw_debug(){
 char buffer[64];
 snprintf(buffer, sizeof buffer, "%f", roundf(fps_count));
 draw_text(vec2(0,30),buffer);
 float start_y=25;
+char buffer3[64];
+snprintf(buffer3, sizeof buffer3, "%s%d","BLOCK ID:",id_block);
+draw_text(vec2(10,30),buffer3);
 if(main_config.use_threads==0)
     return;
 for(int i=0;i<main_config.count_theads;i+=1){
-    char buffer2[64];
-
-snprintf(buffer2, sizeof buffer2, "%d", count_chunks_in_threads[i]);
+char buffer2[64];
+snprintf(buffer2, sizeof buffer2, "%s%d", "COUNT CHUNKS IN THREAD:", count_chunks_in_threads[i]);
 draw_text(vec2(0,start_y),buffer2);
 start_y-=2;
 }
@@ -183,8 +188,10 @@ if(global_state==2)
     draw_settings_game();
 if(global_state==3)
     draw_load();
-if(global_state==4)
+if(global_state==4){
  draw_debug();
+ draw_pointer();
+}
 
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_DEPTH);
