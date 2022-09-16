@@ -54,7 +54,7 @@ void generate_landscape(chunk* get_chunk)
                  get_chunk->chunk_blocks[x_block][(int)(y_chunk)][z_block].pos_y=(unsigned char)y_chunk;
                   get_chunk->chunk_blocks[x_block][(int)(y_chunk)][z_block].pos_z=(int)z1;
                get_chunk->chunk_blocks[x_block][(int)(y_chunk)][z_block].is_enable=1;
-                get_chunk->chunk_blocks[x_block][(int)(y_chunk)][z_block].id=50;
+                get_chunk->chunk_blocks[x_block][(int)(y_chunk)][z_block].id=get_noise_biome(x1,z1)!=3&&get_noise_biome(x1,z1)!=6?50:9;
                 get_chunk->count+=1;
              /*   if(chunk_is_save(*get_chunk)==0)
                             save_block(*get_chunk,get_chunk->chunk_blocks[x_block][(int)(y_chunk)][z_block]);*/

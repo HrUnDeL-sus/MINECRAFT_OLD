@@ -1,13 +1,4 @@
 #ifndef RAYCAST_H_INCLUDED
 #define RAYCAST_H_INCLUDED
-struct ray{
-    struct vec start_position;
-struct vec position;
-float max_distance;
-struct vec angle;
-};
-void draw_ray_v3(struct vec pos);
-void draw_ray(struct ray get_ray);
-void change_ray_position(struct  ray *  get);
-void reset_ray_position(struct  ray *  get);
+int ray_box(struct vec origin, struct vec direction, struct vec position, float * fraction, struct vec * normal);
 #endif // RAYCAST_H_INCLUDED

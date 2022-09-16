@@ -7,6 +7,7 @@ int count_chunks_in_thread;
 int smoothing;
 int use_threads;
 int fps;
+int biome_size;
 } config;
 config main_config;
 int has_config();

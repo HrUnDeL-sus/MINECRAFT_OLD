@@ -10,6 +10,7 @@ char path_sceenshot_folder[512];
 
 } world_info;
 int id_block;
+int active_biome;
 struct vec chunk_last;
  struct vec chunk_now;
 float now_tick;

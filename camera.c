@@ -13,7 +13,6 @@ struct vec up = {0,1,0};
 struct vec right = {1,0,0};
 struct matrix4f camera_matrix_look_at;
 struct matrix4f camera_matrix_perpective;
-struct ray camera_ray;
 float yaw;
 float pitch;
 const float SPEED=0.05f;
@@ -66,8 +65,6 @@ void add_camera(float x,float y,float z)
         camera_position.y+=y;
         camera_position.z+=z;
     }
-
-    camera_ray.position=vec3(x,y,z);
 }
 void rotate_camera(float l_pitch,float l_yaw)
 {
@@ -78,7 +75,6 @@ void rotate_camera(float l_pitch,float l_yaw)
         pitch=59;
      if(pitch<-60)
         pitch=-59;
-    camera_ray.angle=vec2(yaw,pitch);
     camera_angle.x=cosf(deegres_to_radiar(yaw))*cosf(deegres_to_radiar(pitch));
     camera_angle.y=sinf(deegres_to_radiar(pitch));
     camera_angle.z=cosf(deegres_to_radiar(pitch))*sinf(deegres_to_radiar(yaw));

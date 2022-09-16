@@ -20,8 +20,10 @@
 #include "thread_render.h"
 #include "config.h"
 #include "sort.h"
+#include "biome.h"
 int count_chunks;
 int count_blocks;
+int active_biome;
 chunk ** chunk_in_world;
 struct vec chunk_last;
  struct vec chunk_now;
@@ -58,7 +60,7 @@ void rendering_world()
 {
     for(int x=0;x<count_chunks;x+=1){
         for(int y=0;y<count_chunks;y+=1){
-            while(chunk_in_world[x][y].can_rednering==0);
+            while(chunk_in_world[x][y].can_rednering==0||chunk_in_world[x][y].can_rednering==2);
 
             chunk_in_world[x][y].can_rednering=2;
                    enable_transform_matrix(chunk_in_world[x][y].all_info_indexs);
@@ -139,7 +141,7 @@ void clear_chunks()
     {
         for(int z=0; z<count_chunks; z+=1)
         {
-             printf("\nX: %d Z: %d",x,z);
+         //   printf("\nCLEAR %d %d",x,z);
             clear_chunk(x,z);
 
         }
@@ -152,15 +154,18 @@ chunk * find_chunk_in_position(struct vec position)
     {
         for(int y=0; y<count_chunks; y+=1)
         {
-          //  printf("\nMY POSITION:%f %f %f %f",position.x,position.y,chunk_in_world[x][y].position.x,chunk_in_world[x][y].position.y);
+
 
             if(chunk_in_world[x][y].position.x==position.x&&chunk_in_world[x][y].position.y==position.y){
+               //  printf("\n CHUNK SELECT:%d %d",x,y);
                 chunk_in_world[x][y].last_position=chunk_in_world[x][y].position;
-                return &chunk_in_world[x][y];
+                return  &chunk_in_world[x][y];
             }
 
         }
     }
+ //    printf("\n NUZLLZ");
+     return NULL;
 }
 void check_chunk_is_active(){
  for(int x=0; x<count_chunks; x+=1)
@@ -197,6 +202,8 @@ struct vec final_vec=vec2(position.x/16,position.z/16);
 }
 info_new_block * get_info_new_block_in_position(struct vec pos){
 chunk * get_chunk=get_chunk_in_position(pos);
+if(get_chunk==NULL)
+    return NULL;
 get_chunk->was_modified=1;
 struct vec final_pos=vec2(fabs(pos.x-(get_chunk->position.x*16)),fabs(pos.z-(get_chunk->position.z*16)));
 for(int x=0;x<16;x+=1){
@@ -211,6 +218,7 @@ for(int x=0;x<16;x+=1){
         }
     }
 }
+printf("\nSRFE");
 return NULL;
 }
 void init_new_position_chunks(){
@@ -245,6 +253,7 @@ void pre_draw_world (void *t)
         struct vec direction;
         chunk_now=vec2(roundf(camera_position.x/16),roundf(camera_position.z/16));
         direction=sub_v2_v2(chunk_now,chunk_last);
+        active_biome=get_noise_biome(camera_position.x,camera_position.z);
         chunk_last=chunk_now;
         float x1=(float)count_chunks/2;
         float z1=(float)count_chunks/2;
@@ -255,7 +264,7 @@ void pre_draw_world (void *t)
 
             for(int z=0; z<count_chunks; z+=1)
             {
-
+           //     printf("\nX: %d Z: %d",x,z);
                 if(main_config.use_threads==0)
                 {
                     pre_rendering_chunk(&chunk_in_world[x][z]);
@@ -287,6 +296,5 @@ void pre_draw_world (void *t)
         if(is_new==0)
             global_state=4;
         is_new=1;
-
     }
 }
