@@ -58,6 +58,12 @@ void init_chunks(int size)
 }
 void rendering_world()
 {
+    glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
+    glBufferData(GL_ARRAY_BUFFER,256*16*16*3*9  , 0, GL_DYNAMIC_READ);
+      glBindBuffer(GL_ARRAY_BUFFER, transform_matrix_buffer);
+   // printf("\nCOUNT: %d %d %d",x,y,get_chunk.count_copy);
+    glBufferData(GL_ARRAY_BUFFER, 256*16*16*3*16, 0, GL_DYNAMIC_DRAW);
+   // printf("\nSTART");
     for(int x=0;x<count_chunks;x+=1){
         for(int y=0;y<count_chunks;y+=1){
             while(chunk_in_world[x][y].can_rednering==0||chunk_in_world[x][y].can_rednering==2);
@@ -82,8 +88,11 @@ void enable_index_texture(info_indexs get)
     int frag=glGetAttribLocation(program,"idFrag");
 
     glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
-    glBufferData(GL_ARRAY_BUFFER,  get.matrix_data_copy.count *9* sizeof(float), get.texture_data_copy.indexs, GL_STATIC_READ);
-
+    void *ptr = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+// копируем данные в память
+memcpy(ptr, get.texture_data_copy.indexs, get.matrix_data_copy.count *9* sizeof(float));
+// говорим OpenGL, что мы закончили работу с указателем
+glUnmapBuffer(GL_ARRAY_BUFFER);
     GLsizei vec3Size = sizeof(float)*3;
     glEnableVertexAttribArray(frag);
     glVertexAttribPointer(frag, 3, GL_FLOAT, GL_FALSE,  3*vec3Size,0);
@@ -95,13 +104,17 @@ void enable_index_texture(info_indexs get)
     glVertexAttribPointer(frag+2, 3, GL_FLOAT, GL_FALSE,  3*vec3Size,vec3Size*2);
     glVertexAttribDivisor(frag+2, 1);
     glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER,0);
 
 }
 void enable_transform_matrix(info_indexs get)
 {
     glBindBuffer(GL_ARRAY_BUFFER, transform_matrix_buffer);
-   // printf("\nCOUNT: %d %d %d",x,y,get_chunk.count_copy);
-    glBufferData(GL_ARRAY_BUFFER, get.matrix_data_copy.count *16* sizeof(float), get.matrix_data_copy.indexs, GL_STATIC_READ);
+     void *ptr = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+// копируем данные в память
+memcpy(ptr, get.matrix_data_copy.indexs, get.matrix_data_copy.count *16* sizeof(float));
+// говорим OpenGL, что мы закончили работу с указателем
+glUnmapBuffer(GL_ARRAY_BUFFER);
     GLuint VAO = vao_block;
     GLsizei vec4Size = sizeof(float)*4;
     glBindVertexArray(VAO);
@@ -117,6 +130,7 @@ void enable_transform_matrix(info_indexs get)
     glVertexAttribDivisor(4, 1);
     glVertexAttribDivisor(5, 1);
     glVertexAttribDivisor(6, 1);
+     glBindBuffer(GL_ARRAY_BUFFER,0);
     enable_index_texture(get);
 }
 void init_world()
@@ -253,6 +267,8 @@ void pre_draw_world (void *t)
         chunk_now=vec2(roundf(camera_position.x/16),roundf(camera_position.z/16));
         direction=sub_v2_v2(chunk_now,chunk_last);
         active_biome=get_noise_biome(camera_position.x,camera_position.z);
+       // printf("L: %f %f N: %f %f",chunk_last.x,chunk_last.y,chunk_now.x,chunk_now.y);
+
         chunk_last=chunk_now;
         float x1=(float)count_chunks/2;
         float z1=(float)count_chunks/2;
@@ -295,5 +311,7 @@ void pre_draw_world (void *t)
         if(is_new==0)
             global_state=4;
         is_new=1;
+
+
     }
 }

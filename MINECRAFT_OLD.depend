@@ -629,7 +629,7 @@
 1663174254 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1663435823 source:d:\Документы\codeblocks\minecraft_old\world.c
+1663612615 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -711,7 +711,7 @@
 
 1661539989 source:d:\Документы\codeblocks\minecraft_old\interpolate_helper.c
 
-1663598954 source:d:\Документы\codeblocks\minecraft_old\biome.c
+1663600931 source:d:\Документы\codeblocks\minecraft_old\biome.c
 	"open-simplex-noise.h"
 	"generator.h"
 	"vec.h"
