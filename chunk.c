@@ -219,10 +219,13 @@ void fill_indexs(chunk * cnk,info_indexs * get_indexs, int (*examination)(block 
                     texture_matrix[i]=block_info.id_text[i];
                 }
                 texture_matrix[6]=(float)block_info.is_cross;
-                if(cnk->chunk_blocks[x_block][y_block][z_block].id==118)
-                    texture_matrix[7]=(float)0.5;
+                unsigned char id_block_local=cnk->chunk_blocks[x_block][y_block][z_block].id;
+                if(id_block_local==23||id_block_local==24||id_block_local==109||id_block_local==111)
+                    texture_matrix[7]=1;
+                else if(id_block_local==124||id_block_local==125)
+                    texture_matrix[7]=2;
                 else
-                    texture_matrix[7]=(float)1;
+                    texture_matrix[7]=0;
                 for(int i=0; i<16; i+=1)
                 {
                     get_indexs->matrix_data.indexs[count_matrix1+i]=transform_mat[i];

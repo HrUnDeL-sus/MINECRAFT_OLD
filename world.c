@@ -218,7 +218,6 @@ for(int x=0;x<16;x+=1){
         }
     }
 }
-printf("\nSRFE");
 return NULL;
 }
 void init_new_position_chunks(){

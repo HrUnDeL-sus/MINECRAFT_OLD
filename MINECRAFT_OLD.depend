@@ -477,7 +477,7 @@
 
 1655919369 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
-1662736447 source:d:\Документы\codeblocks\minecraft_old\block.c
+1663435763 source:d:\Документы\codeblocks\minecraft_old\block.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -526,7 +526,7 @@
 	<math.h>
 	<string.h>
 
-1662736342 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1663593036 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -540,7 +540,7 @@
 	"info_indexs.h"
 	"sort.h"
 
-1661539989 d:\Документы\codeblocks\minecraft_old\block.h
+1663436094 d:\Документы\codeblocks\minecraft_old\block.h
 	<stdio.h>
 	<stdlib.h>
 	<glad/glad.h>
@@ -629,7 +629,7 @@
 1663174254 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1663351468 source:d:\Документы\codeblocks\minecraft_old\world.c
+1663435823 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -711,7 +711,7 @@
 
 1661539989 source:d:\Документы\codeblocks\minecraft_old\interpolate_helper.c
 
-1663183631 source:d:\Документы\codeblocks\minecraft_old\biome.c
+1663598954 source:d:\Документы\codeblocks\minecraft_old\biome.c
 	"open-simplex-noise.h"
 	"generator.h"
 	"vec.h"
@@ -720,7 +720,7 @@
 1661539989 d:\Документы\codeblocks\minecraft_old\generator.h
 	"chunk.h"
 
-1663183683 source:d:\Документы\codeblocks\minecraft_old\generator.c
+1663600745 source:d:\Документы\codeblocks\minecraft_old\generator.c
 	"chunk.h"
 	"interpolate_helper.h"
 	"open-simplex-noise.h"

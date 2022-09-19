@@ -105,6 +105,13 @@ void draw_cube(const int count)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
     glBindVertexArray(0);
 }
+void modify_block(block * get,int x,int y,int z,int enable,int id){
+get->pos_x=(int)x;
+get->pos_y=(unsigned char)y;
+get->pos_z=(int)z;
+get->is_enable=enable;
+get->id=id;
+}
 void init_standart_blocks(){
    unsigned int tod;
    GLuint vod=0;
@@ -195,7 +202,7 @@ block_info info;
          if(local_block.id==63)
         get_texture_coord_full(70,70,70,70,71,69,info.id_text);
           if(local_block.id==64)
-        get_texture_coord_full(68,68,68,68,2,40,info.id_text);
+        get_texture_coord_full(68,68,68,68,6,66,info.id_text);
             if(local_block.id==65)
         get_texture_coord_full(74,74,74,74,74,75,info.id_text);
          if(local_block.id==66)
@@ -295,6 +302,10 @@ block_info info;
               get_texture_coord_full(181,181,79,79,181,181,info.id_text);
         if(local_block.id==114)
               get_texture_coord_full(181,181,73,73,181,181,info.id_text);
+        if(local_block.id==124)
+            get_texture_coord_lite(132,info.id_text);
+         if(local_block.id==125)
+            get_texture_coord_lite(133,info.id_text);
         if(local_block.id==97||local_block.id==96||local_block.id==92)
         {
              info.scale.y=0.5f;

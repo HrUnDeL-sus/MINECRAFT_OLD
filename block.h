@@ -26,7 +26,7 @@ float vertex_standart_block[];
 int default_shader_id;
 int is_check;
 void draw_cube(const int count);
-
+void modify_block(block * get,int x,int y,int z,int enable,int id);
 GLuint vao_block;
 GLuint vao_cross_block;
 #endif // BLOCK_H_INCLUDED
