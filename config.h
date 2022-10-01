@@ -2,10 +2,7 @@
 #define CONFIG_H_INCLUDED
 
 typedef struct{
-int count_theads;
-int count_chunks_in_thread;
 int smoothing;
-int use_threads;
 int fps;
 int biome_size;
 } config;

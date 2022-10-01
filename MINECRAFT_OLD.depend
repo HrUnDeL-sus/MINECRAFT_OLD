@@ -513,7 +513,7 @@
 	"raycast.h"
 	"matrix.h"
 
-1662635293 d:\Документы\codeblocks\minecraft_old\chunk.h
+1664571313 d:\Документы\codeblocks\minecraft_old\chunk.h
 	"vec.h"
 	"block.h"
 	"info_indexs.h"
@@ -526,7 +526,7 @@
 	<math.h>
 	<string.h>
 
-1663593036 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1664571326 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -555,7 +555,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1663353723 source:d:\Документы\codeblocks\minecraft_old\main.c
+1664654309 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -626,10 +626,10 @@
 
 1662222209 source:d:\Документы\codeblocks\minecraft_old\vec.c
 
-1663174254 d:\Документы\codeblocks\minecraft_old\world.h
+1663879210 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1663612615 source:d:\Документы\codeblocks\minecraft_old\world.c
+1664571218 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -720,7 +720,7 @@
 1661539989 d:\Документы\codeblocks\minecraft_old\generator.h
 	"chunk.h"
 
-1663600745 source:d:\Документы\codeblocks\minecraft_old\generator.c
+1663875085 source:d:\Документы\codeblocks\minecraft_old\generator.c
 	"chunk.h"
 	"interpolate_helper.h"
 	"open-simplex-noise.h"
@@ -740,7 +740,7 @@
 	"buffer.h"
 	"vec.h"
 
-1663179651 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1663945890 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -793,10 +793,10 @@
 
 1661539989 d:\Документы\codeblocks\minecraft_old\gui_text_box.h
 
-1661972835 d:\Документы\codeblocks\minecraft_old\world_manager.h
+1664630109 d:\Документы\codeblocks\minecraft_old\world_manager.h
 	"chunk.h"
 
-1662200894 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
+1664654302 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
 	"shader.h"
 	<dirent.h>
 	<stdlib.h>
@@ -805,6 +805,10 @@
 	"chunk.h"
 	"block.h"
 	"config.h"
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	"compress.h"
 
 1512590989 c:\mingw\include\dirent.h
 	<_mingw.h>
@@ -829,7 +833,7 @@
 
 1661539989 d:\Документы\codeblocks\minecraft_old\collision.h
 
-1662652442 source:d:\Документы\codeblocks\minecraft_old\thread_render.c
+1663945373 source:d:\Документы\codeblocks\minecraft_old\thread_render.c
 	"chunk.h"
 	<process.h>
 	<windows.h>
@@ -839,9 +843,9 @@
 
 1662651969 d:\Документы\codeblocks\minecraft_old\thread_render.h
 
-1663179597 d:\Документы\codeblocks\minecraft_old\config.h
+1663945516 d:\Документы\codeblocks\minecraft_old\config.h
 
-1663179597 source:d:\Документы\codeblocks\minecraft_old\config.c
+1663945731 source:d:\Документы\codeblocks\minecraft_old\config.c
 	"shader.h"
 	"config.h"
 	<dirent.h>
@@ -859,4 +863,72 @@
 	"vec.h"
 
 1662663486 d:\Документы\codeblocks\minecraft_old\sort.h
+
+1648388382 c:\mingw\include\zip\zlib.h
+	"zconf.h"
+
+1483220230 c:\mingw\include\zip\zconf.h
+	<stddef.h>
+	<windows.h>
+	<limits.h>
+	<sys/types.h>
+	<stdarg.h>
+	<stddef.h>
+	<unistd.h>
+	<unixio.h>
+
+1512590989 c:\mingw\include\unistd.h
+	<_mingw.h>
+	"io.h"
+	"process.h"
+	"getopt.h"
+
+1512590989 c:\mingw\include\getopt.h
+	<_mingw.h>
+
+1664221771 d:\Документы\codeblocks\minecraft_old\zpipe.h
+
+1664222087 source:d:\Документы\codeblocks\minecraft_old\zpipe.c
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<zlib.h>
+
+1512590989 c:\mingw\include\fcntl.h
+	<_mingw.h>
+	<io.h>
+
+1121653608 c:\program files (x86)\gnuwin32\include\zlib.h
+	"zconf.h"
+
+1121874026 c:\program files (x86)\gnuwin32\include\zconf.h
+	<windows.h>
+	<sys/types.h>
+	<unistd.h>
+	<unixio.h>
+
+1121653608 d:\Документы\codeblocks\minecraft_old\zlib.h
+	"zconf.h"
+
+1121874026 d:\Документы\codeblocks\minecraft_old\zconf.h
+	<windows.h>
+	<sys/types.h>
+	<unistd.h>
+	<unixio.h>
+
+1664634957 d:\Документы\codeblocks\minecraft_old\compress.h
+
+1664652266 source:d:\Документы\codeblocks\minecraft_old\compress.c
+	<stdlib.h>
+	<stdio.h>
+	"world_manager.h"
+
+1661539989 source:d:\Документы\codeblocks\minecraft_old\client.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<winsock2.h>
+	<time.h>
+	"world.h"
+	"camera.h"
 

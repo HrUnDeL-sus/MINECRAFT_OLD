@@ -24,7 +24,8 @@
 #include "config.h"
 #include "raycast.h"
 float t=0;
-
+int mouse_is_press_state=-1;
+int count_tick=0;
 GLuint listName;
 
 void resize(int width, int height)
@@ -41,17 +42,21 @@ void resize(int width, int height)
 }
 void display(void)
 {
+    count_tick+=1;
     now_tick = GetTickCount()*0.001;
     glClearColor(0.4f,0.6f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
     if(global_state==4)
     {
+        if(mouse_is_press_state!=-1&&count_tick>15){
+           modified_block(mouse_is_press_state);
+           count_tick=0;
+          }
         rendering_world();
         save_player();
-        //  modified_block(2);
-    }
 
+    }
     //  if(global_state!=4)
     draw_gui();
     glutSwapBuffers();
@@ -75,7 +80,7 @@ void key(unsigned char key, int x, int y)
     if(key=='s')
         move_player(vec3(0,0,-0.5f));
     if(key=='a')
-        move_player(vec3(0.5,0,0));
+        move_player(vec3(0.5f,0,0));
     if(key=='d')
         move_player(vec3(-0.5f,0,0));
     if(key=='z')
@@ -168,7 +173,7 @@ void modified_block(int state)
                     {
                         min_distance=fraction;
                         last_pos=vec3((float)x,(float)y,(float)z);
-                        printf("\nLAST POs: %f %f %f %f",last_pos.x,last_pos.y,last_pos.z,fraction);
+
                     }
                 }
             }
@@ -182,7 +187,7 @@ void modified_block(int state)
             get->state=state;
             get->new_block.is_enable=0;
             get->is_active=1;
-            printf("\nYESSS");
+
             return;
         }
         else
@@ -198,8 +203,7 @@ void modified_block(int state)
                 };
             for(int i=0;i<sizeof(positions);i+=1)
             {
-
-                        get=get_info_new_block_in_position(positions[i]);
+z  get=get_info_new_block_in_position(positions[i]);
                         if(get!=NULL)
                         {
                             struct vec normal;
@@ -209,7 +213,7 @@ void modified_block(int state)
                             {
                                 min_distance=fraction;
                                 last_pos_invisible=positions[i];
-                                printf("\nLAST POs: %f %f %f %f",last_pos.x,last_pos.y,last_pos.z,fraction);
+
                             }
                        }
             }
@@ -222,31 +226,12 @@ void modified_block(int state)
             }
         }
     }
-//free(main_info_new_block);
-    /*  if(get->new_block.is_enable==1&&state==0)
-      {
-          info_new_block  * get2;
-
-          do
-          {
-              printf("\nSFDGFSFD");
-              ray=sub_v3_v3(ray,camera_angle_local);
-              get2=get_info_new_block_in_position(ray);
-          }
-          while(get2->new_block.is_enable!=0);
-          if(get2!=NULL)
-          {
-
-              get->state=state;
-              get->new_block.is_enable=1;
-              get->new_block.id=id_block;
-              get->is_active=1;
-              return;
-          }
-      }*/
+  //  printf("\nEND");
+  //  check_chunk_is_active();
 }
 void wrap(int* x,int* y)
 {
+
     glutWarpPointer(save_width/2,save_height/2);
     *x=save_width/2;
     *y=save_height/2;
@@ -255,8 +240,9 @@ void mouse_click(int button,int state,int x,int y)
 {
     if(global_state==4&&state==0)
     {
-        printf("\nBUTTON:%d %d",button,state);
-        modified_block(button==2?1:0);
+        mouse_is_press_state=button==2?1:0;
+    }else if(state==1){
+    mouse_is_press_state=-1;
     }
     int data=on_click(vec2((float)x/save_width,(float)y/save_height));
     if(data==1)
@@ -338,7 +324,8 @@ int main(int argc, char *argv[])
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
     glutMouseFunc(mouse_click);
-    glutPassiveMotionFunc(mouse);
+    glutMotionFunc(mouse);
+     glutPassiveMotionFunc(mouse);
     glutIdleFunc(idle);
     glutTimerFunc(1000/(float)main_config.fps, timer, 0);
     init();

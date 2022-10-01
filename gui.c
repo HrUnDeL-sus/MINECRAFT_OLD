@@ -171,14 +171,7 @@ draw_text(vec2(10,-20),buffer4);
 char buffer3[64];
 snprintf(buffer3, sizeof buffer3, "%s%d","BLOCK ID:",id_block);
 draw_text(vec2(10,30),buffer3);
-if(main_config.use_threads==0)
     return;
-for(int i=0;i<main_config.count_theads;i+=1){
-char buffer2[64];
-snprintf(buffer2, sizeof buffer2, "%s%d", "COUNT CHUNKS IN THREAD:", count_chunks_in_threads[i]);
-draw_text(vec2(0,start_y),buffer2);
-start_y-=2;
-}
 }
 void draw_gui(){
   glDisable(GL_DEPTH_TEST);

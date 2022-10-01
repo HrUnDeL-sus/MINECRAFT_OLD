@@ -164,7 +164,36 @@ void generate_nature(chunk* get_chunk,int x,int z,int y,int x1,int z1)
     generate_tree(1,get_chunk,x,y,z,x1,z1);
     }
 }
-
+void generate_natures(chunk* get_chunk){
+float y_chunk=0;
+    int x_block=0;
+    int z_block=0;
+    for(float x1=get_chunk->position.x*SIZE_CHUNK; x1<get_chunk->position.x*SIZE_CHUNK+SIZE_CHUNK; x1+=1)
+    {
+        for(float z1=get_chunk->position.y*SIZE_CHUNK; z1<get_chunk->position.y*SIZE_CHUNK+SIZE_CHUNK; z1+=1)
+        {
+            float count=0;
+            float noise=0;
+            for(int i=1; i<main_config.smoothing; i+=1)
+            {
+                noise+=two_interpolate
+                       (
+                           x1-i,z1-i,x1+i,z1+i,x1,z1,
+                           get_biome_generator(x1-i,z1-i),
+                           get_biome_generator(x1+i,z1-i),
+                           get_biome_generator(x1-i,z1+i),
+                           get_biome_generator(x1+i,z1+i));
+                count+=1;
+            }
+            y_chunk=roundf(noise/count*128);
+            if((int)y_chunk>64)
+                    generate_nature(get_chunk,x1,z1,(int)y_chunk,x_block,z_block);
+            z_block+=1;
+        }
+        z_block=0;
+        x_block+=1;
+    }
+}
 void generate_landscape(chunk* get_chunk)
 {
     float y_chunk=0;
@@ -202,8 +231,7 @@ void generate_landscape(chunk* get_chunk)
                 modify_block(&get_chunk->chunk_blocks[x_block][(int)(y_chunk)][z_block],x1,y_chunk,z1,1,get_block_id_at_biome(x1,z1,1));
                 get_chunk->count+=1;
                 int cover_length=y_chunk-1-(int)(((1+noise_2d(x1,z1,1,1,1,ctx))/2)*7);
-                if((int)y_chunk>64)
-                    generate_nature(get_chunk,x1,z1,(int)y_chunk,x_block,z_block);
+
                 for(int i=(int)y_chunk-1; i>0; i-=1)
                 {
                     modify_block(&get_chunk->chunk_blocks[x_block][i][z_block],x1,i,z1,1,1);
@@ -235,6 +263,7 @@ void generate_landscape(chunk* get_chunk)
         x_block+=1;
 
     }
+ //   generate_natures(get_chunk);
 };
 void generate_chunk(chunk* get_chunk)
 {

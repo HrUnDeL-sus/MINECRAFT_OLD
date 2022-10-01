@@ -27,17 +27,10 @@ void thread_check_chunk_is_active(int id)
                 chunk_in_world[(int)get_vec.x][(int)get_vec.y].main_info_new_block.is_active=0;
                 continue;
             }
-            chunk_in_world[(int)get_vec.x][(int)get_vec.y].can_rednering=0;
-            struct vec local_vec=chunk_in_world[(int)get_vec.x][(int)get_vec.y].main_info_new_block.local_position;
-            load_chunk(&chunk_in_world[(int)get_vec.x][(int)get_vec.y]);
-            chunk_in_world[(int)get_vec.x][(int)get_vec.y].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z]=chunk_in_world[(int)get_vec.x][(int)get_vec.y].main_info_new_block.new_block;
-            if(chunk_in_world[(int)get_vec.x][(int)get_vec.y].main_info_new_block.new_block.is_enable==0)
-                chunk_in_world[(int)get_vec.x][(int)get_vec.y].count-=1;
-            else if(chunk_in_world[(int)get_vec.x][(int)get_vec.y].main_info_new_block.state!=2)
-                chunk_in_world[(int)get_vec.x][(int)get_vec.y].count+=1;
-            fill_matrix(&chunk_in_world[(int)get_vec.x][(int)get_vec.y]);
-            save_chunk(chunk_in_world[(int)get_vec.x][(int)get_vec.y]);
-            chunk_in_world[(int)get_vec.x][(int)get_vec.y].main_info_new_block.is_active=0;
+              check_chunk_is_active();
+                    pre_rendering_chunk(&chunk_in_world[(int)get_vec.x][(int)get_vec.y]);
+                    clear_chunk((int)get_vec.x,(int)get_vec.y);
+                    fill_matrix(&chunk_in_world[(int)get_vec.x][(int)get_vec.y]);
             chunk_in_world[(int)get_vec.x][(int)get_vec.y].can_rednering=1;
         }
 

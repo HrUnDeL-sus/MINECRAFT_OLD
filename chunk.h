@@ -23,7 +23,6 @@ typedef struct
     int was_modified;
     int can_rednering;
     info_indexs all_info_indexs;
-    info_indexs clear_info_indexs;
     info_new_block main_info_new_block;
 
 } chunk;

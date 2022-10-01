@@ -24,6 +24,8 @@ void rendering_world();
 void pre_draw_world (void *t);
 void init_world();
 void init_chunks(int size);
+void clear_chunk(int x, int z);
 void fill_matrix_world(int l_count,chunk get_chunk,int x,int y);
 info_new_block * get_info_new_block_in_position(struct vec pos);
+void check_chunk_is_active();
 #endif // WORLD_H_INCLUDED

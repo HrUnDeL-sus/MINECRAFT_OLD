@@ -15,11 +15,13 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="C:/Program Files (x86)/GnuWin32/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
 					<Add option="-static" />
+					<Add library="C:/Program Files (x86)/GnuWin32/lib/zlib.lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -88,6 +90,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="collision.h" />
+		<Unit filename="compress.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="compress.h" />
 		<Unit filename="config.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -183,10 +189,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="texture.h" />
-		<Unit filename="thread_render.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="thread_render.h" />
 		<Unit filename="vec.c">
 			<Option compilerVar="CC" />
 		</Unit>

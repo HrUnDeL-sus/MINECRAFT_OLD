@@ -6,7 +6,14 @@
 #include "chunk.h"
 #include "block.h"
 #include "config.h"
-//fix
+#include <stdio.h>
+#include <string.h>
+#include <assert.h>
+#include "compress.h"
+struct send_data{
+unsigned char id;
+unsigned char block;
+};
 char * get_chunk_path(chunk  get)
 {
     char * name1=malloc(sizeof(char)*512);
@@ -26,61 +33,62 @@ char * get_chunk_path(chunk  get)
 }
 void load_chunk(chunk * get)
 {
-
     FILE * fp;
+    FILE * fp2;
     char * cnk=get_chunk_path(*get);
     fp = fopen(cnk, "rb");
     int data[1];
-    fread(data,sizeof(int),1,fp);
-    get->count=data[0];
+    get->count=0;
     int start_x=(int)get->position.x*16;
     int start_z=(int)get->position.y*16;
-    for(int x=0; x<16; x+=1)
-    {
-        for(int y=0; y<256; y+=1)
-        {
-            for(int z=0; z<16; z+=1)
-            {
-                unsigned char data_read[2];
-                fread(data_read,sizeof(unsigned char),2,fp);
-                get->chunk_blocks[x][y][z].id=(int)data_read[0];
-                 get->chunk_blocks[x][y][z].is_enable=(int)data_read[1];
-                  get->chunk_blocks[x][y][z].pos_x=start_x;
-                   get->chunk_blocks[x][y][z].pos_y=y;
-                    get->chunk_blocks[x][y][z].pos_z=start_z;
-                start_z=start_z+1;
+    struct send_data get_data;
+    for(int x=0;x<16;x+=1){
+        for(int y=0;y<256;y+=1){
+            for(int z=0;z<16;z+=1){
+                int read_data=fgetc(fp);
+          //      if(get_data.id!=0)
+          //      printf("\nDATA:%d %d",(int)get_data.block,(int)get_data.id);
+                  modify_block(&get->chunk_blocks[x][y][z],
+                         (int)get->position.x*16+x,y,(int)get->position.y*16+z,
+                         read_data==254?0:1,read_data);
+
+                         if(get->chunk_blocks[x][y][z].is_enable!=0)
+                            get->count+=1;
             }
-             start_z=(int)get->position.y*16;
         }
-        start_x+=1;
-
-
     }
     fclose(fp);
     free(cnk);
+
 }
+
 void save_chunk(chunk get)
 {
+   // printf("\nSAVE");
+
     FILE * fp;
+     FILE * fp2;
+     int byte_count=0;
     char * cnk=get_chunk_path(get);
-    fp = fopen(cnk, "wb");
-    int data_write[1]={get.count};
-    fwrite(data_write,sizeof(int),1,fp);
+      char name_zip[100];
+    snprintf(name_zip, 100, "%s%s", cnk, ".lzw");
+     fp = fopen(cnk, "wb");
     for(int x=0; x<16; x+=1)
     {
         for(int y=0; y<256; y+=1)
         {
             for(int z=0; z<16; z+=1)
             {
-                unsigned char data[2]={(unsigned char)get.chunk_blocks[x][y][z].id,(unsigned char)get.chunk_blocks[x][y][z].is_enable};
-                if(fwrite(data,sizeof(unsigned char),2,fp)==0){
-                    printf("\nERROR SAVE");
-                    return;
-                };
+                if(get.chunk_blocks[x][y][z].is_enable==0){
+                    fputc(254,fp);
+                    byte_count+=1;
+                }else{
+                    fputc(get.chunk_blocks[x][y][z].id,fp);
+                    }
+                    byte_count+=1;
+                }
             }
         }
-    }
-//printf("\nDATA:%s",data);
     fclose(fp);
     free(cnk);
 }
@@ -92,6 +100,7 @@ int chunk_is_save(chunk get)
 
     fp=fopen(name, "rb");
     free(name);
+
     if(fp!=NULL)
     {
         fclose(fp);
