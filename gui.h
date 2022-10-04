@@ -21,4 +21,5 @@ void init_gui();
 int on_click(struct vec pos);
 void draw_gui_item(buffer_data get,gui_item get_item);
 int on_key_press(char k);
+int state_chunk_button();
 #endif // GUI_H_INCLUDED

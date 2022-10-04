@@ -27,7 +27,7 @@ float t=0;
 int mouse_is_press_state=-1;
 int count_tick=0;
 GLuint listName;
-
+int save_state_chunks;
 void resize(int width, int height)
 {
     const float ar = (float) width / (float) height;
@@ -49,7 +49,7 @@ void display(void)
     apply_camera_matrix();
     if(global_state==4)
     {
-        if(mouse_is_press_state!=-1&&count_tick>15){
+        if(mouse_is_press_state!=-1&&count_tick>20){
            modified_block(mouse_is_press_state);
            count_tick=0;
           }
@@ -72,9 +72,14 @@ void timer(int t)
 }
 void key(unsigned char key, int x, int y)
 {
-
+    printf("\nKEY:%d",key);
     if(on_key_press(key)!=-1)
         return;
+    if(key==27&&global_state==4){
+         glutSetCursor(GLUT_CURSOR_RIGHT_ARROW);
+           global_state=5;
+    }
+
     if(key=='w')
         move_player(vec3(0,0,0.5f));
     if(key=='s')
@@ -203,7 +208,7 @@ void modified_block(int state)
                 };
             for(int i=0;i<sizeof(positions);i+=1)
             {
-z  get=get_info_new_block_in_position(positions[i]);
+                  get=get_info_new_block_in_position(positions[i]);
                         if(get!=NULL)
                         {
                             struct vec normal;
@@ -241,9 +246,12 @@ void mouse_click(int button,int state,int x,int y)
     if(global_state==4&&state==0)
     {
         mouse_is_press_state=button==2?1:0;
+         modified_block(mouse_is_press_state);
     }else if(state==1){
     mouse_is_press_state=-1;
     }
+    if(state!=0)
+        return;
     int data=on_click(vec2((float)x/save_width,(float)y/save_height));
     if(data==1)
         exit(0);
@@ -251,16 +259,15 @@ void mouse_click(int button,int state,int x,int y)
         global_state=2;
     if(data==2)
     {
-        glutSetCursor(GLUT_CURSOR_NONE);
-        main_world_info.seed=atoi(seed_text_box.text);
-        create_world_folder(name_text_box.text);
-        load_player();
-
-        set_seed(main_world_info.seed);
-        init_chunks(atoi(chunks_text_box.text));
-        init_world();
-        _beginthread(  pre_draw_world,0,NULL);
-        global_state=3;
+        create_world();
+    }
+    if(data==3)
+        Sleep(200);
+    if(data==5)
+        save_state_chunks=state_chunk_button();
+    if(data==4&&save_state_chunks!=state_chunk_button){
+        delete_world();
+        create_world();
     }
 }
 void mouse(int x,int y)
@@ -306,6 +313,7 @@ void init()
     printf("\nID: %d %d %d",default_shader_id,gui_shader_id,text_shader_id);
     init_gui();
     init_text();
+    init_buffers();
 }
 int main(int argc, char *argv[])
 {

@@ -17,10 +17,10 @@
 #include <time.h>
 #include "world_manager.h"
 #include "gui.h"
-#include "thread_render.h"
 #include "config.h"
 #include "sort.h"
 #include "biome.h"
+#include <GL/glut.h>
 int count_chunks;
 int count_blocks;
 int active_biome;
@@ -30,8 +30,8 @@ int size_transform_matrix_buffer=0;
 chunk ** chunk_in_world;
 struct vec chunk_last;
  struct vec chunk_now;
-unsigned int transform_matrix_buffer;
-unsigned int texture_buffer;
+unsigned int transform_matrix_buffer=-1;
+unsigned int texture_buffer=-1;
 int is_end2=0;
 int end_clear_chunk=0;
 typedef struct
@@ -62,12 +62,8 @@ void init_chunks(int size)
 }
 void rendering_world()
 {
-
-    glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
-    glBufferData(GL_ARRAY_BUFFER, 256*16*16*9*sizeof(float),0, GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
       glBindBuffer(GL_ARRAY_BUFFER, transform_matrix_buffer);
-   // printf("\nCOUNT: %d %d %d",x,y,get_chunk.count_copy);
-    glBufferData(GL_ARRAY_BUFFER,256*16*16*16*sizeof(float),0, GL_DYNAMIC_DRAW);
    // printf("\nSTART");
     for(int x=0;x<count_chunks;x+=1){
         for(int y=0;y<count_chunks;y+=1){
@@ -157,11 +153,11 @@ void enable_transform_matrix(info_indexs get)
      glBindBuffer(GL_ARRAY_BUFFER,0);
     enable_index_texture(get);
 }
+
 void init_world()
 {
     init_blocks();
-    glGenBuffers(1, &transform_matrix_buffer);
-    glGenBuffers(1, &texture_buffer);
+
 }
 void clear_chunk(int x, int z)
 {
@@ -173,6 +169,25 @@ void clear_chunk(int x, int z)
             clear_blocks(&chunk_in_world[x][z],left_chunk,right_chunk,forward_chunk,back_chunk);
              fill_matrix(&chunk_in_world[x][z]);
 
+
+}
+void init_buffers(){
+        glGenBuffers(1, &transform_matrix_buffer);
+    glGenBuffers(1, &texture_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
+    glBufferData(GL_ARRAY_BUFFER, 256*16*16*9*sizeof(float),0, GL_DYNAMIC_DRAW);
+      glBindBuffer(GL_ARRAY_BUFFER, transform_matrix_buffer);
+   // printf("\nCOUNT: %d %d %d",x,y,get_chunk.count_copy);
+    glBufferData(GL_ARRAY_BUFFER,256*16*16*16*sizeof(float),0, GL_DYNAMIC_DRAW);
+}
+void fill_chunks(){
+    for(int x=0; x<count_chunks; x+=1)
+    {
+        for(int z=0; z<count_chunks; z+=1)
+        {
+             fill_matrix(&chunk_in_world[x][z]);
+        }
+    }
 }
 void clear_chunks()
 {
@@ -183,9 +198,9 @@ void clear_chunks()
         {
 
             clear_chunk(x,z);
-
         }
     }
+     fill_chunks();
     end_clear_chunk=1;
 }
 chunk * find_chunk_in_position(struct vec position)
@@ -278,8 +293,6 @@ void pre_draw_world (void *t)
 
                     pre_rendering_chunk(&chunk_in_world[x][z]);
 
-                    clear_chunk(x,z);
-                    fill_matrix(&chunk_in_world[x][z]);
                 z1-=1;
 
             }
@@ -287,13 +300,56 @@ void pre_draw_world (void *t)
             z1=(float)count_chunks/2;
             check_chunk_is_active();
         }
-       // clear_chunks();
+        clear_chunks();
         clock_t before=time(NULL)-start;
         is_end2=0;
         if(is_new==0)
             global_state=4;
+        if(global_state!=4){
+            return;
+        }
         is_new=1;
 
 
     }
+}
+void delete_chunks(){
+    if(chunk_in_world==NULL)
+        return;
+
+    for(int i=0; i<count_chunks; i+=1)
+    {
+        for(int q=0; q<count_chunks; q+=1)
+        {
+            for(int x=0;x<16;x+=1){
+                for(int y=0;y<256;y+=1){
+                        free(chunk_in_world[i][q].chunk_blocks[x][y]);
+                }
+                free(chunk_in_world[i][q].chunk_blocks[x]);
+            }
+             free(chunk_in_world[i][q].chunk_blocks);
+                             free(chunk_in_world[i][q].all_info_indexs.texture_data_copy.indexs);
+    free(chunk_in_world[i][q].all_info_indexs.matrix_data_copy.indexs);
+    free(chunk_in_world[i][q].all_info_indexs.texture_data.indexs);
+    free(chunk_in_world[i][q].all_info_indexs.matrix_data.indexs);
+            }
+
+         free(chunk_in_world[i]);
+        }
+    free(chunk_in_world);
+}
+void delete_world(){
+delete_chunks();
+}
+void create_world(){
+
+        glutSetCursor(GLUT_CURSOR_NONE);
+        main_world_info.seed=atoi(seed_text_box.text);
+        create_world_folder(name_text_box.text);
+        load_player();
+        set_seed(main_world_info.seed);
+        init_chunks((int)powf(2,state_chunk_button()));
+        init_world();
+        _beginthread(  pre_draw_world,0,NULL);
+        global_state=3;
 }

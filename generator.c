@@ -263,7 +263,8 @@ void generate_landscape(chunk* get_chunk)
         x_block+=1;
 
     }
- //   generate_natures(get_chunk);
+      generate_natures(get_chunk);
+
 };
 void generate_chunk(chunk* get_chunk)
 {

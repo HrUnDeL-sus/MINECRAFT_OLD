@@ -7,15 +7,16 @@
 #include "gui_button.h"
 #include "gui_text_box.h"
 #include "world.h"
-#include "thread_render.h"
 #include "config.h"
 buffer_data background;
 gui_item singleplay_button;
 gui_item exit_button;
 gui_item seed_text_box;
 gui_item name_text_box;
-gui_item chunks_text_box;
 gui_item start_button;
+gui_item  continue_button;
+gui_item  exit_menu_button;
+gui_item  chunk_distance_button;
 int gui_shader_id;
 int global_state=1;
 int active_text_box=-1;
@@ -57,14 +58,11 @@ void init_settings_game(){
 
 seed_text_box=create_gui_item(vec2(0,-3),vec2(0.5f,0.1f),"");
 name_text_box=create_gui_item(vec2(0,0),vec2(0.5f,0.1f),"");
-chunks_text_box=create_gui_item(vec2(0,-6),vec2(0.5f,0.1f),"");
-start_button=create_gui_item(vec2(0,-8),vec2(0.5f,0.1f),"Generate");
+start_button=create_gui_item(vec2(0,-6),vec2(0.5f,0.1f),"Generate");
 init_gui_item(&seed_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
 init_gui_item(&name_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
-init_gui_item(&chunks_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
 init_text_box(&seed_text_box);
 init_text_box(&name_text_box);
-init_text_box(&chunks_text_box);
 init_gui_item(&start_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 }
 void init_menu(){
@@ -74,7 +72,28 @@ exit_button=create_gui_item(vec2(0,-2),vec2(0.5f,0.1f),"Quit Game");
 init_gui_item(&singleplay_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 init_gui_item(&exit_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 }
+void init_menu2(){
+continue_button=create_gui_item(vec2(0,0),vec2(0.5f,0.1f),"Continue");
+chunk_distance_button=create_gui_item(vec2(0,-2),vec2(0.5f,0.1f),"Average");
+exit_menu_button=create_gui_item(vec2(0,-4),vec2(0.5f,0.1f),"Menu");
+chunk_distance_button.index=3;
+init_gui_item(&continue_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
+init_gui_item(&chunk_distance_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
+init_gui_item(&exit_menu_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
+}
+void draw_menu2(){
+    gui_item background_item;
+    background_item.position=vec2(0,0);
+    background_item.scale=vec2(1,1);
+   draw_gui_item(background,background_item);
+   draw_button(continue_button);
+   use_shader(gui_shader_id);
+    draw_button(chunk_distance_button);
+    use_shader(gui_shader_id);
+     draw_button(exit_menu_button);
+}
 void init_gui(){
+init_menu2();
 init_menu();
 init_settings_game();
 }
@@ -101,6 +120,34 @@ if(on_click_item(pos,singleplay_button)==1&&global_state==1)
     return 0;
 else if(on_click_item(pos,exit_button)==1&&global_state==1)
     return 1;
+else if(on_click_item(pos,exit_menu_button)==1&&global_state==5){
+    global_state=1;
+    delete_world();
+    return 5;
+}
+else if(on_click_item(pos,continue_button)==1&&global_state==5){
+     glutSetCursor(GLUT_CURSOR_NONE);
+      global_state=4;
+      return 4;
+}
+else if(on_click_item(pos,chunk_distance_button)==1&&global_state==5){
+
+        chunk_distance_button.index+=1;
+
+        chunk_distance_button.index=chunk_distance_button.index>5?1:chunk_distance_button.index;
+        if(chunk_distance_button.index==1)
+            chunk_distance_button.text="very little";
+         if(chunk_distance_button.index==2)
+            chunk_distance_button.text="small";
+             if(chunk_distance_button.index==3)
+            chunk_distance_button.text="average";
+             if(chunk_distance_button.index==4)
+            chunk_distance_button.text="big";
+            if(chunk_distance_button.index==5)
+            chunk_distance_button.text="very big";
+    return 3;
+
+}
 else if(on_click_item(pos,start_button)==1&&global_state==2)
     return 2;
 else if(on_click_item(pos,chunks_text_box)==1&&global_state==2)
@@ -130,6 +177,9 @@ void draw_load(){
    draw_gui_item(background,background_item);
     draw_text(vec2(0,0),"Loading...");
 }
+int state_chunk_button(){
+return chunk_distance_button.index;
+}
 void draw_settings_game(){
     gui_item background_item;
     background_item.position=vec2(0,0);
@@ -138,13 +188,10 @@ void draw_settings_game(){
  draw_text_box(seed_text_box);
  draw_text(vec2(0,5),"NAME:");
  draw_text(vec2(-2,-5),"SEED:");
- draw_text(vec2(-2,-15),"CHUNKS:");
   draw_text(vec2(-25,15),"1-exit.2-fullsreen.3-bind mouse.4-screenshot.");
    draw_text(vec2(-25,10),"wasd-move.z-down. x-up");
   use_shader(gui_shader_id);
  draw_text_box(name_text_box);
-  use_shader(gui_shader_id);
- draw_text_box(chunks_text_box);
  use_shader(gui_shader_id);
  draw_button(start_button);
 }
@@ -187,6 +234,9 @@ if(global_state==3)
 if(global_state==4){
  draw_debug();
  draw_pointer();
+}
+if(global_state==5){
+    draw_menu2();
 }
 
   glEnable(GL_DEPTH_TEST);

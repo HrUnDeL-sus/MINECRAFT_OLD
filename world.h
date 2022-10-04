@@ -28,4 +28,7 @@ void clear_chunk(int x, int z);
 void fill_matrix_world(int l_count,chunk get_chunk,int x,int y);
 info_new_block * get_info_new_block_in_position(struct vec pos);
 void check_chunk_is_active();
+void create_world();
+void delete_world();
+void init_buffers();
 #endif // WORLD_H_INCLUDED

@@ -526,7 +526,7 @@
 	<math.h>
 	<string.h>
 
-1664571326 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1664906817 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -555,7 +555,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1664654309 source:d:\Документы\codeblocks\minecraft_old\main.c
+1664908112 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -626,10 +626,10 @@
 
 1662222209 source:d:\Документы\codeblocks\minecraft_old\vec.c
 
-1663879210 d:\Документы\codeblocks\minecraft_old\world.h
+1664905124 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1664571218 source:d:\Документы\codeblocks\minecraft_old\world.c
+1664907284 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -649,10 +649,10 @@
 	<time.h>
 	"world_manager.h"
 	"gui.h"
-	"thread_render.h"
 	"config.h"
 	"sort.h"
 	"biome.h"
+	<GL/glut.h>
 
 1661539989 source:d:\Документы\codeblocks\minecraft_old\texture.c
 	<glad/glad.h>
@@ -720,7 +720,7 @@
 1661539989 d:\Документы\codeblocks\minecraft_old\generator.h
 	"chunk.h"
 
-1663875085 source:d:\Документы\codeblocks\minecraft_old\generator.c
+1664710506 source:d:\Документы\codeblocks\minecraft_old\generator.c
 	"chunk.h"
 	"interpolate_helper.h"
 	"open-simplex-noise.h"
@@ -736,11 +736,11 @@
 
 1663173037 d:\Документы\codeblocks\minecraft_old\biome.h
 
-1661539989 d:\Документы\codeblocks\minecraft_old\gui.h
+1664902360 d:\Документы\codeblocks\minecraft_old\gui.h
 	"buffer.h"
 	"vec.h"
 
-1663945890 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1664908112 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -750,7 +750,6 @@
 	"gui_button.h"
 	"gui_text_box.h"
 	"world.h"
-	"thread_render.h"
 	"config.h"
 
 1661539989 source:d:\Документы\codeblocks\minecraft_old\buffer.c
@@ -796,7 +795,7 @@
 1664630109 d:\Документы\codeblocks\minecraft_old\world_manager.h
 	"chunk.h"
 
-1664654302 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
+1664660079 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
 	"shader.h"
 	<dirent.h>
 	<stdlib.h>

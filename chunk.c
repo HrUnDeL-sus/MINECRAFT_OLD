@@ -32,6 +32,7 @@ void init_chunk(chunk* get_chunk)
 {
     get_chunk->was_modified=0;
     get_chunk->chunk_blocks=malloc_blocks();
+
     get_chunk->all_info_indexs.texture_data_copy.indexs=malloc(1);
     get_chunk->all_info_indexs.matrix_data_copy.indexs=malloc(1);
      get_chunk->all_info_indexs.texture_data.indexs=malloc(1);
