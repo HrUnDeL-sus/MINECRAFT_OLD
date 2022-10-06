@@ -134,7 +134,7 @@ else if(on_click_item(pos,chunk_distance_button)==1&&global_state==5){
 
         chunk_distance_button.index+=1;
 
-        chunk_distance_button.index=chunk_distance_button.index>5?1:chunk_distance_button.index;
+        chunk_distance_button.index=chunk_distance_button.index>4?1:chunk_distance_button.index;
         if(chunk_distance_button.index==1)
             chunk_distance_button.text="very little";
          if(chunk_distance_button.index==2)
@@ -143,8 +143,6 @@ else if(on_click_item(pos,chunk_distance_button)==1&&global_state==5){
             chunk_distance_button.text="average";
              if(chunk_distance_button.index==4)
             chunk_distance_button.text="big";
-            if(chunk_distance_button.index==5)
-            chunk_distance_button.text="very big";
     return 3;
 
 }

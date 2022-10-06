@@ -72,7 +72,7 @@ void timer(int t)
 }
 void key(unsigned char key, int x, int y)
 {
-    printf("\nKEY:%d",key);
+
     if(on_key_press(key)!=-1)
         return;
     if(key==27&&global_state==4){

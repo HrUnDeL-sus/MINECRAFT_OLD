@@ -257,6 +257,14 @@ void generate_landscape(chunk* get_chunk)
                     get_chunk->chunk_blocks[x_block][(int)i][z_block].id=118;
                 get_chunk->count+=1;
             }
+                int pos_block=y_chunk-((((1+noise_2d(x1,z1,60,1,16,ctx))/2))*64);
+
+                int size_cave=(((((1+noise_2d(x1,z1,60,8,16,ctx))/2))+1)*3);
+                if(pos_block>size_cave&&(((((1+noise_2d(x1,z1,10,1,1,ctx))/2)))*100)>60){
+                for(int i=pos_block;i>pos_block-size_cave;i--){
+                     modify_block(&get_chunk->chunk_blocks[x_block][(int)i][z_block],x1,i,z1,0,0);
+                }
+            }
             z_block+=1;
         }
         z_block=0;
