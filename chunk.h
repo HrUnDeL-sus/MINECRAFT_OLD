@@ -22,10 +22,12 @@ typedef struct
     block *** chunk_blocks;
     int was_modified;
     int can_rednering;
+    int is_create_light;
     info_indexs all_info_indexs;
     info_new_block main_info_new_block;
 
 } chunk;
+void generate_light(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,chunk * back);
 struct vec * position_update_chunk;
 void fill_matrix(chunk * cnk);
 void init_chunk(chunk* get_chunk);

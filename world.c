@@ -49,6 +49,7 @@ void init_chunks(int size)
     chunk_in_world=malloc(sizeof(chunk*)*size);
     for(int i=0; i<size; i+=1)
     {
+
         chunk_in_world[i]=malloc(sizeof(chunk)*size);
         for(int q=0; q<size; q+=1)
         {
@@ -159,6 +160,15 @@ void init_world()
     init_blocks();
 
 }
+void set_light_chunk(int x, int z)
+{
+
+            chunk * left_chunk=x==0?NULL:&chunk_in_world[x-1][z];
+            chunk * right_chunk=x==count_chunks-1?NULL:&chunk_in_world[x+1][z];
+            chunk * back_chunk=z==0?NULL:&chunk_in_world[x][z-1];
+            chunk * forward_chunk=z==count_chunks-1?NULL:&chunk_in_world[x][z+1];
+            generate_light(&chunk_in_world[x][z],left_chunk,right_chunk,forward_chunk,back_chunk);
+}
 void clear_chunk(int x, int z)
 {
 
@@ -167,9 +177,6 @@ void clear_chunk(int x, int z)
             chunk * back_chunk=z==0?NULL:&chunk_in_world[x][z-1];
             chunk * forward_chunk=z==count_chunks-1?NULL:&chunk_in_world[x][z+1];
             clear_blocks(&chunk_in_world[x][z],left_chunk,right_chunk,forward_chunk,back_chunk);
-             fill_matrix(&chunk_in_world[x][z]);
-
-
 }
 void init_buffers(){
         glGenBuffers(1, &transform_matrix_buffer);
@@ -189,6 +196,17 @@ void fill_chunks(){
         }
     }
 }
+void generate_light_in_chunks(){
+ for(int x=0; x<count_chunks; x+=1)
+    {
+        for(int z=0; z<count_chunks; z+=1)
+        {
+            set_light_chunk(x,z);
+            check_chunk_is_active();
+        }
+    }
+
+}
 void clear_chunks()
 {
     end_clear_chunk=0;
@@ -198,8 +216,10 @@ void clear_chunks()
         {
 
             clear_chunk(x,z);
+            check_chunk_is_active();
         }
     }
+    generate_light_in_chunks();
      fill_chunks();
     end_clear_chunk=1;
 }
@@ -292,13 +312,13 @@ void pre_draw_world (void *t)
                 chunk_in_world[x][z].position=pos_chunk;
 
                     pre_rendering_chunk(&chunk_in_world[x][z]);
-
+                     check_chunk_is_active();
                 z1-=1;
 
             }
             x1-=1;
             z1=(float)count_chunks/2;
-            check_chunk_is_active();
+
         }
         clear_chunks();
         clock_t before=time(NULL)-start;

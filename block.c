@@ -81,7 +81,7 @@ typedef struct
     int pos_z;
     unsigned char is_enable;
     unsigned char id;
-
+    int light_id;
 } block;
 typedef struct{
 struct vec scale;

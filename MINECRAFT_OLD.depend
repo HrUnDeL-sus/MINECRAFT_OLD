@@ -477,7 +477,7 @@
 
 1655919369 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
-1663435763 source:d:\Документы\codeblocks\minecraft_old\block.c
+1665216276 source:d:\Документы\codeblocks\minecraft_old\block.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -513,7 +513,7 @@
 	"raycast.h"
 	"matrix.h"
 
-1664571313 d:\Документы\codeblocks\minecraft_old\chunk.h
+1665226976 d:\Документы\codeblocks\minecraft_old\chunk.h
 	"vec.h"
 	"block.h"
 	"info_indexs.h"
@@ -526,7 +526,7 @@
 	<math.h>
 	<string.h>
 
-1664906817 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1665225942 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -540,7 +540,7 @@
 	"info_indexs.h"
 	"sort.h"
 
-1663436094 d:\Документы\codeblocks\minecraft_old\block.h
+1665176635 d:\Документы\codeblocks\minecraft_old\block.h
 	<stdio.h>
 	<stdlib.h>
 	<glad/glad.h>
@@ -629,7 +629,7 @@
 1664905124 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1664907284 source:d:\Документы\codeblocks\minecraft_old\world.c
+1665227104 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -851,9 +851,9 @@
 	<stdlib.h>
 	<stdio.h>
 
-1662663124 d:\Документы\codeblocks\minecraft_old\info_indexs.h
+1665172739 d:\Документы\codeblocks\minecraft_old\info_indexs.h
 
-1662635346 source:d:\Документы\codeblocks\minecraft_old\info_indexs.c
+1665172734 source:d:\Документы\codeblocks\minecraft_old\info_indexs.c
 	"info_indexs.h"
 
 1662729663 source:d:\Документы\codeblocks\minecraft_old\sort.c

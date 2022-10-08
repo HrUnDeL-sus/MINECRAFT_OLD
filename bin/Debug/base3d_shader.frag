@@ -11,5 +11,6 @@ if(out_main_color.y!=0)
 out_color.y*=out_main_color.y;
 if(out_main_color.z!=0)
 out_color.z*=out_main_color.z;
-out_color*=0.27f;
+if(out_main_color.w!=0)
+out_color*=out_main_color.w;
 }
