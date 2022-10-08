@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "collision.h"
+#include "open-simplex-noise.h"
+#include "generator.h"
 typedef struct{
  struct vec position;
 } player;
@@ -41,7 +43,7 @@ FILE *fp;
 char info_player[512];
 snprintf(info_player, sizeof info_player, "%s%s", main_world_info.path_world, "/info_player");
 if((fp=fopen(info_player,"rb"))==NULL){
-    set_position_player(vec3(rand(),100,rand()));
+    set_position_player(vec3(((open_simplex_noise2(ctx,500,500)+1)/2)*1000,100,((open_simplex_noise2(ctx,500,500)+1)/2)*1000));
     return;
 }
 fread(&main_player,sizeof(player),1,fp);

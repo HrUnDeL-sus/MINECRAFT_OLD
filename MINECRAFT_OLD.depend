@@ -526,7 +526,7 @@
 	<math.h>
 	<string.h>
 
-1665225942 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1665236387 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -555,7 +555,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1665073078 source:d:\Документы\codeblocks\minecraft_old\main.c
+1665227584 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -629,7 +629,7 @@
 1664905124 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1665227104 source:d:\Документы\codeblocks\minecraft_old\world.c
+1665247330 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -717,7 +717,7 @@
 	"vec.h"
 	"config.h"
 
-1661539989 d:\Документы\codeblocks\minecraft_old\generator.h
+1665236574 d:\Документы\codeblocks\minecraft_old\generator.h
 	"chunk.h"
 
 1665077378 source:d:\Документы\codeblocks\minecraft_old\generator.c
@@ -740,7 +740,7 @@
 	"buffer.h"
 	"vec.h"
 
-1665072880 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1665236574 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -750,7 +750,9 @@
 	"gui_button.h"
 	"gui_text_box.h"
 	"world.h"
+	"camera.h"
 	"config.h"
+	"generator.h"
 
 1661539989 source:d:\Документы\codeblocks\minecraft_old\buffer.c
 	<glad/glad.h>
@@ -813,7 +815,7 @@
 	<_mingw.h>
 	<io.h>
 
-1663103844 source:d:\Документы\codeblocks\minecraft_old\player.c
+1665237700 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -821,6 +823,8 @@
 	<stdlib.h>
 	<stdio.h>
 	"collision.h"
+	"open-simplex-noise.h"
+	"generator.h"
 
 1661539989 d:\Документы\codeblocks\minecraft_old\player.h
 

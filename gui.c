@@ -7,7 +7,9 @@
 #include "gui_button.h"
 #include "gui_text_box.h"
 #include "world.h"
+#include "camera.h"
 #include "config.h"
+#include "generator.h"
 buffer_data background;
 gui_item singleplay_button;
 gui_item exit_button;
@@ -207,16 +209,21 @@ draw_text(vec2(0,0),"T");
 }
 void draw_debug(){
 char buffer[64];
-snprintf(buffer, sizeof buffer, "%f", roundf(fps_count));
-draw_text(vec2(0,30),buffer);
+snprintf(buffer, sizeof buffer, "%s%f","FPS:",roundf(fps_count));
+draw_text(vec2(-25,30),buffer);
 float start_y=25;
 char buffer4[64];
 snprintf(buffer4, sizeof buffer4, "%s%d","BIOME:",active_biome);
-draw_text(vec2(10,-20),buffer4);
+draw_text(vec2(-25,25),buffer4);
 char buffer3[64];
 snprintf(buffer3, sizeof buffer3, "%s%d","BLOCK ID:",id_block);
-draw_text(vec2(10,30),buffer3);
-    return;
+draw_text(vec2(-25,20),buffer3);
+char buffer6[64];
+snprintf(buffer6, sizeof buffer6, "%s%d%s%d%s%d","XYZ:",(int)camera_position.x," ",(int)camera_position.y," ",(int)camera_position.z);
+draw_text(vec2(-25,15),buffer6);
+char buffer7[64];
+snprintf(buffer7, sizeof buffer7, "%s%d","SEED:",seed);
+draw_text(vec2(-25,10),buffer7);
 }
 void draw_gui(){
   glDisable(GL_DEPTH_TEST);

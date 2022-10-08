@@ -89,12 +89,12 @@ void generate_light(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,
                         light_id_array[0]=1;
 
                     }
-                    if(((x1!=0&&get_chunk->chunk_blocks[x1-1][y][z1].is_enable==1)||(x1==0&&left!=NULL&&left->chunk_blocks[15][y1][z1].is_enable==1))&&light_id_array[1]==0)
+                    if(((x1!=0&&get_chunk->chunk_blocks[x1-1][y][z1].is_enable==1)||(x1==0&&left!=NULL&&left->chunk_blocks[15][y][z1].is_enable==1))&&light_id_array[1]==0)
                     {
                         light_id+=1000;
                         light_id_array[1]=1;
                     }
-                    if(((x1!=15&&get_chunk->chunk_blocks[x1+1][y][z1].is_enable==1)||(x1==15&&right!=NULL&&right->chunk_blocks[0][y1][z1].is_enable==1))&&light_id_array[2]==0)
+                    if(((x1!=15&&get_chunk->chunk_blocks[x1+1][y][z1].is_enable==1)||(x1==15&&right!=NULL&&right->chunk_blocks[0][y][z1].is_enable==1))&&light_id_array[2]==0)
                     {
                         light_id+=10000;
                         light_id_array[2]=1;

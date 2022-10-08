@@ -98,6 +98,7 @@ if(chunk_in_world[x][z].main_info_new_block.is_active==1){
             chunk_in_world[x][z].count-=1;
             else if(chunk_in_world[x][z].main_info_new_block.state!=2)
                 chunk_in_world[x][z].count+=1;
+                set_light_chunk(x,z);
                 fill_matrix(&chunk_in_world[x][z]);
             save_chunk(chunk_in_world[x][z]);
             chunk_in_world[x][z].main_info_new_block.is_active=0;
@@ -366,8 +367,9 @@ void create_world(){
         glutSetCursor(GLUT_CURSOR_NONE);
         main_world_info.seed=atoi(seed_text_box.text);
         create_world_folder(name_text_box.text);
+         set_seed(main_world_info.seed);
         load_player();
-        set_seed(main_world_info.seed);
+
         init_chunks((int)powf(2,state_chunk_button()));
         init_world();
         _beginthread(  pre_draw_world,0,NULL);

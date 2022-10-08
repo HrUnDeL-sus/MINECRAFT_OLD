@@ -153,7 +153,7 @@ void modified_block(int state)
     struct vec last_pos_invisible;
     ray=add_v3_v3(ray,camera_angle_local);
     info_new_block * get;
-    float distance_ray=6;
+    float distance_ray=5;
     int start_x=(int)(camera_position.x-distance_ray);
     int end_x=(int)(camera_position.x+distance_ray);
     int start_y=(int)(camera_position.y-distance_ray);
