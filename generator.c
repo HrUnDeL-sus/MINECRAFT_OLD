@@ -196,6 +196,7 @@ float y_chunk=0;
 }
 void generate_landscape(chunk* get_chunk)
 {
+     generate_natures(get_chunk);
     float y_chunk=0;
     int x_block=0;
     int z_block=0;
@@ -271,7 +272,7 @@ void generate_landscape(chunk* get_chunk)
         x_block+=1;
 
     }
-      generate_natures(get_chunk);
+
 
 };
 void generate_chunk(chunk* get_chunk)

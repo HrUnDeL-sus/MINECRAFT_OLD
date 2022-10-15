@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "config.h"
 #include "generator.h"
+#include "tick.h"
 buffer_data background;
 gui_item singleplay_button;
 gui_item exit_button;
@@ -224,6 +225,9 @@ draw_text(vec2(-25,15),buffer6);
 char buffer7[64];
 snprintf(buffer7, sizeof buffer7, "%s%d","SEED:",seed);
 draw_text(vec2(-25,10),buffer7);
+char buffer8[64];
+snprintf(buffer8, sizeof buffer8, "%s%d","TICK:",tick_count);
+draw_text(vec2(-25,5),buffer8);
 }
 void draw_gui(){
   glDisable(GL_DEPTH_TEST);

@@ -4,7 +4,7 @@
 #ifndef CHUNK_H_INCLUDED
 #define CHUNK_H_INCLUDED
 
-
+int day_light;
 typedef struct{
 struct vec local_position;
 int chunk_x;

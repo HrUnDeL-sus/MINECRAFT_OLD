@@ -189,6 +189,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="texture.h" />
+		<Unit filename="tick.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="tick.h" />
 		<Unit filename="vec.c">
 			<Option compilerVar="CC" />
 		</Unit>

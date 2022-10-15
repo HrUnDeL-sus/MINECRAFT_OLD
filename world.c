@@ -21,6 +21,7 @@
 #include "sort.h"
 #include "biome.h"
 #include <GL/glut.h>
+#include "tick.h"
 int count_chunks;
 int count_blocks;
 int active_biome;
@@ -203,7 +204,6 @@ void generate_light_in_chunks(){
         for(int z=0; z<count_chunks; z+=1)
         {
             set_light_chunk(x,z);
-            check_chunk_is_active();
         }
     }
 
@@ -361,6 +361,7 @@ void delete_chunks(){
 }
 void delete_world(){
 delete_chunks();
+stop_tick_in_world();
 }
 void create_world(){
 
@@ -373,5 +374,6 @@ void create_world(){
         init_chunks((int)powf(2,state_chunk_button()));
         init_world();
         _beginthread(  pre_draw_world,0,NULL);
+        _beginthread(start_tick_in_world,0,NULL);
         global_state=3;
 }

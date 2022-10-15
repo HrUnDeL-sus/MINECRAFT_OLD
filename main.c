@@ -44,7 +44,7 @@ void display(void)
 {
     count_tick+=1;
     now_tick = GetTickCount()*0.001;
-    glClearColor(0.4f,0.6f,1,0);
+    glClearColor(1,1,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
     if(global_state==4)
@@ -265,7 +265,7 @@ void mouse_click(int button,int state,int x,int y)
         Sleep(200);
     if(data==5)
         save_state_chunks=state_chunk_button();
-    if(data==4&&save_state_chunks!=state_chunk_button){
+    if(data==4&&save_state_chunks!=state_chunk_button()){
         delete_world();
         create_world();
     }

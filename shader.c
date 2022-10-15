@@ -30,7 +30,7 @@ void print_log(GLuint shader)
     glGetShaderiv(shader,GL_COMPILE_STATUS,&ok);
 
         glGetShaderInfoLog(shader,2000,NULL,log);
-        printf("\nLog:%s",log);
+        printf("\nERROR IN %d:%s",shader,log);
 
     }
 int create_shader(char* file_name,GLuint type)

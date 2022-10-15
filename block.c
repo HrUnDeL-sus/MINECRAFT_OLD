@@ -81,7 +81,7 @@ typedef struct
     int pos_z;
     unsigned char is_enable;
     unsigned char id;
-    int light_id;
+    float light_id;
 } block;
 typedef struct{
 struct vec scale;
@@ -273,7 +273,7 @@ block_info info;
         if(local_block.id==117)
             get_texture_coord_lite(223,info.id_text);
         if(local_block.id==118)
-             get_texture_coord_full(181,181,181,181,181,222,info.id_text);
+             get_texture_coord_lite(222,info.id_text);
          if(local_block.id==119)
             get_texture_coord_lite(237,info.id_text);
          if(local_block.id==120)
