@@ -82,6 +82,7 @@ typedef struct
     unsigned char is_enable;
     unsigned char id;
     float light_id;
+    unsigned char block_is_light;
 } block;
 typedef struct{
 struct vec scale;
@@ -349,6 +350,31 @@ block_info info;
          info.position.z=(float)local_block.pos_z+offset.z;
          return info;
 
+}
+int is_light_block(block get,int * light_size){
+unsigned char id_array[]={22,32,66,87,119,120,121,122,123};
+int light_size_array[]={2,8,10,8,4,4,4,4,4};
+for(int i=0;i<sizeof(id_array);i+=1){
+    if(get.id==id_array[i]){
+        *light_size=light_size_array[i];
+        return 1;
+    }
+
+}
+return 0;
+}
+int translucent_block(block get){
+block_info get_info=get_block_info(get);
+for(int i=0;i<6;i+=1){
+    if(get_info.id_text[i]==181)
+        return 1;
+}
+unsigned char id_array[]={69,70,82,83,84,85,124,20,66};
+for(int i=0;i<sizeof(id_array);i+=1){
+    if(get.id==id_array[i])
+        return 1;
+}
+return 0;
 }
 void init_blocks()
 {

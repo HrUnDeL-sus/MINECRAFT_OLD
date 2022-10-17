@@ -55,6 +55,7 @@ void init_chunks(int size)
         for(int q=0; q<size; q+=1)
         {
             init_chunk(&chunk_in_world[i][q]);
+            chunk_in_world[i][q].main_info_new_block.is_active=0;
         }
 
     }
@@ -89,9 +90,8 @@ void check_chunk_is_active(){
             for(int z=0; z<count_chunks; z+=1)
             {
 if(chunk_in_world[x][z].main_info_new_block.is_active==1){
-
    while(chunk_in_world[x][z].can_rednering==0||chunk_in_world[x][z].can_rednering==2);
-  //  chunk_in_world[x][z].can_rednering=1;
+    chunk_in_world[x][z].can_rednering=1;
             struct vec local_vec=chunk_in_world[x][z].main_info_new_block.local_position;
             load_chunk(&chunk_in_world[x][z]);
             chunk_in_world[x][z].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z]=chunk_in_world[x][z].main_info_new_block.new_block;
@@ -169,7 +169,11 @@ void set_light_chunk(int x, int z)
             chunk * right_chunk=x==count_chunks-1?NULL:&chunk_in_world[x+1][z];
             chunk * back_chunk=z==0?NULL:&chunk_in_world[x][z-1];
             chunk * forward_chunk=z==count_chunks-1?NULL:&chunk_in_world[x][z+1];
-            generate_light(&chunk_in_world[x][z],left_chunk,right_chunk,forward_chunk,back_chunk);
+            chunk * left_back_chunk=x==0||z==0?NULL:&chunk_in_world[x-1][z-1];
+             chunk * left_forward_chunk=x==0||z==count_chunks-1?NULL:&chunk_in_world[x-1][z+1];
+              chunk * right_back_chunk=x==count_chunks-1||z==0?NULL:&chunk_in_world[x+1][z-1];
+               chunk * right_forward_chunk=x==count_chunks-1||z==count_chunks-1?NULL:&chunk_in_world[x+1][z+1];
+            generate_light(&chunk_in_world[x][z],left_chunk,right_chunk,forward_chunk,back_chunk,left_back_chunk,left_forward_chunk,right_back_chunk,right_forward_chunk);
 }
 void clear_chunk(int x, int z)
 {

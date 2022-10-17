@@ -13,6 +13,7 @@ typedef struct
     unsigned char is_enable;
     unsigned char id;
     float light_id;
+    unsigned char block_is_light;
 } block;
 typedef struct{
 struct vec scale;
@@ -26,6 +27,8 @@ float vertex_standart_block[];
 int default_shader_id;
 int is_check;
 void draw_cube(const int count);
+int translucent_block(block get);
+int is_light_block(block get,int * light_size);
 void modify_block(block * get,int x,int y,int z,int enable,int id);
 GLuint vao_block;
 GLuint vao_cross_block;

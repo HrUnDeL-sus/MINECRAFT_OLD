@@ -210,7 +210,7 @@ draw_text(vec2(0,0),"T");
 }
 void draw_debug(){
 char buffer[64];
-snprintf(buffer, sizeof buffer, "%s%f","FPS:",roundf(fps_count));
+snprintf(buffer, sizeof buffer, "%s%f","FPS:",fps_count);
 draw_text(vec2(-25,30),buffer);
 float start_y=25;
 char buffer4[64];

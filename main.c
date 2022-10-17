@@ -208,9 +208,10 @@ void modified_block(int state)
                 };
             for(int i=0;i<sizeof(positions);i+=1)
             {
-                  get=get_info_new_block_in_position(positions[i]);
+                                  get=get_info_new_block_in_position(positions[i]);
                         if(get!=NULL)
                         {
+
                             struct vec normal;
                             float fraction;
                             int d=ray_box(ray,camera_angle_local,vec3((float)get->new_block.pos_x,(float)get->new_block.pos_y,(float)get->new_block.pos_z),&fraction,&normal);

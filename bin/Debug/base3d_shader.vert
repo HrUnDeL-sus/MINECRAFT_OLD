@@ -54,6 +54,7 @@ out_main_color2.w=light;
 }
 else if(aPos.w==5){
 texCoordOut.z=idFrag[1][1];
+if(data<10000000)
 out_main_color2.w=light;
 }
 else if(aPos.w==6){

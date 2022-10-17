@@ -27,7 +27,7 @@ typedef struct
     info_new_block main_info_new_block;
 
 } chunk;
-void generate_light(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,chunk * back);
+void generate_light(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,chunk * back,chunk * left_back,chunk * left_forward,chunk * right_back,chunk * right_forward);
 struct vec * position_update_chunk;
 void fill_matrix(chunk * cnk);
 void init_chunk(chunk* get_chunk);
