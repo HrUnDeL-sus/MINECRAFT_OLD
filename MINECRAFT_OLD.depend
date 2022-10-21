@@ -513,7 +513,7 @@
 	"raycast.h"
 	"matrix.h"
 
-1666034624 d:\Документы\codeblocks\minecraft_old\chunk.h
+1666077298 d:\Документы\codeblocks\minecraft_old\chunk.h
 	"vec.h"
 	"block.h"
 	"info_indexs.h"
@@ -526,7 +526,7 @@
 	<math.h>
 	<string.h>
 
-1666039451 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1666337594 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -557,7 +557,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1666038972 source:d:\Документы\codeblocks\minecraft_old\main.c
+1666364578 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -631,7 +631,7 @@
 1664905124 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1666038904 source:d:\Документы\codeblocks\minecraft_old\world.c
+1666337833 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -743,7 +743,7 @@
 	"buffer.h"
 	"vec.h"
 
-1666037927 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1666166822 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -757,6 +757,7 @@
 	"config.h"
 	"generator.h"
 	"tick.h"
+	"collision.h"
 
 1661539989 source:d:\Документы\codeblocks\minecraft_old\buffer.c
 	<glad/glad.h>
@@ -801,7 +802,7 @@
 1664630109 d:\Документы\codeblocks\minecraft_old\world_manager.h
 	"chunk.h"
 
-1666040516 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
+1666077616 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
 	"shader.h"
 	<dirent.h>
 	<stdlib.h>
@@ -819,7 +820,7 @@
 	<_mingw.h>
 	<io.h>
 
-1665237700 source:d:\Документы\codeblocks\minecraft_old\player.c
+1666363598 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -829,16 +830,18 @@
 	"collision.h"
 	"open-simplex-noise.h"
 	"generator.h"
+	"collision.h"
 
-1661539989 d:\Документы\codeblocks\minecraft_old\player.h
+1666335572 d:\Документы\codeblocks\minecraft_old\player.h
 
-1661539989 source:d:\Документы\codeblocks\minecraft_old\collision.c
+1666178121 source:d:\Документы\codeblocks\minecraft_old\collision.c
 	"vec.h"
 	"world.h"
 	"chunk.h"
 	"block.h"
+	"camera.h"
 
-1661539989 d:\Документы\codeblocks\minecraft_old\collision.h
+1666099989 d:\Документы\codeblocks\minecraft_old\collision.h
 
 1663945373 source:d:\Документы\codeblocks\minecraft_old\thread_render.c
 	"chunk.h"
@@ -941,7 +944,33 @@
 
 1665767772 d:\Документы\codeblocks\minecraft_old\tick.h
 
-1665774254 source:d:\Документы\codeblocks\minecraft_old\tick.c
+1666335600 source:d:\Документы\codeblocks\minecraft_old\tick.c
 	<windows.h>
 	"chunk.h"
+	"player.h"
+
+1666364626 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
+	"char_array_helper.h"
+	"shader.h"
+	<stdlib.h>
+	"world_manager.h"
+	<process.h>
+	<windows.h>
+	<GL/glut.h>
+	<glad/glad.h>
+	<stdio.h>
+	"generator.h"
+	"gui.h"
+	"gui_text.h"
+	"gui_button.h"
+	"settings.h"
+	<stb_image_write.h>
+	<stb_image.h>
+	<direct.h>
+	"player.h"
+	"config.h"
+	"raycast.h"
+	"world.h"
+
+1666361047 d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.h
 

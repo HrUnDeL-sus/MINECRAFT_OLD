@@ -30,6 +30,7 @@ typedef struct
 void generate_light(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,chunk * back,chunk * left_back,chunk * left_forward,chunk * right_back,chunk * right_forward);
 struct vec * position_update_chunk;
 void fill_matrix(chunk * cnk);
+void reset_light(chunk * get_chunk);
 void init_chunk(chunk* get_chunk);
 void pre_rendering_chunk(chunk* get_chunk);
 void reset_count_and_noise();

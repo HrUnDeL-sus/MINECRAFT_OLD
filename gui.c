@@ -11,6 +11,7 @@
 #include "config.h"
 #include "generator.h"
 #include "tick.h"
+#include "collision.h"
 buffer_data background;
 gui_item singleplay_button;
 gui_item exit_button;
@@ -212,22 +213,20 @@ void draw_debug(){
 char buffer[64];
 snprintf(buffer, sizeof buffer, "%s%f","FPS:",fps_count);
 draw_text(vec2(-25,30),buffer);
-float start_y=25;
-char buffer4[64];
-snprintf(buffer4, sizeof buffer4, "%s%d","BIOME:",active_biome);
-draw_text(vec2(-25,25),buffer4);
-char buffer3[64];
-snprintf(buffer3, sizeof buffer3, "%s%d","BLOCK ID:",id_block);
-draw_text(vec2(-25,20),buffer3);
-char buffer6[64];
-snprintf(buffer6, sizeof buffer6, "%s%d%s%d%s%d","XYZ:",(int)camera_position.x," ",(int)camera_position.y," ",(int)camera_position.z);
-draw_text(vec2(-25,15),buffer6);
-char buffer7[64];
-snprintf(buffer7, sizeof buffer7, "%s%d","SEED:",seed);
-draw_text(vec2(-25,10),buffer7);
-char buffer8[64];
-snprintf(buffer8, sizeof buffer8, "%s%d","TICK:",tick_count);
-draw_text(vec2(-25,5),buffer8);
+snprintf(buffer, sizeof buffer, "%s%d","BIOME:",active_biome);
+draw_text(vec2(-25,25),buffer);
+snprintf(buffer, sizeof buffer, "%s%d","BLOCK ID:",id_block);
+draw_text(vec2(-25,20),buffer);
+snprintf(buffer, sizeof buffer, "%s%f%s%f%s%f","POSITION XYZ:",camera_position.x," ",camera_position.y," ",camera_position.z);
+draw_text(vec2(-25,15),buffer);
+snprintf(buffer, sizeof buffer, "%s%d","SEED:",seed);
+draw_text(vec2(-25,10),buffer);
+snprintf(buffer, sizeof buffer, "%s%d","TICK:",tick_count);
+draw_text(vec2(-25,5),buffer);
+snprintf(buffer, sizeof buffer, "%s%s","IN BLOCK:",in_block==1?"TRUE":"FALSE");
+draw_text(vec2(-25,0),buffer);
+snprintf(buffer, sizeof buffer, "%s%d%s%d","CHUNK XYZ:",(int)(roundf(camera_position.x)/16)," ",(int)(roundf(camera_position.z)/16));
+draw_text(vec2(-25,-5),buffer);
 }
 void draw_gui(){
   glDisable(GL_DEPTH_TEST);

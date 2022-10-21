@@ -51,6 +51,7 @@ void load_chunk(chunk * get)
                   modify_block(&get->chunk_blocks[x][y][z],
                          (int)get->position.x*16+x,y,(int)get->position.y*16+z,
                          read_data==254?0:1,read_data);
+
                          if(get->chunk_blocks[x][y][z].is_enable!=0)
                             get->count+=1;
             }

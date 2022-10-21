@@ -7,6 +7,7 @@
 #include "collision.h"
 #include "open-simplex-noise.h"
 #include "generator.h"
+#include "collision.h"
 typedef struct{
  struct vec position;
 } player;
@@ -17,16 +18,31 @@ set_camera(pos.x,pos.y,pos.z);
 main_player.position=pos;
 }
 void fall_player(){
-/*struct vec camera_position_local=camera_position;
-camera_position_local.y-=0.2f;
-if(!has_player_collision_with_block(camera_position_local))
-    camera_position=camera_position_local;*/
+move_player(vec3(0,-0.1f,0));
 }
 void move_player(struct vec position_move){
+struct vec new_pos;
+struct vec local_camera_position=camera_position;
+struct vec local_camera_position2;
+for(int i=0;i<10;i+=1){
+
+new_pos=camera_position;
+info_new_block* get=get_info_new_block_in_position(vec3(new_pos.x,new_pos.y,new_pos.z));
+
+if(get!=NULL){
+in_block=(get->new_block.is_enable!=0);
+get->state=-1;
+}
+else
+in_block=0;
+if(in_block==1)
+    break;
 add_camera(position_move.x,position_move.y,position_move.z);
+if(i==0)
+    local_camera_position2=camera_position;
+}
+camera_position=in_block==1?local_camera_position:local_camera_position2;
  main_player.position=camera_position;
-
-
 }
 void save_player(){
 FILE *fp;
@@ -36,7 +52,6 @@ fp=fopen(info_player,"wb");
 fwrite(&main_player,sizeof(player),1,fp);
 
 fclose(fp);
-fall_player();
 }
 void load_player(){
 FILE *fp;

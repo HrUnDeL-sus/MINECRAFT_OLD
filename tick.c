@@ -1,10 +1,12 @@
 #include <windows.h>
 #include "chunk.h"
+#include "player.h"
 int tick_count;
 int stop_thread;
 int reverse_day_light=1;
 void add_tick(){
  tick_count+=1;
+    fall_player();
   if(tick_count%100==0){
  day_light=reverse_day_light==0?day_light-1:day_light+1;
  printf("\nDAT:%d",day_light);

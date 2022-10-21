@@ -15,7 +15,6 @@
 #include "gui.h"
 #include "gui_text.h"
 #include "gui_button.h"
-#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "settings.h"
 #include <stb_image_write.h>
 #include <stb_image.h>
@@ -42,17 +41,20 @@ void resize(int width, int height)
 }
 void display(void)
 {
+
     count_tick+=1;
     now_tick = GetTickCount()*0.001;
     glClearColor(1,1,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
-    if(global_state==4)
-    {
-        if(mouse_is_press_state!=-1&&count_tick>20){
-           modified_block(mouse_is_press_state);
+        if(global_state!=4&&count_tick>4){
+          // modified_block(mouse_is_press_state);
+              apply_keys();
            count_tick=0;
           }
+    if(global_state==4)
+    {
+         apply_keys();
         rendering_world();
         save_player();
 
@@ -70,64 +72,13 @@ void timer(int t)
 
     glutTimerFunc(1000/(float)main_config.fps, timer, 0);
 }
+void key_up(unsigned char key, int x, int y)
+{
+remove_key(key);
+}
 void key(unsigned char key, int x, int y)
 {
-
-    if(on_key_press(key)!=-1)
-        return;
-    if(key==27&&global_state==4){
-         glutSetCursor(GLUT_CURSOR_RIGHT_ARROW);
-           global_state=5;
-    }
-
-    if(key=='w')
-        move_player(vec3(0,0,0.5f));
-    if(key=='s')
-        move_player(vec3(0,0,-0.5f));
-    if(key=='a')
-        move_player(vec3(0.5f,0,0));
-    if(key=='d')
-        move_player(vec3(-0.5f,0,0));
-    if(key=='z')
-        move_player(vec3(0,-1,0));
-    if(key=='x')
-        move_player(vec3(0,1,0));
-    if(key=='2')
-        glutFullScreen();
-    if(key=='1')
-        exit(0);
-    if(key=='-')
-        id_block-=1;
-    if(key=='+'||key=='=')
-        id_block+=1;
-    if(key=='4')
-    {
-
-        char third[512];
-        int time_int=time(NULL);
-        char  time_char[64];
-        char * name="screen";
-        char * name2=".png";
-        char name3[512];
-        char name4[512];
-        sprintf(time_char,"%ld", time_int);
-        snprintf(name3, sizeof name3, "%s%s", name, time_char);
-        snprintf(name4, sizeof name4, "%s%s", name3, name2);
-        snprintf(third, sizeof third, "%s%s", main_world_info.path_sceenshot_folder, name4);
-        unsigned char * arry=malloc(4*save_width*save_height*sizeof(unsigned char));
-        glReadPixels(0, 0, save_width, save_height, GL_RGBA, GL_UNSIGNED_BYTE, arry);
-        stbi_write_set_flip_vertically_on_save(1);
-        stbi_write_png(third,save_width,save_height,4,arry,4*save_width);
-        //   stbi_image_free(arry);
-        free(arry);
-        Sleep(10);
-    }
-    if(key=='3')
-    {
-        is_check=is_check==0?1:0;
-
-    }
-
+add_key(key);
 }
 void idle(void)
 {
@@ -244,6 +195,8 @@ void wrap(int* x,int* y)
 }
 void mouse_click(int button,int state,int x,int y)
 {
+    int seconds = GetTickCount();
+    printf("\nTIME:%d",seconds);
     if(global_state==4&&state==0)
     {
         mouse_is_press_state=button==2?1:0;
@@ -297,7 +250,7 @@ void init()
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER,0.3f);
     glBlendFunc(GL_ONE, GL_ZERO);
-
+    glutIgnoreKeyRepeat(1);
     GLuint shader[2];
     shader[0]=create_shader("base3d_shader.vert",GL_VERTEX_SHADER);
     shader[1]=create_shader("base3d_shader.frag",GL_FRAGMENT_SHADER);
@@ -332,6 +285,7 @@ int main(int argc, char *argv[])
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
+    glutKeyboardUpFunc(key_up);
     glutMouseFunc(mouse_click);
     glutMotionFunc(mouse);
      glutPassiveMotionFunc(mouse);

@@ -74,7 +74,7 @@ void apply_light_block(chunk* get_chunk,chunk * left,chunk * right,chunk * forwa
     int lenght_light=0;
     if(is_light_block(get_chunk->chunk_blocks[x][y][z],&lenght_light)==1)
     {
-        printf("\nLIGJT:%d",lenght_light);
+
         for(int start_x=x-lenght_light; start_x<x+lenght_light; start_x+=1)
         {
             for(int start_z=z-lenght_light; start_z<z+lenght_light; start_z+=1)
@@ -144,8 +144,21 @@ void apply_light_block(chunk* get_chunk,chunk * left,chunk * right,chunk * forwa
         }
     }
 }
+void reset_light(chunk * get_chunk){
+ for(int x1=0; x1<16; x1+=1)
+    {
+        for(int y1=1; y1<255; y1+=1)
+        {
+            for(int z1=0; z1<16; z1+=1)
+            {
+                    get_chunk->chunk_blocks[x1][y1][z1].block_is_light=0;
+            }
+        }
+    }
+}
 void generate_light(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,chunk * back,chunk * left_back,chunk * left_forward,chunk * right_back,chunk * right_forward)
 {
+
     for(int x1=0; x1<16; x1+=1)
     {
         for(int y1=0; y1<255; y1+=1)
@@ -154,6 +167,7 @@ void generate_light(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,
             {
                 float light_id=10000000;
                 int light_id_array[6]= {0,0,0,0,0,0};
+
                 if(get_chunk->chunk_blocks[x1][y1][z1].is_enable!=1)
                     continue;
                 apply_light_block(get_chunk,left,right,forward,back,left_back,left_forward,right_back,right_forward,1,x1,y1,z1);
@@ -193,7 +207,6 @@ void generate_light(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,
                     }
                     light_id+=10*day_light;
                 }
-                get_chunk->chunk_blocks[x1][y1][z1].block_is_light=0;
 
                 float lenght=fabsf(lenght_v2(sub_v2_v2(
                                                  vec2((float)get_chunk->chunk_blocks[x1][y1][z1].pos_x,(float)get_chunk->chunk_blocks[x1][y1][z1].pos_z),vec2(camera_position.x,camera_position.z))));
@@ -205,12 +218,14 @@ void generate_light(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,
                 light_id+=lenght;
 
                 get_chunk->chunk_blocks[x1][y1][z1].light_id=light_id;
+
                 //     printf("\nD:%f",light_id);
             }
         }
     }
 
 }
+
 void clear_blocks(chunk* get_chunk,chunk * left,chunk * right,chunk * forward,chunk * back)
 {
     if(blocks_copy==NULL)
@@ -395,7 +410,7 @@ void fill_indexs(chunk * cnk,info_indexs * get_indexs, int (*examination)(block 
                 //   printf("\nMATRIX:%f",texture_matrix[8]);
                 for(int i=0; i<16; i+=1)
                 {
-                    get_indexs->matrix_data.indexs[count_matrix1+i]=transform_mat[i];
+               get_indexs->matrix_data.indexs[count_matrix1+i]=transform_mat[i];
                 }
                 for(int i=0; i<9; i+=1)
                 {
@@ -405,9 +420,9 @@ void fill_indexs(chunk * cnk,info_indexs * get_indexs, int (*examination)(block 
                 count_matrix2+=9;
                 count+=1;
 
+        }
 
             }
-        }
     }
 
     get_indexs->matrix_data.indexs=realloc(get_indexs->matrix_data.indexs,count*16*sizeof(float));
