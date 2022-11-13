@@ -219,14 +219,16 @@ snprintf(buffer, sizeof buffer, "%s%d","BLOCK ID:",id_block);
 draw_text(vec2(-25,20),buffer);
 snprintf(buffer, sizeof buffer, "%s%f%s%f%s%f","POSITION XYZ:",camera_position.x," ",camera_position.y," ",camera_position.z);
 draw_text(vec2(-25,15),buffer);
-snprintf(buffer, sizeof buffer, "%s%d","SEED:",seed);
+snprintf(buffer, sizeof buffer, "%s%f%s%f%s%f","BLOCK XYZ:",roundf(camera_position.x)," ",roundf(camera_position.y)," ",roundf(camera_position.z));
 draw_text(vec2(-25,10),buffer);
-snprintf(buffer, sizeof buffer, "%s%d","TICK:",tick_count);
+snprintf(buffer, sizeof buffer, "%s%d","SEED:",seed);
 draw_text(vec2(-25,5),buffer);
-snprintf(buffer, sizeof buffer, "%s%s","IN BLOCK:",in_block==1?"TRUE":"FALSE");
+snprintf(buffer, sizeof buffer, "%s%d","TICK:",tick_count);
 draw_text(vec2(-25,0),buffer);
-snprintf(buffer, sizeof buffer, "%s%d%s%d","CHUNK XYZ:",(int)(roundf(camera_position.x)/16)," ",(int)(roundf(camera_position.z)/16));
+snprintf(buffer, sizeof buffer, "%s%s","IN BLOCK:",in_block==1?"TRUE":"FALSE");
 draw_text(vec2(-25,-5),buffer);
+snprintf(buffer, sizeof buffer, "%s%d%s%d","CHUNK XYZ:",(int)(roundf(camera_position.x)/16)," ",(int)(roundf(camera_position.z)/16));
+draw_text(vec2(-25,-10),buffer);
 }
 void draw_gui(){
   glDisable(GL_DEPTH_TEST);

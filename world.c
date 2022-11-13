@@ -90,11 +90,7 @@ void check_chunk_is_active(){
             for(int z=0; z<count_chunks; z+=1)
             {
 if(chunk_in_world[x][z].main_info_new_block.is_active==1){
-        if(chunk_in_world[x][z].main_info_new_block.state==-1)
-        {
-            chunk_in_world[x][z].main_info_new_block.is_active=0;
-            continue;
-        }
+   while(chunk_in_world[x][z].can_rednering==0||chunk_in_world[x][z].can_rednering==2);
     chunk_in_world[x][z].can_rednering=1;
             struct vec local_vec=chunk_in_world[x][z].main_info_new_block.local_position;
             load_chunk(&chunk_in_world[x][z]);
@@ -202,8 +198,8 @@ void fill_chunks(){
     {
         for(int z=0; z<count_chunks; z+=1)
         {
+             check_chunk_is_active();
              fill_matrix(&chunk_in_world[x][z]);
-              check_chunk_is_active();
         }
     }
 }
@@ -218,15 +214,6 @@ void generate_light_in_chunks(){
     }
 
 }
-void reset_light_chunks(){
-    for(int x=0; x<count_chunks; x+=1)
-    {
-        for(int z=0; z<count_chunks; z+=1)
-        {
-            reset_light(&chunk_in_world[x][z]);
-        }
-    }
-}
 void clear_chunks()
 {
     end_clear_chunk=0;
@@ -239,12 +226,13 @@ void clear_chunks()
             check_chunk_is_active();
         }
     }
-
+    generate_light_in_chunks();
+     fill_chunks();
     end_clear_chunk=1;
 }
 chunk * find_chunk_in_position(struct vec position)
 {
-    position=vec2((float)(int)(position.x),(float)(int)(position.y));
+    position=vec2(floorf(position.x),floorf(position.y));
     for(int x=0; x<count_chunks; x+=1)
     {
         for(int y=0; y<count_chunks; y+=1)
@@ -264,24 +252,37 @@ chunk * find_chunk_in_position(struct vec position)
 }
 
 chunk * get_chunk_in_position(struct vec position){
+
 struct vec final_vec=vec2(position.x/16,position.z/16);
     return  find_chunk_in_position(final_vec);
 }
+block * get_block_in_position(struct vec pos){
 
+chunk * get_chunk=get_chunk_in_position(pos);
+if(get_chunk==NULL)
+    return NULL;
+struct vec final_pos=vec2(fabs(pos.x-(get_chunk->position.x*16)),fabs(pos.z-(get_chunk->position.z*16)));
+for(int x=0;x<16;x+=1){
+    for(int z=0;z<16;z+=1){
+        if(get_chunk->chunk_blocks[x][pos.y>255?255:(int)pos.y][z].pos_x==(int)pos.x&& get_chunk->chunk_blocks[x][pos.y>255?255:(int)pos.y][z].pos_z==(int)pos.z){
+            return &get_chunk->chunk_blocks[x][pos.y>255?255:(int)pos.y][z];
+        }
+    }
+}
+return NULL;
+}
 info_new_block * get_info_new_block_in_position(struct vec pos){
 chunk * get_chunk=get_chunk_in_position(pos);
 if(get_chunk==NULL)
     return NULL;
-
+get_chunk->was_modified=1;
+struct vec final_pos=vec2(fabs(pos.x-(get_chunk->position.x*16)),fabs(pos.z-(get_chunk->position.z*16)));
 for(int x=0;x<16;x+=1){
     for(int z=0;z<16;z+=1){
-
         info_new_block local_block;
         local_block.new_block=get_chunk->chunk_blocks[x][pos.y>255?255:(int)pos.y][z];
         local_block.local_position=vec3((float)x,pos.y>255?255:(float)pos.y,(float)z);
-        //printf("\nCHECK POS:%f %f",local_block.new_block.pos_x,local_block.new_block.pos_z);
-        if( local_block.new_block.pos_x==(int)pos.x&& local_block.new_block.pos_z==(int)pos.z&&  get_chunk->was_modified!=1){
-            get_chunk->was_modified=1;
+        if( local_block.new_block.pos_x==(int)pos.x&& local_block.new_block.pos_z==(int)pos.z){
                 get_chunk->main_info_new_block=local_block;
             return &get_chunk->main_info_new_block;
         }
@@ -297,6 +298,8 @@ float x1=(float)count_chunks/2;
         {
             for(int z=0; z<count_chunks; z+=1)
             {
+
+
                  z1-=1;
             }
             x1-=1;
@@ -305,7 +308,6 @@ float x1=(float)count_chunks/2;
 }
 void pre_draw_world (void *t)
 {
-     struct vec direction_last=vec2(0,0);
     int is_new=0;
     while(1==1)
     {
@@ -313,8 +315,6 @@ void pre_draw_world (void *t)
         clock_t  start=time(NULL);
         is_end2=1;
         struct vec direction;
-                      if(direction.x!=0||direction.y!=0)
-        reset_light_chunks();
         chunk_now=vec2(roundf(camera_position.x/16),roundf(camera_position.z/16));
         direction=sub_v2_v2(chunk_now,chunk_last);
         active_biome=get_noise_biome(camera_position.x,camera_position.z);
@@ -324,19 +324,16 @@ void pre_draw_world (void *t)
         float x1=(float)count_chunks/2;
         float z1=(float)count_chunks/2;
         int x_start=count_chunks-1;
-     //   init_new_position_chunks();
+        init_new_position_chunks();
         //   check_chunk_is_active();
-
-        direction_last=direction;
          for(int x=0; x<count_chunks; x+=1)
         {
 
             for(int z=0; z<count_chunks; z+=1)
             {
-
                     struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
                 chunk_in_world[x][z].position=pos_chunk;
-             //   reset_light(&chunk_in_world[x][z]);
+
                     pre_rendering_chunk(&chunk_in_world[x][z]);
                      check_chunk_is_active();
                 z1-=1;
@@ -346,12 +343,7 @@ void pre_draw_world (void *t)
             z1=(float)count_chunks/2;
 
         }
-
         clear_chunks();
-            generate_light_in_chunks();
-
-     fill_chunks();
-
         clock_t before=time(NULL)-start;
         is_end2=0;
         if(is_new==0)
@@ -360,7 +352,6 @@ void pre_draw_world (void *t)
             return;
         }
         is_new=1;
-
 
     }
 }

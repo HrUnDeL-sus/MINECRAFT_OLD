@@ -22,8 +22,8 @@
 #include "player.h"
 #include "config.h"
 #include "raycast.h"
+#include "keyboard_mouse_manager.h"
 float t=0;
-int mouse_is_press_state=-1;
 int count_tick=0;
 GLuint listName;
 int save_state_chunks;
@@ -47,18 +47,22 @@ void display(void)
     glClearColor(1,1,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
+
         if(global_state!=4&&count_tick>4){
           // modified_block(mouse_is_press_state);
               apply_keys();
            count_tick=0;
           }
+
     if(global_state==4)
     {
+
          apply_keys();
         rendering_world();
         save_player();
 
     }
+
     //  if(global_state!=4)
     draw_gui();
     glutSwapBuffers();
@@ -84,108 +88,7 @@ void idle(void)
 {
 
 }
-info_new_block  * raytrace(double sx, double sy, double sz, double dx, double dy)
-{
-    const int steps = max(abs(sx-dx), abs(sy-dy));
-    for (int step = 0; step <= steps; step++)
-    {
-        double x= sx + (dx-sx) * step/steps;
-        double y= sy + (dy-sy) * step/steps;
-        if(get_info_new_block_in_position(vec3((float)sx,(float)sz,(float)sy))!=NULL)
-            return get_info_new_block_in_position(vec3((float)sx,(float)sz,(float)sy));
-    }
-    return NULL;
-}
-void modified_block(int state)
-{
-    struct vec ray=camera_position;
-    struct vec camera_angle_local=camera_angle;
-    struct vec last_pos;
-    struct vec last_pos_invisible;
-    ray=add_v3_v3(ray,camera_angle_local);
-    info_new_block * get;
-    float distance_ray=5;
-    int start_x=(int)(camera_position.x-distance_ray);
-    int end_x=(int)(camera_position.x+distance_ray);
-    int start_y=(int)(camera_position.y-distance_ray);
-    int end_y=(int)(camera_position.y+distance_ray);
-    int start_z=(int)(camera_position.z-distance_ray);
-    int end_z=(int)(camera_position.z+distance_ray);
-    float min_distance=1000000;
-    float min_distance_invisible=1000000;
-    for(int x=start_x; x<=end_x; x+=1)
-    {
-        for(int z=start_z; z<=end_z; z+=1)
-        {
-            for(int y=start_y; y<=end_y; y+=1)
-            {
-                get=get_info_new_block_in_position(vec3((float)x,(float)y,(float)z));
-                if(get!=NULL)
-                {
-                    struct vec normal;
-                    float fraction;
-                    int d=ray_box(ray,camera_angle_local,vec3((float)get->new_block.pos_x,(float)get->new_block.pos_y,(float)get->new_block.pos_z),&fraction,&normal);
-                    if(d==1&&fraction<min_distance&&get->new_block.is_enable==1)
-                    {
-                        min_distance=fraction;
-                        last_pos=vec3((float)x,(float)y,(float)z);
 
-                    }
-                }
-            }
-        }
-    }
-    get=get_info_new_block_in_position(last_pos);
-    if(get!=NULL)
-    {
-        if(state==0)
-        {
-            get->state=state;
-            get->new_block.is_enable=0;
-            get->is_active=1;
-
-            return;
-        }
-        else
-        {
-            min_distance=10000;
-            struct vec positions[]={
-                last_pos.x-1,last_pos.y,last_pos.z,
-                last_pos.x+1,last_pos.y,last_pos.z,
-                last_pos.x,last_pos.y+1,last_pos.z,
-                last_pos.x,last_pos.y-1,last_pos.z,
-                last_pos.x,last_pos.y,last_pos.z-1,
-                last_pos.x,last_pos.y,last_pos.z+1,
-                };
-            for(int i=0;i<sizeof(positions);i+=1)
-            {
-                                  get=get_info_new_block_in_position(positions[i]);
-                        if(get!=NULL)
-                        {
-
-                            struct vec normal;
-                            float fraction;
-                            int d=ray_box(ray,camera_angle_local,vec3((float)get->new_block.pos_x,(float)get->new_block.pos_y,(float)get->new_block.pos_z),&fraction,&normal);
-                            if(d==1&&fraction<min_distance&&get->new_block.is_enable==0)
-                            {
-                                min_distance=fraction;
-                                last_pos_invisible=positions[i];
-
-                            }
-                       }
-            }
-            get=get_info_new_block_in_position(last_pos_invisible);
-            if(get!=NULL){
-                get->state=state;
-            get->new_block.is_enable=1;
-            get->new_block.id=id_block;
-            get->is_active=1;
-            }
-        }
-    }
-  //  printf("\nEND");
-  //  check_chunk_is_active();
-}
 void wrap(int* x,int* y)
 {
 
@@ -195,34 +98,9 @@ void wrap(int* x,int* y)
 }
 void mouse_click(int button,int state,int x,int y)
 {
-    int seconds = GetTickCount();
-    printf("\nTIME:%d",seconds);
-    if(global_state==4&&state==0)
-    {
-        mouse_is_press_state=button==2?1:0;
-         modified_block(mouse_is_press_state);
-    }else if(state==1){
-    mouse_is_press_state=-1;
-    }
-    if(state!=0)
-        return;
-    int data=on_click(vec2((float)x/save_width,(float)y/save_height));
-    if(data==1)
-        exit(0);
-    if(data==0)
-        global_state=2;
-    if(data==2)
-    {
-        create_world();
-    }
-    if(data==3)
-        Sleep(200);
-    if(data==5)
-        save_state_chunks=state_chunk_button();
-    if(data==4&&save_state_chunks!=state_chunk_button()){
-        delete_world();
-        create_world();
-    }
+    mouse_button local_mouse={state==0?1:0,x,y};
+    set_mouse_state(button==0?1:0,local_mouse);
+     apply_mouse();
 }
 void mouse(int x,int y)
 {
@@ -293,8 +171,5 @@ int main(int argc, char *argv[])
     glutTimerFunc(1000/(float)main_config.fps, timer, 0);
     init();
     glutMainLoop();
-    printf("\nEXIIRRRR");
-    int t=0;
-    printf("\nSDFRGHRHDSRGERG");
     return EXIT_SUCCESS;
 }

@@ -5,6 +5,7 @@ typedef struct{
 int smoothing;
 int fps;
 int biome_size;
+float speed_player;
 } config;
 config main_config;
 int has_config();

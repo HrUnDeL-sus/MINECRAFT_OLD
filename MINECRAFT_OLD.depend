@@ -477,7 +477,7 @@
 
 1655919369 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
-1666036023 source:d:\Документы\codeblocks\minecraft_old\block.c
+1668104977 source:d:\Документы\codeblocks\minecraft_old\block.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -503,7 +503,7 @@
 
 1661539989 d:\Документы\codeblocks\minecraft_old\matrix.h
 
-1665247842 source:d:\Документы\codeblocks\minecraft_old\camera.c
+1668110263 source:d:\Документы\codeblocks\minecraft_old\camera.c
 	<stdlib.h>
 	<stdio.h>
 	<math.h>
@@ -518,7 +518,7 @@
 	"block.h"
 	"info_indexs.h"
 
-1663272871 d:\Документы\codeblocks\minecraft_old\raycast.h
+1667563125 d:\Документы\codeblocks\minecraft_old\raycast.h
 
 1661539989 source:d:\Документы\codeblocks\minecraft_old\char_array_helper.c
 	<stdio.h>
@@ -557,7 +557,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1666364578 source:d:\Документы\codeblocks\minecraft_old\main.c
+1667325701 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -582,6 +582,7 @@
 	"player.h"
 	"config.h"
 	"raycast.h"
+	"keyboard_mouse_manager.h"
 
 1661539989 d:\Документы\codeblocks\minecraft_old\char_array_helper.h
 
@@ -608,13 +609,16 @@
 	<windows.h>
 	<math.h>
 
-1663346869 source:d:\Документы\codeblocks\minecraft_old\raycast.c
+1667563125 source:d:\Документы\codeblocks\minecraft_old\raycast.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
 	<math.h>
 	"vec.h"
 	"math_helper.h"
+	"block.h"
+	"world.h"
+	"camera.h"
 
 1665252892 source:d:\Документы\codeblocks\minecraft_old\shader.c
 	<glad/glad.h>
@@ -628,10 +632,10 @@
 
 1662222209 source:d:\Документы\codeblocks\minecraft_old\vec.c
 
-1664905124 d:\Документы\codeblocks\minecraft_old\world.h
+1667325535 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1666337833 source:d:\Документы\codeblocks\minecraft_old\world.c
+1668107573 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -743,7 +747,7 @@
 	"buffer.h"
 	"vec.h"
 
-1666166822 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1668104977 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -820,7 +824,7 @@
 	<_mingw.h>
 	<io.h>
 
-1666363598 source:d:\Документы\codeblocks\minecraft_old\player.c
+1668343439 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -831,8 +835,9 @@
 	"open-simplex-noise.h"
 	"generator.h"
 	"collision.h"
+	"raycast.h"
 
-1666335572 d:\Документы\codeblocks\minecraft_old\player.h
+1668343445 d:\Документы\codeblocks\minecraft_old\player.h
 
 1666178121 source:d:\Документы\codeblocks\minecraft_old\collision.c
 	"vec.h"
@@ -853,9 +858,9 @@
 
 1662651969 d:\Документы\codeblocks\minecraft_old\thread_render.h
 
-1663945516 d:\Документы\codeblocks\minecraft_old\config.h
+1668340396 d:\Документы\codeblocks\minecraft_old\config.h
 
-1663945731 source:d:\Документы\codeblocks\minecraft_old\config.c
+1668340749 source:d:\Документы\codeblocks\minecraft_old\config.c
 	"shader.h"
 	"config.h"
 	<dirent.h>
@@ -949,7 +954,7 @@
 	"chunk.h"
 	"player.h"
 
-1666364626 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
+1668340563 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
 	"char_array_helper.h"
 	"shader.h"
 	<stdlib.h>
@@ -971,6 +976,7 @@
 	"config.h"
 	"raycast.h"
 	"world.h"
+	"camera.h"
 
-1666361047 d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.h
+1667240353 d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.h
 

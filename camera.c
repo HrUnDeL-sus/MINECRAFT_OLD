@@ -65,6 +65,7 @@ void add_camera(float x,float y,float z)
         camera_position.y+=y;
         camera_position.z+=z;
     }
+    camera_position=fabsf_v3(camera_position);
 }
 void rotate_camera(float l_pitch,float l_yaw)
 {

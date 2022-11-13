@@ -143,6 +143,10 @@
 			<Option virtualFolder="helpers/" />
 		</Unit>
 		<Unit filename="interpolate_helper.h" />
+		<Unit filename="keyboard_mouse_manager.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="keyboard_mouse_manager.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

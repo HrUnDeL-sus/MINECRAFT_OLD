@@ -31,4 +31,5 @@ void check_chunk_is_active();
 void create_world();
 void delete_world();
 void init_buffers();
+block * get_block_in_position(struct vec pos);
 #endif // WORLD_H_INCLUDED
