@@ -184,7 +184,7 @@ if(button==0)
 
 }
 void apply_keys(){
-
+struct vec move_vector=vec3(0,0,0);
 for(int i=0;i<index_key;i+=1){
 unsigned char local_key=keys[i];
  int seconds = GetTickCount();
@@ -200,21 +200,19 @@ if(on_key_press(local_key)!=-1)
     }
 
     if(local_key=='w')
-        move_player(vec3(0,0,main_config.speed_player));
+        move_vector.z+=main_config.speed_player;
     if(local_key=='s')
-        move_player(vec3(0,0,-main_config.speed_player));
+         move_vector.z-=main_config.speed_player;
     if(local_key=='a')
-        move_player(vec3(main_config.speed_player,0,0));
+     move_vector.x+=main_config.speed_player;
     if(local_key=='d')
-        move_player(vec3(-main_config.speed_player,0,0));
-    if(local_key=='z')
-        move_player(vec3(0,-main_config.speed_player,0));
-    if(local_key=='x')
-        move_player(vec3(0,main_config.speed_player,0));
+     move_vector.x-=main_config.speed_player;
+    if(local_key==32&&can_jump==1)
+        is_jump=1;
     if(local_key=='2')
         glutFullScreen();
     if(local_key=='1')
-        exit(0);
+        exit(1);
     if(local_key=='-')
         id_block-=1;
     if(local_key=='+'||local_key=='=')
@@ -242,4 +240,5 @@ if(on_key_press(local_key)!=-1)
         Sleep(10);
     }
 }
+move_player(move_vector);
 }

@@ -824,7 +824,7 @@
 	<_mingw.h>
 	<io.h>
 
-1668343439 source:d:\Документы\codeblocks\minecraft_old\player.c
+1668451457 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -837,7 +837,7 @@
 	"collision.h"
 	"raycast.h"
 
-1668343445 d:\Документы\codeblocks\minecraft_old\player.h
+1668450718 d:\Документы\codeblocks\minecraft_old\player.h
 
 1666178121 source:d:\Документы\codeblocks\minecraft_old\collision.c
 	"vec.h"
@@ -954,7 +954,7 @@
 	"chunk.h"
 	"player.h"
 
-1668340563 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
+1668452623 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
 	"char_array_helper.h"
 	"shader.h"
 	<stdlib.h>

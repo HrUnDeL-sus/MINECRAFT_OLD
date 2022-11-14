@@ -4,6 +4,8 @@ typedef struct{
  struct vec position;
 } player;
 player main_player;
+int is_jump;
+int can_jump;
 void set_position_player(struct vec pos);
 void move_player(struct vec position_move);
 void save_player();
