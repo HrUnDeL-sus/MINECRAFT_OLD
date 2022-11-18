@@ -47,7 +47,6 @@ void display(void)
     glClearColor(1,1,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
-
         if(global_state!=4&&count_tick>4){
           // modified_block(mouse_is_press_state);
               apply_keys();
@@ -56,7 +55,10 @@ void display(void)
 
     if(global_state==4)
     {
-
+        if(count_tick>1){
+            fall_player();
+                count_tick=0;
+        }
          apply_keys();
         rendering_world();
         save_player();

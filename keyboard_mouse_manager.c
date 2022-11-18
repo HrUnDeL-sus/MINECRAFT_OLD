@@ -54,7 +54,7 @@ info_new_block  * raytrace(double sx, double sy, double sz, double dx, double dy
 void modified_block(int state)
 {
 
-    struct vec ray=camera_position;
+      struct vec ray=camera_position;
     struct vec camera_angle_local=camera_angle;
     struct vec last_pos;
     struct vec last_pos_invisible;
@@ -78,29 +78,24 @@ void modified_block(int state)
                 get=get_info_new_block_in_position(vec3((float)x,(float)y,(float)z));
                 if(get!=NULL)
                 {
-
                     struct vec normal;
                     float fraction;
                     int d=ray_box(ray,camera_angle_local,vec3((float)get->new_block.pos_x,(float)get->new_block.pos_y,(float)get->new_block.pos_z),&fraction,&normal);
-
                     if(d==1&&fraction<min_distance&&get->new_block.is_enable==1)
                     {
                         min_distance=fraction;
                         last_pos=vec3((float)x,(float)y,(float)z);
-
 
                     }
                 }
             }
         }
     }
-
     get=get_info_new_block_in_position(last_pos);
     if(get!=NULL)
     {
         if(state==0)
         {
-
             get->state=state;
             get->new_block.is_enable=0;
             get->is_active=1;
@@ -109,7 +104,33 @@ void modified_block(int state)
         }
         else
         {
-            get=get_info_new_block_in_position(get_higher_distance(0,last_pos,0));
+            min_distance=10000;
+            struct vec positions[]={
+                last_pos.x-1,last_pos.y,last_pos.z,
+                last_pos.x+1,last_pos.y,last_pos.z,
+                last_pos.x,last_pos.y+1,last_pos.z,
+                last_pos.x,last_pos.y-1,last_pos.z,
+                last_pos.x,last_pos.y,last_pos.z-1,
+                last_pos.x,last_pos.y,last_pos.z+1,
+                };
+            for(int i=0;i<sizeof(positions);i+=1)
+            {
+                                  get=get_info_new_block_in_position(positions[i]);
+                        if(get!=NULL)
+                        {
+
+                            struct vec normal;
+                            float fraction;
+                            int d=ray_box(ray,camera_angle_local,vec3((float)get->new_block.pos_x,(float)get->new_block.pos_y,(float)get->new_block.pos_z),&fraction,&normal);
+                            if(d==1&&fraction<min_distance&&get->new_block.is_enable==0)
+                            {
+                                min_distance=fraction;
+                                last_pos_invisible=positions[i];
+
+                            }
+                       }
+            }
+            get=get_info_new_block_in_position(last_pos_invisible);
             if(get!=NULL){
                 get->state=state;
             get->new_block.is_enable=1;
@@ -118,8 +139,6 @@ void modified_block(int state)
             }
         }
     }
-  //  printf("\nEND");
-  //  check_chunk_is_active();
 }
 void add_key(unsigned char key){
 if(index_key==5||has_this_key(key)==1)
@@ -193,20 +212,20 @@ if(on_key_press(local_key)!=-1)
         {
             continue;
         }
-         printf("\nKEYT:%d",local_key);
+
     if(local_key==27&&global_state==4){
          glutSetCursor(GLUT_CURSOR_RIGHT_ARROW);
            global_state=5;
     }
 
     if(local_key=='w')
-        move_vector.z+=main_config.speed_player;
+       move_player(vec3(0,0,main_config.speed_player));
     if(local_key=='s')
-         move_vector.z-=main_config.speed_player;
+        move_player(vec3(0,0,-main_config.speed_player));
     if(local_key=='a')
-     move_vector.x+=main_config.speed_player;
+     move_player(vec3(main_config.speed_player,0,0));
     if(local_key=='d')
-     move_vector.x-=main_config.speed_player;
+     move_player(vec3(-main_config.speed_player,0,0));
     if(local_key==32&&can_jump==1)
         is_jump=1;
     if(local_key=='2')
@@ -240,5 +259,4 @@ if(on_key_press(local_key)!=-1)
         Sleep(10);
     }
 }
-move_player(move_vector);
 }

@@ -557,7 +557,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1667325701 source:d:\Документы\codeblocks\minecraft_old\main.c
+1668635856 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -824,7 +824,7 @@
 	<_mingw.h>
 	<io.h>
 
-1668451457 source:d:\Документы\codeblocks\minecraft_old\player.c
+1668795463 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -949,12 +949,12 @@
 
 1665767772 d:\Документы\codeblocks\minecraft_old\tick.h
 
-1666335600 source:d:\Документы\codeblocks\minecraft_old\tick.c
+1668634690 source:d:\Документы\codeblocks\minecraft_old\tick.c
 	<windows.h>
 	"chunk.h"
 	"player.h"
 
-1668452623 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
+1668795640 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
 	"char_array_helper.h"
 	"shader.h"
 	<stdlib.h>
