@@ -1,10 +1,15 @@
 #include <windows.h>
 #include "chunk.h"
 #include "player.h"
+#include "keyboard_mouse_manager.h"
+#include "gui.h"
 int tick_count;
 int stop_thread;
 int reverse_day_light=1;
 void add_tick(){
+
+ if(global_state!=4)
+    return;
  tick_count+=1;
 
   if(tick_count%100==0){

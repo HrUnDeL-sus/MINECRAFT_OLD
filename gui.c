@@ -102,12 +102,17 @@ init_menu();
 init_settings_game();
 }
 int on_key_press(char k){
+if(global_state!=4){
 if(active_text_box==0)
     k!=8?add_char_to_text_box(k,&seed_text_box):remove_char_to_text_box(&seed_text_box);
 else if(active_text_box==1)
     k!=8?add_char_to_text_box(k,&name_text_box):remove_char_to_text_box(&name_text_box);
 else if(active_text_box==2)
     k!=8?add_char_to_text_box(k,&chunks_text_box):remove_char_to_text_box(&chunks_text_box);
+}else{
+active_text_box=-1;
+return -1;
+}
     return active_text_box;
 };
 int on_click_item(struct vec position_mouse,gui_item get_button){
@@ -131,7 +136,8 @@ else if(on_click_item(pos,exit_menu_button)==1&&global_state==5){
 }
 else if(on_click_item(pos,continue_button)==1&&global_state==5){
      glutSetCursor(GLUT_CURSOR_NONE);
-      global_state=4;
+      global_state=3;
+      active_text_box=-1;
       return 4;
 }
 else if(on_click_item(pos,chunk_distance_button)==1&&global_state==5){
@@ -211,6 +217,8 @@ draw_text(vec2(0,0),"T");
 }
 void draw_debug(){
 char buffer[64];
+snprintf(buffer, sizeof buffer, "%s","VERSION:0542611");
+draw_text(vec2(0,30),buffer);
 snprintf(buffer, sizeof buffer, "%s%f","FPS:",fps_count);
 draw_text(vec2(-25,30),buffer);
 snprintf(buffer, sizeof buffer, "%s%d","BIOME:",active_biome);
@@ -229,6 +237,7 @@ snprintf(buffer, sizeof buffer, "%s%s","IN BLOCK:",in_block==1?"TRUE":"FALSE");
 draw_text(vec2(-25,-5),buffer);
 snprintf(buffer, sizeof buffer, "%s%d%s%d","CHUNK XYZ:",(int)(roundf(camera_position.x)/16)," ",(int)(roundf(camera_position.z)/16));
 draw_text(vec2(-25,-10),buffer);
+
 }
 void draw_gui(){
   glDisable(GL_DEPTH_TEST);

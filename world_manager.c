@@ -24,9 +24,9 @@ char * get_chunk_path(chunk  get)
     char name4[512];
     snprintf(name4, sizeof name4, "%ld", (int)get.position.x);
     snprintf(name3, sizeof name3, "%ld", (int)get.position.y);
-    snprintf(name2, sizeof name2, "%s %s", "_", name4);
-    snprintf(name22, sizeof name22, "%s %s", name3,name2);
-    snprintf(name222, sizeof name222, "%s %s", "/chnk ",name22);
+    snprintf(name2, sizeof name2, "%s%s", "_", name4);
+    snprintf(name22, sizeof name22, "%s%s", name3,name2);
+    snprintf(name222, sizeof name222, "%s%s", "/chnk",name22);
     snprintf(name1, 512*sizeof(char), "%s%s", main_world_info.path_world_chunks, name222);
   //  printf("\n{ATH:%s",name1);
     return name1;
@@ -36,6 +36,8 @@ void load_chunk(chunk * get)
     FILE * fp;
     FILE * fp2;
     char * cnk=get_chunk_path(*get);
+    char zip_file[100];
+    sprintf(zip_file,"%s%s",cnk,".cnk");
     fp = fopen(cnk, "rb");
     int data[1];
     get->count=0;
@@ -45,9 +47,8 @@ void load_chunk(chunk * get)
     for(int x=0;x<16;x+=1){
         for(int y=0;y<256;y+=1){
             for(int z=0;z<16;z+=1){
-                int read_data=fgetc(fp);
-          //      if(get_data.id!=0)
-          //      printf("\nDATA:%d %d",(int)get_data.block,(int)get_data.id);
+                int read_data=0;
+                fread(&read_data,sizeof(int),1,fp);
                   modify_block(&get->chunk_blocks[x][y][z],
                          (int)get->position.x*16+x,y,(int)get->position.y*16+z,
                          read_data==254?0:1,read_data);
@@ -70,8 +71,12 @@ void save_chunk(chunk get)
      FILE * fp2;
      int byte_count=0;
     char * cnk=get_chunk_path(get);
+
       char name_zip[100];
-    snprintf(name_zip, 100, "%s%s", cnk, ".lzw");
+
+      char name_zip2[100];
+    snprintf(name_zip, 100, "%s%s", cnk, ".cnk");
+    snprintf(name_zip2, 100, "%s%s", cnk, ".cnk2");
      fp = fopen(cnk, "wb");
     for(int x=0; x<16; x+=1)
     {
@@ -79,16 +84,13 @@ void save_chunk(chunk get)
         {
             for(int z=0; z<16; z+=1)
             {
-                if(get.chunk_blocks[x][y][z].is_enable==0){
-                    fputc(254,fp);
-                    byte_count+=1;
-                }else{
-                    fputc(get.chunk_blocks[x][y][z].id,fp);
-                    }
-                    byte_count+=1;
-                }
+                int id=get.chunk_blocks[x][y][z].is_enable==0?254:(int)get.chunk_blocks[x][y][z].id;
+                fwrite(&id,sizeof(int),1,fp);
+
             }
         }
+    }
+
     fclose(fp);
     free(cnk);
 }

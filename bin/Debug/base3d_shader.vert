@@ -17,6 +17,7 @@ out float day_light;
 float light=0.5;
 void main(){
 int data=int(idFrag[2][2]);
+int data2=int(idFrag[2][1]);
 texCoordOut=texCoord;
 aPosOut=aPos;
 if(aPos.z==-0.5&&idFrag[2][0]==1){
@@ -26,12 +27,12 @@ aPosOut.x=0.5;
 aPosOut.x=-0.5;
 }
 }
-if(idFrag[2][1]==1)
+if(mod(data2/10,10)==2)
 out_main_color2=vec4(0.28f,1f,0.15f,0);
-else if(idFrag[2][1]==2)
+else if(mod(data2/10,10)==3)
 out_main_color2=vec4(0.5f,1f,0.5f,0);
 else
-out_main_color2=vec4(0,0,0,0);
+out_main_color2=vec4(mod(data2,10),0,0,0);
 if(aPos.w==1){
 texCoordOut.z=idFrag[0][0];
 if(mod(data/100000,10)==1)

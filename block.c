@@ -83,6 +83,7 @@ typedef struct
     unsigned char id;
     float light_id;
     unsigned char block_is_light;
+    int hp;
 } block;
 typedef struct{
 struct vec scale;

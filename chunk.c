@@ -20,13 +20,16 @@ struct osn_context *ctx;
 struct vec * position_update_chunk;
 block*** malloc_blocks()
 {
-    union block *** block_malloc=malloc(SIZE_CHUNK*sizeof(block**));
+    block *** block_malloc=malloc(SIZE_CHUNK*sizeof(block**));
     for (int e = 0; e < SIZE_CHUNK; e++)
     {
         block_malloc[e] =  malloc(SIZE_CHUNK_Z * sizeof(block*));
         for (int q = 0; q < SIZE_CHUNK_Z; q++)
         {
             block_malloc[e][q] =  malloc(SIZE_CHUNK * sizeof(block));
+            for(int z=0;z<SIZE_CHUNK;z++){
+                 block_malloc[e][q][z].hp=100;
+            }
         }
     }
     return block_malloc;
@@ -399,15 +402,18 @@ void fill_indexs(chunk * cnk,info_indexs * get_indexs, int (*examination)(block 
                 }
                 texture_matrix[6]=(float)block_info.is_cross;
                 unsigned char id_block_local=cnk->chunk_blocks[x_block][y_block][z_block].id;
+                texture_matrix[7]=100;
                 if(id_block_local==23||id_block_local==24||id_block_local==109||id_block_local==111)
-                    texture_matrix[7]=1;
+                    texture_matrix[7]+=20;
                 else if(id_block_local==124||id_block_local==125)
-                    texture_matrix[7]=2;
+                    texture_matrix[7]+=30;
                 else
-                    texture_matrix[7]=0;
+                    texture_matrix[7]+=10;
+                texture_matrix[7]+=9-((cnk->chunk_blocks[x_block][y_block][z_block].hp-10)/10);
                 //    printf("%d\n",(int)cnk->chunk_blocks[x_block][y_block][z_block].light_id);
                 texture_matrix[8]=(int)cnk->chunk_blocks[x_block][y_block][z_block].light_id;
-                //   printf("\nMATRIX:%f",texture_matrix[8]);
+             //   if(cnk->chunk_blocks[x_block][y_block][z_block].hp<100)
+             //ssss     printf("\nMATRIX:%f",texture_matrix[7]);
                 for(int i=0; i<16; i+=1)
                 {
                get_indexs->matrix_data.indexs[count_matrix1+i]=transform_mat[i];
@@ -437,14 +443,15 @@ void fill_indexs(chunk * cnk,info_indexs * get_indexs, int (*examination)(block 
 }
 void fill_matrix(chunk * cnk)
 {
-
+     while(cnk->can_rednering!=0);
+         cnk->can_rednering=1;
     cnk->all_info_indexs.matrix_data.count=0;
     cnk->all_info_indexs.texture_data.count=0;
 
 
     fill_indexs(cnk,&cnk->all_info_indexs,is_not_clear_block,0);
-    while(cnk->can_rednering==2);
-    cnk->can_rednering=1;
+
+
     cnk->all_info_indexs.matrix_data_copy.count=cnk->all_info_indexs.matrix_data.count;
     cnk->all_info_indexs.texture_data_copy.count=cnk->all_info_indexs.matrix_data.count;
     free_info_indexs(&cnk->all_info_indexs,1);

@@ -477,7 +477,7 @@
 
 1655919369 source:c:\users\prove\documents\codeblocks\minecraft_old\vec.h
 
-1668104977 source:d:\Документы\codeblocks\minecraft_old\block.c
+1669398480 source:d:\Документы\codeblocks\minecraft_old\block.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -526,7 +526,7 @@
 	<math.h>
 	<string.h>
 
-1666337594 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1669412301 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -542,7 +542,7 @@
 	"camera.h"
 	"gui.h"
 
-1666034584 d:\Документы\codeblocks\minecraft_old\block.h
+1669391956 d:\Документы\codeblocks\minecraft_old\block.h
 	<stdio.h>
 	<stdlib.h>
 	<glad/glad.h>
@@ -557,7 +557,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1668635856 source:d:\Документы\codeblocks\minecraft_old\main.c
+1669413146 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -632,10 +632,10 @@
 
 1662222209 source:d:\Документы\codeblocks\minecraft_old\vec.c
 
-1667325535 d:\Документы\codeblocks\minecraft_old\world.h
+1669385666 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1668107573 source:d:\Документы\codeblocks\minecraft_old\world.c
+1669413052 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -743,11 +743,11 @@
 
 1663173037 d:\Документы\codeblocks\minecraft_old\biome.h
 
-1664902360 d:\Документы\codeblocks\minecraft_old\gui.h
+1669376400 d:\Документы\codeblocks\minecraft_old\gui.h
 	"buffer.h"
 	"vec.h"
 
-1668104977 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1669413292 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -806,7 +806,7 @@
 1664630109 d:\Документы\codeblocks\minecraft_old\world_manager.h
 	"chunk.h"
 
-1666077616 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
+1669322339 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
 	"shader.h"
 	<dirent.h>
 	<stdlib.h>
@@ -824,7 +824,7 @@
 	<_mingw.h>
 	<io.h>
 
-1668795463 source:d:\Документы\codeblocks\minecraft_old\player.c
+1669122789 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -860,7 +860,7 @@
 
 1668340396 d:\Документы\codeblocks\minecraft_old\config.h
 
-1668340749 source:d:\Документы\codeblocks\minecraft_old\config.c
+1669399949 source:d:\Документы\codeblocks\minecraft_old\config.c
 	"shader.h"
 	"config.h"
 	<dirent.h>
@@ -931,12 +931,15 @@
 	<unistd.h>
 	<unixio.h>
 
-1664634957 d:\Документы\codeblocks\minecraft_old\compress.h
+1669227511 d:\Документы\codeblocks\minecraft_old\compress.h
 
-1664652266 source:d:\Документы\codeblocks\minecraft_old\compress.c
-	<stdlib.h>
+1669322121 source:d:\Документы\codeblocks\minecraft_old\compress.c
 	<stdio.h>
-	"world_manager.h"
+	<stdlib.h>
+	<string.h>
+	<stdint.h>
+	<stdbool.h>
+	<zlib.h>
 
 1661539989 source:d:\Документы\codeblocks\minecraft_old\client.c
 	<stdio.h>
@@ -949,12 +952,14 @@
 
 1665767772 d:\Документы\codeblocks\minecraft_old\tick.h
 
-1668634690 source:d:\Документы\codeblocks\minecraft_old\tick.c
+1669405759 source:d:\Документы\codeblocks\minecraft_old\tick.c
 	<windows.h>
 	"chunk.h"
 	"player.h"
+	"keyboard_mouse_manager.h"
+	"gui.h"
 
-1668795640 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
+1669413052 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
 	"char_array_helper.h"
 	"shader.h"
 	<stdlib.h>
@@ -977,6 +982,16 @@
 	"raycast.h"
 	"world.h"
 	"camera.h"
+	"world.h"
 
 1667240353 d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.h
+
+1121653608 c:\mingw\gnuwin32\include\zlib.h
+	"zconf.h"
+
+1121874026 c:\mingw\gnuwin32\include\zconf.h
+	<windows.h>
+	<sys/types.h>
+	<unistd.h>
+	<unixio.h>
 

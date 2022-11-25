@@ -22,6 +22,7 @@
 #include "raycast.h"
 #include "world.h"
 #include "camera.h"
+#include "world.h"
 typedef struct{
 int state;
 int x;
@@ -53,7 +54,7 @@ info_new_block  * raytrace(double sx, double sy, double sz, double dx, double dy
 }
 void modified_block(int state)
 {
-
+    printf("\nSTART MODIFY");
       struct vec ray=camera_position;
     struct vec camera_angle_local=camera_angle;
     struct vec last_pos;
@@ -75,13 +76,13 @@ void modified_block(int state)
         {
             for(int y=start_y; y<=end_y; y+=1)
             {
-                get=get_info_new_block_in_position(vec3((float)x,(float)y,(float)z));
-                if(get!=NULL)
+               block *get2=get_block_in_position(vec3((float)x,(float)y,(float)z));
+                if(get2!=NULL)
                 {
                     struct vec normal;
                     float fraction;
-                    int d=ray_box(ray,camera_angle_local,vec3((float)get->new_block.pos_x,(float)get->new_block.pos_y,(float)get->new_block.pos_z),&fraction,&normal);
-                    if(d==1&&fraction<min_distance&&get->new_block.is_enable==1)
+                    int d=ray_box(ray,camera_angle_local,vec3((float)get2->pos_x,(float)get2->pos_y,(float)get2->pos_z),&fraction,&normal);
+                    if(d==1&&fraction<min_distance&&get2->is_enable==1)
                     {
                         min_distance=fraction;
                         last_pos=vec3((float)x,(float)y,(float)z);
@@ -96,11 +97,14 @@ void modified_block(int state)
     {
         if(state==0)
         {
-            get->state=state;
-            get->new_block.is_enable=0;
-            get->is_active=1;
 
-            return;
+            get->state=state;
+            get->new_block.hp=get->new_block.hp-10;
+            if(get->new_block.hp<=0)
+                 get->new_block.is_enable=0;
+            get->is_active=1;
+           // check_chunk_is_active();
+
         }
         else
         {
@@ -115,14 +119,14 @@ void modified_block(int state)
                 };
             for(int i=0;i<sizeof(positions);i+=1)
             {
-                                  get=get_info_new_block_in_position(positions[i]);
-                        if(get!=NULL)
+                               block * get2=get_block_in_position(positions[i]);
+                        if(get2!=NULL)
                         {
 
                             struct vec normal;
                             float fraction;
-                            int d=ray_box(ray,camera_angle_local,vec3((float)get->new_block.pos_x,(float)get->new_block.pos_y,(float)get->new_block.pos_z),&fraction,&normal);
-                            if(d==1&&fraction<min_distance&&get->new_block.is_enable==0)
+                            int d=ray_box(ray,camera_angle_local,vec3((float)get2->pos_x,(float)get2->pos_y,(float)get2->pos_z),&fraction,&normal);
+                            if(d==1&&fraction<min_distance&&get2->is_enable==0)
                             {
                                 min_distance=fraction;
                                 last_pos_invisible=positions[i];
@@ -136,6 +140,7 @@ void modified_block(int state)
             get->new_block.is_enable=1;
             get->new_block.id=id_block;
             get->is_active=1;
+           // check_chunk_is_active();
             }
         }
     }
@@ -143,6 +148,14 @@ void modified_block(int state)
 void add_key(unsigned char key){
 if(index_key==5||has_this_key(key)==1)
     return;
+    if(key=='-'){
+        id_block-=1;
+        return;
+    }
+    if(key=='+'||key=='='){
+        id_block+=1;
+        return;
+    }
 keys[index_key]=key;
 index_key+=1;
 }
@@ -232,10 +245,7 @@ if(on_key_press(local_key)!=-1)
         glutFullScreen();
     if(local_key=='1')
         exit(1);
-    if(local_key=='-')
-        id_block-=1;
-    if(local_key=='+'||local_key=='=')
-        id_block+=1;
+
     if(local_key=='4')
     {
 

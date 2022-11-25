@@ -29,7 +29,7 @@ void fall_player()
     if(is_jump==0)
     {
         for(int i=0;i<5;i+=1){
-                if(in_block==0)
+                if(in_block==0||i==0)
         move_player(vec3(0,-0.1f,0));
         }
     }
@@ -53,7 +53,6 @@ void fall_player()
 }
 void move_player(struct vec position_move)
 {
-
     struct vec start_pos=camera_position;
     add_camera(position_move.x,position_move.y,position_move.z);
 
@@ -85,32 +84,31 @@ void move_player(struct vec position_move)
     {
         local_camera_position.z=roundf(camera_position.z);
     }
+    int in_block_local2=0;
     int in_block_local=0;
     block * get=get_block_in_position(local_camera_position);
     if(get!=NULL)
     {
-        in_block=(get->is_enable!=0);
+        in_block_local2=(get->is_enable!=0);
     }
     else
-        in_block=0;
-    if(in_block==0)
-    {
-        local_camera_position.y-=1;
+        in_block_local2=0;
+    local_camera_position.y-=1;
 
         block * get2=get_block_in_position(local_camera_position);
         if(get2!=NULL)
         {
-            in_block=(get2->is_enable!=0);
+            in_block_local=(get2->is_enable!=0);
         }
         else
-            in_block=0;
-    }
+            in_block_local=0;
+    in_block=(in_block_local2==1||in_block_local==1)?1:0;
     if(in_block!=0)
     {
 
         camera_position=start_pos;
       // add_camera(-((99*position_move.x)/100),0,-((99*position_move.z)/100));
-      if(is_jump==0)
+      if(is_jump==0&&in_block_local2==0)
              can_jump=1;
         if(is_start_jump==1)
             is_start_jump=0;

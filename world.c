@@ -70,7 +70,7 @@ void rendering_world()
    // printf("\nSTART");
     for(int x=0;x<count_chunks;x+=1){
         for(int y=0;y<count_chunks;y+=1){
-            while(chunk_in_world[x][y].can_rednering==1);
+            while(chunk_in_world[x][y].can_rednering!=0);
 
             chunk_in_world[x][y].can_rednering=2;
                    enable_transform_matrix(chunk_in_world[x][y].all_info_indexs);
@@ -90,23 +90,20 @@ void check_chunk_is_active(){
             for(int z=0; z<count_chunks; z+=1)
             {
 if(chunk_in_world[x][z].main_info_new_block.is_active==1){
-   while(chunk_in_world[x][z].can_rednering==0||chunk_in_world[x][z].can_rednering==2);
-    chunk_in_world[x][z].can_rednering=1;
             struct vec local_vec=chunk_in_world[x][z].main_info_new_block.local_position;
             load_chunk(&chunk_in_world[x][z]);
             chunk_in_world[x][z].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z]=chunk_in_world[x][z].main_info_new_block.new_block;
+            printf("\nHP:%d",chunk_in_world[x][z].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z].hp);
             if(chunk_in_world[x][z].main_info_new_block.new_block.is_enable==0)
-            chunk_in_world[x][z].count-=1;
+                chunk_in_world[x][z].count-=1;
             else if(chunk_in_world[x][z].main_info_new_block.state!=2)
                 chunk_in_world[x][z].count+=1;
                 set_light_chunk(x,z);
                 fill_matrix(&chunk_in_world[x][z]);
             save_chunk(chunk_in_world[x][z]);
             chunk_in_world[x][z].main_info_new_block.is_active=0;
-          chunk_in_world[x][z].can_rednering=0;
 }
-
-}
+            }
         }
 }
 void enable_index_texture(info_indexs get)
@@ -198,7 +195,8 @@ void fill_chunks(){
     {
         for(int z=0; z<count_chunks; z+=1)
         {
-             check_chunk_is_active();
+           //  check_chunk_is_active();
+
              fill_matrix(&chunk_in_world[x][z]);
         }
     }
@@ -208,6 +206,7 @@ void generate_light_in_chunks(){
     {
         for(int z=0; z<count_chunks; z+=1)
         {
+
             set_light_chunk(x,z);
              check_chunk_is_active();
         }
@@ -223,7 +222,7 @@ void clear_chunks()
         {
 
             clear_chunk(x,z);
-            check_chunk_is_active();
+           check_chunk_is_active();
         }
     }
     generate_light_in_chunks();
@@ -325,20 +324,24 @@ void pre_draw_world (void *t)
         float z1=(float)count_chunks/2;
         int x_start=count_chunks-1;
         init_new_position_chunks();
-        //   check_chunk_is_active();
+           check_chunk_is_active();
          for(int x=0; x<count_chunks; x+=1)
         {
 
             for(int z=0; z<count_chunks; z+=1)
             {
+                   check_chunk_is_active();
                     struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
                 chunk_in_world[x][z].position=pos_chunk;
 
                     pre_rendering_chunk(&chunk_in_world[x][z]);
-                     check_chunk_is_active();
+                    if(is_new==0)
+                        chunk_in_world[x][z].can_rednering=0;
+               //     printf("\n %d / %d %d / %d",x,count_chunks,z,count_chunks);
                 z1-=1;
 
             }
+
             x1-=1;
             z1=(float)count_chunks/2;
 
@@ -346,6 +349,7 @@ void pre_draw_world (void *t)
         clear_chunks();
         clock_t before=time(NULL)-start;
         is_end2=0;
+      //  printf("\n IS NEW:%d",is_new);
         if(is_new==0)
             global_state=4;
         if(global_state!=4){

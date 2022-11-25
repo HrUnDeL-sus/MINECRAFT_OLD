@@ -44,23 +44,27 @@ void display(void)
 
     count_tick+=1;
     now_tick = GetTickCount()*0.001;
-    glClearColor(1,1,1,0);
+    glClearColor(0.8f,0.85f,1,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
+
+
         if(global_state!=4&&count_tick>4){
           // modified_block(mouse_is_press_state);
               apply_keys();
            count_tick=0;
           }
-
+     //   printf("\nGLOBAL STATE: %d",global_state);
     if(global_state==4)
     {
+
         if(count_tick>1){
             fall_player();
                 count_tick=0;
         }
          apply_keys();
         rendering_world();
+
         save_player();
 
     }
@@ -102,11 +106,10 @@ void mouse_click(int button,int state,int x,int y)
 {
     mouse_button local_mouse={state==0?1:0,x,y};
     set_mouse_state(button==0?1:0,local_mouse);
-     apply_mouse();
+    apply_mouse();
 }
 void mouse(int x,int y)
 {
-
     if(global_state!=4)
         return;
     static int last_x=0;

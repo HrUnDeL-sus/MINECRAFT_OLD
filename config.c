@@ -22,7 +22,7 @@ fp=fopen(path, "wb");
 main_config.smoothing=5;
 main_config.fps=60;
 main_config.biome_size=200;
-main_config.speed_player=0.1f;
+main_config.speed_player=11;
 fprintf(fp,config_string,main_config.smoothing,main_config.fps,main_config.biome_size,1);
 fclose(fp);
 }
@@ -33,6 +33,6 @@ FILE *fp;
 fp=fopen(path, "rb");
 int local_speed_player=0;
 fscanf(fp,config_string,&main_config.smoothing,&main_config.fps,&main_config.biome_size,&local_speed_player);
-main_config.speed_player=(float)local_speed_player/10;
+main_config.speed_player=(float)local_speed_player/100;
 fclose(fp);
 }
