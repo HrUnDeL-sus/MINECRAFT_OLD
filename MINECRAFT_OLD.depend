@@ -526,7 +526,7 @@
 	<math.h>
 	<string.h>
 
-1669412301 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1669467921 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -557,7 +557,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1669413146 source:d:\Документы\codeblocks\minecraft_old\main.c
+1669468332 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -635,7 +635,7 @@
 1669385666 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1669413052 source:d:\Документы\codeblocks\minecraft_old\world.c
+1669468797 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -747,7 +747,7 @@
 	"buffer.h"
 	"vec.h"
 
-1669413292 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1669469109 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -806,7 +806,7 @@
 1664630109 d:\Документы\codeblocks\minecraft_old\world_manager.h
 	"chunk.h"
 
-1669322339 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
+1669466341 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
 	"shader.h"
 	<dirent.h>
 	<stdlib.h>
@@ -933,13 +933,12 @@
 
 1669227511 d:\Документы\codeblocks\minecraft_old\compress.h
 
-1669322121 source:d:\Документы\codeblocks\minecraft_old\compress.c
+1669468986 source:d:\Документы\codeblocks\minecraft_old\compress.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<stdint.h>
 	<stdbool.h>
-	<zlib.h>
 
 1661539989 source:d:\Документы\codeblocks\minecraft_old\client.c
 	<stdio.h>
@@ -952,14 +951,14 @@
 
 1665767772 d:\Документы\codeblocks\minecraft_old\tick.h
 
-1669405759 source:d:\Документы\codeblocks\minecraft_old\tick.c
+1669468495 source:d:\Документы\codeblocks\minecraft_old\tick.c
 	<windows.h>
 	"chunk.h"
 	"player.h"
 	"keyboard_mouse_manager.h"
 	"gui.h"
 
-1669413052 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
+1669469065 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
 	"char_array_helper.h"
 	"shader.h"
 	<stdlib.h>
@@ -984,7 +983,7 @@
 	"camera.h"
 	"world.h"
 
-1667240353 d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.h
+1669465605 d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.h
 
 1121653608 c:\mingw\gnuwin32\include\zlib.h
 	"zconf.h"

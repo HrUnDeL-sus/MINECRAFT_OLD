@@ -35,6 +35,8 @@ unsigned int transform_matrix_buffer=-1;
 unsigned int texture_buffer=-1;
 int is_end2=0;
 int end_clear_chunk=0;
+int chunk_rendering_x=-1;
+int chunk_rendering_z=-1;
 typedef struct
 {
     int seed;
@@ -63,6 +65,16 @@ void init_chunks(int size)
     count_chunks=size;
 
 }
+void render_chunk(int x,int y){
+if(x<0||y<0)
+    return;
+  while(chunk_in_world[x][y].can_rednering!=0);
+
+            chunk_in_world[x][y].can_rednering=2;
+                   enable_transform_matrix(chunk_in_world[x][y].all_info_indexs);
+              draw_cube(chunk_in_world[x][y].all_info_indexs.matrix_data_copy.count);
+                chunk_in_world[x][y].can_rednering=0;
+}
 void rendering_world()
 {
         glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
@@ -70,15 +82,13 @@ void rendering_world()
    // printf("\nSTART");
     for(int x=0;x<count_chunks;x+=1){
         for(int y=0;y<count_chunks;y+=1){
-            while(chunk_in_world[x][y].can_rednering!=0);
-
-            chunk_in_world[x][y].can_rednering=2;
-                   enable_transform_matrix(chunk_in_world[x][y].all_info_indexs);
-              draw_cube(chunk_in_world[x][y].all_info_indexs.matrix_data_copy.count);
-
+          render_chunk(x,y);
+      //    render_chunk(chunk_rendering_x,chunk_rendering_z);
+           // chunk_rendering_x=-1;
+          //  chunk_rendering_z=-1;
  // glDisable(GL_ALPHA_TEST);
           //  printf("\nRENDERIGN:%d %d",x,y);
-              chunk_in_world[x][y].can_rednering=0;
+
         }
     }
   //   if(is_end2==0)
@@ -93,7 +103,7 @@ if(chunk_in_world[x][z].main_info_new_block.is_active==1){
             struct vec local_vec=chunk_in_world[x][z].main_info_new_block.local_position;
             load_chunk(&chunk_in_world[x][z]);
             chunk_in_world[x][z].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z]=chunk_in_world[x][z].main_info_new_block.new_block;
-            printf("\nHP:%d",chunk_in_world[x][z].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z].hp);
+          //  printf("\nHP:%d",chunk_in_world[x][z].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z].hp);
             if(chunk_in_world[x][z].main_info_new_block.new_block.is_enable==0)
                 chunk_in_world[x][z].count-=1;
             else if(chunk_in_world[x][z].main_info_new_block.state!=2)
@@ -102,6 +112,8 @@ if(chunk_in_world[x][z].main_info_new_block.is_active==1){
                 fill_matrix(&chunk_in_world[x][z]);
             save_chunk(chunk_in_world[x][z]);
             chunk_in_world[x][z].main_info_new_block.is_active=0;
+            chunk_rendering_x=x;
+            chunk_rendering_z=z;
 }
             }
         }
@@ -111,7 +123,7 @@ void enable_index_texture(info_indexs get)
     int frag=glGetAttribLocation(program,"idFrag");
 
     glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
-        glBufferSubData(GL_ARRAY_BUFFER,0,get.matrix_data_copy.count*9*sizeof(float),get.texture_data_copy.indexs);
+        glBufferSubData(GL_ARRAY_BUFFER,0,get.matrix_data.count*9*sizeof(float),get.texture_data.indexs);
     GLsizei vec3Size = sizeof(float)*3;
     glEnableVertexAttribArray(frag);
     glVertexAttribPointer(frag, 3, GL_FLOAT, GL_FALSE,  3*vec3Size,0);
@@ -130,7 +142,7 @@ void enable_transform_matrix(info_indexs get)
 {
 
     glBindBuffer(GL_ARRAY_BUFFER, transform_matrix_buffer);
-    glBufferSubData(GL_ARRAY_BUFFER,0,get.matrix_data_copy.count*16* sizeof(float),get.matrix_data_copy.indexs);
+    glBufferSubData(GL_ARRAY_BUFFER,0,get.matrix_data.count*16* sizeof(float),get.matrix_data.indexs);
 // копируем данные в память
 
 // говорим OpenGL, что мы закончили работу с указателем
@@ -162,7 +174,7 @@ void init_world()
 void set_light_chunk(int x, int z)
 {
 
-            chunk * left_chunk=x==0?NULL:&chunk_in_world[x-1][z];
+        /*    chunk * left_chunk=x==0?NULL:&chunk_in_world[x-1][z];
             chunk * right_chunk=x==count_chunks-1?NULL:&chunk_in_world[x+1][z];
             chunk * back_chunk=z==0?NULL:&chunk_in_world[x][z-1];
             chunk * forward_chunk=z==count_chunks-1?NULL:&chunk_in_world[x][z+1];
@@ -170,7 +182,7 @@ void set_light_chunk(int x, int z)
              chunk * left_forward_chunk=x==0||z==count_chunks-1?NULL:&chunk_in_world[x-1][z+1];
               chunk * right_back_chunk=x==count_chunks-1||z==0?NULL:&chunk_in_world[x+1][z-1];
                chunk * right_forward_chunk=x==count_chunks-1||z==count_chunks-1?NULL:&chunk_in_world[x+1][z+1];
-            generate_light(&chunk_in_world[x][z],left_chunk,right_chunk,forward_chunk,back_chunk,left_back_chunk,left_forward_chunk,right_back_chunk,right_forward_chunk);
+            generate_light(&chunk_in_world[x][z],left_chunk,right_chunk,forward_chunk,back_chunk,left_back_chunk,left_forward_chunk,right_back_chunk,right_forward_chunk);*/
 }
 void clear_chunk(int x, int z)
 {
@@ -195,10 +207,11 @@ void fill_chunks(){
     {
         for(int z=0; z<count_chunks; z+=1)
         {
-           //  check_chunk_is_active();
 
+                 check_chunk_is_active();
              fill_matrix(&chunk_in_world[x][z]);
         }
+
     }
 }
 void generate_light_in_chunks(){
@@ -208,8 +221,9 @@ void generate_light_in_chunks(){
         {
 
             set_light_chunk(x,z);
-             check_chunk_is_active();
+
         }
+          //check_chunk_is_active();
     }
 
 }
@@ -222,8 +236,9 @@ void clear_chunks()
         {
 
             clear_chunk(x,z);
-           check_chunk_is_active();
+             check_chunk_is_active();
         }
+
     }
     generate_light_in_chunks();
      fill_chunks();
@@ -237,7 +252,7 @@ chunk * find_chunk_in_position(struct vec position)
         for(int y=0; y<count_chunks; y+=1)
         {
 
-
+            while(chunk_in_world[x][y].can_rednering!=0);
             if(chunk_in_world[x][y].position.x==position.x&&chunk_in_world[x][y].position.y==position.y){
                //  printf("\n CHUNK SELECT:%d %d",x,y);
                 chunk_in_world[x][y].last_position=chunk_in_world[x][y].position;
@@ -256,7 +271,6 @@ struct vec final_vec=vec2(position.x/16,position.z/16);
     return  find_chunk_in_position(final_vec);
 }
 block * get_block_in_position(struct vec pos){
-
 chunk * get_chunk=get_chunk_in_position(pos);
 if(get_chunk==NULL)
     return NULL;
@@ -324,13 +338,13 @@ void pre_draw_world (void *t)
         float z1=(float)count_chunks/2;
         int x_start=count_chunks-1;
         init_new_position_chunks();
-           check_chunk_is_active();
+         //  check_chunk_is_active();
          for(int x=0; x<count_chunks; x+=1)
         {
-
+          //   check_chunk_is_active();
             for(int z=0; z<count_chunks; z+=1)
             {
-                   check_chunk_is_active();
+                    check_chunk_is_active();
                     struct vec pos_chunk=vec2((float)chunk_now.x-x1,(float)chunk_now.y-z1);
                 chunk_in_world[x][z].position=pos_chunk;
 

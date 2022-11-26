@@ -6,6 +6,8 @@ int state;
 int x;
 int y;
 } mouse_button;
+int global_mouse_button;
+int global_mouse_state;
 void remove_key(unsigned char key);
 void add_key(unsigned char key);
 void apply_keys();

@@ -27,6 +27,7 @@ float t=0;
 int count_tick=0;
 GLuint listName;
 int save_state_chunks;
+
 void resize(int width, int height)
 {
     const float ar = (float) width / (float) height;
@@ -104,14 +105,22 @@ void wrap(int* x,int* y)
 }
 void mouse_click(int button,int state,int x,int y)
 {
+    global_mouse_button=button;
+    global_mouse_state=state;
     mouse_button local_mouse={state==0?1:0,x,y};
     set_mouse_state(button==0?1:0,local_mouse);
+
     apply_mouse();
 }
 void mouse(int x,int y)
 {
+
     if(global_state!=4)
         return;
+        if(global_mouse_button==0&&global_mouse_state==0){
+        mouse_button local_mouse={global_mouse_state==0?1:0,x,y};
+        set_mouse_state(global_mouse_button==0?1:0,local_mouse);
+    }
     static int last_x=0;
     static int last_y=0;
 

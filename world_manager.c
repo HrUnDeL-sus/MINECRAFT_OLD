@@ -47,12 +47,14 @@ void load_chunk(chunk * get)
     for(int x=0;x<16;x+=1){
         for(int y=0;y<256;y+=1){
             for(int z=0;z<16;z+=1){
-                int read_data=0;
-                fread(&read_data,sizeof(int),1,fp);
+                unsigned char read_data=0;
+                unsigned char read_data2=0;
+                fread(&read_data,sizeof(unsigned char),1,fp);
+                fread(&read_data2,sizeof(unsigned char),1,fp);
                   modify_block(&get->chunk_blocks[x][y][z],
                          (int)get->position.x*16+x,y,(int)get->position.y*16+z,
-                         read_data==254?0:1,read_data);
-
+                         read_data==254?0:1,(int)read_data);
+                         get->chunk_blocks[x][y][z].hp=(int)read_data2;
                          if(get->chunk_blocks[x][y][z].is_enable!=0)
                             get->count+=1;
             }
@@ -84,8 +86,10 @@ void save_chunk(chunk get)
         {
             for(int z=0; z<16; z+=1)
             {
-                int id=get.chunk_blocks[x][y][z].is_enable==0?254:(int)get.chunk_blocks[x][y][z].id;
-                fwrite(&id,sizeof(int),1,fp);
+                unsigned char id=(unsigned char)get.chunk_blocks[x][y][z].is_enable==0?254:(int)get.chunk_blocks[x][y][z].id;
+                unsigned char hp=(unsigned char)get.chunk_blocks[x][y][z].hp;
+                fwrite(&id,sizeof(unsigned char),1,fp);
+                fwrite(&hp,sizeof(unsigned char),1,fp);
 
             }
         }

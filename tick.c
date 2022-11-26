@@ -11,7 +11,10 @@ void add_tick(){
  if(global_state!=4)
     return;
  tick_count+=1;
-
+  if(tick_count%2==0){
+          if(global_mouse_button==0&&global_mouse_state==0)
+                        apply_mouse();
+  }
   if(tick_count%100==0){
  day_light=reverse_day_light==0?day_light-1:day_light+1;
  printf("\nDAT:%d",day_light);

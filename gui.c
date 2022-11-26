@@ -217,7 +217,7 @@ draw_text(vec2(0,0),"T");
 }
 void draw_debug(){
 char buffer[64];
-snprintf(buffer, sizeof buffer, "%s","VERSION:0542611");
+snprintf(buffer, sizeof buffer, "%s","VERSION:16252611");
 draw_text(vec2(0,30),buffer);
 snprintf(buffer, sizeof buffer, "%s%f","FPS:",fps_count);
 draw_text(vec2(-25,30),buffer);

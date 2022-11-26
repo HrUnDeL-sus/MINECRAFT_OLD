@@ -443,7 +443,8 @@ void fill_indexs(chunk * cnk,info_indexs * get_indexs, int (*examination)(block 
 }
 void fill_matrix(chunk * cnk)
 {
-     while(cnk->can_rednering!=0);
+     if(cnk->can_rednering!=0)
+        return;
          cnk->can_rednering=1;
     cnk->all_info_indexs.matrix_data.count=0;
     cnk->all_info_indexs.texture_data.count=0;

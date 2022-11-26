@@ -28,6 +28,8 @@ int state;
 int x;
 int y;
 } mouse_button;
+int global_mouse_button;
+int global_mouse_state;
 int save_state_chunks;
 mouse_button left;
 mouse_button right;
@@ -103,7 +105,7 @@ void modified_block(int state)
             if(get->new_block.hp<=0)
                  get->new_block.is_enable=0;
             get->is_active=1;
-           // check_chunk_is_active();
+            //check_chunk_is_active();
 
         }
         else
@@ -138,6 +140,7 @@ void modified_block(int state)
             if(get!=NULL){
                 get->state=state;
             get->new_block.is_enable=1;
+            get->new_block.hp=100;
             get->new_block.id=id_block;
             get->is_active=1;
            // check_chunk_is_active();
@@ -182,9 +185,9 @@ int mouse_is_press_state;
     {
 
         if(left.state==1)
-        mouse_is_press_state=1;
+        mouse_is_press_state=0;
         else if(right.state==1)
-            mouse_is_press_state=0;
+            mouse_is_press_state=1;
             if(right.state==1||left.state==1)
          modified_block(mouse_is_press_state);
     }
