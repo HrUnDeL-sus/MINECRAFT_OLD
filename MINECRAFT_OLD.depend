@@ -743,11 +743,11 @@
 
 1663173037 d:\Документы\codeblocks\minecraft_old\biome.h
 
-1669376400 d:\Документы\codeblocks\minecraft_old\gui.h
+1670089008 d:\Документы\codeblocks\minecraft_old\gui.h
 	"buffer.h"
 	"vec.h"
 
-1670077015 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1670089403 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -785,7 +785,7 @@
 1659190826 source:d:\Документы\codeblocks\minecraft_old\text_box_gui.c
 	<glad/glad.h>
 
-1661539989 source:d:\Документы\codeblocks\minecraft_old\gui_button.c
+1670089008 source:d:\Документы\codeblocks\minecraft_old\gui_button.c
 	"buffer.h"
 	"vec.h"
 	"gui.h"
@@ -958,7 +958,7 @@
 	"keyboard_mouse_manager.h"
 	"gui.h"
 
-1669827411 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
+1670078318 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
 	"char_array_helper.h"
 	"shader.h"
 	<stdlib.h>

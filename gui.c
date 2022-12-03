@@ -13,6 +13,7 @@
 #include "tick.h"
 #include "collision.h"
 buffer_data background;
+buffer_data inventory;
 gui_item singleplay_button;
 gui_item exit_button;
 gui_item seed_text_box;
@@ -21,14 +22,22 @@ gui_item start_button;
 gui_item  continue_button;
 gui_item  exit_menu_button;
 gui_item  chunk_distance_button;
+gui_item inventory_item;
+  gui_item background_item;
 int gui_shader_id;
 int global_state=1;
 int active_text_box=-1;
-const float background_vod[]={
+const float standart_vod[]={
              1,  1, 0.0f,
              1, -1, 0.0f,
             -1, -1, 0.0f,
             -1,  1, 0.0f
+};
+const float standart_vot[]={
+0,0,
+0,1,
+1,1,
+1,0
 };
 const float background_vot[]={
 5.0f, 5.0f,
@@ -36,13 +45,13 @@ const float background_vot[]={
 -5.0f, -5.0f,
 -5.0f, 5.0f
 };
-const GLuint background_ebo[] =
+const GLuint standart_ebo[] =
         {
             1, 2, 3,
             0,1,3
         };
-const float background_data_size[2]={3,2};
-const float background_data_count[3]={12,8,6};
+const float standart_data_size[2]={3,2};
+const float standart_data_count[3]={12,8,6};
 void init_gui_item(buffer_data * get,float size_data[2],float count_data[3],float *vod,float *ebo,float *vot,char *name_texture,int use_texture){
 *get=create_buffer_data(size_data,count_data,vod,ebo,vot);
 if(use_texture==1)
@@ -52,6 +61,7 @@ generate_standart_buffer(get);
 gui_item create_gui_item(struct vec pos,struct vec scale,char* text){
 gui_item get;
 //get.buffer=create_buffer_data(button_data_size,button_data_count,button_vod,button_ebo,button_vot);
+get.visible=1;
 get.position=vec2(pos.x,pos.y);
 get.scale=vec2(scale.x,scale.y);
 get.text=text;
@@ -69,8 +79,16 @@ init_text_box(&seed_text_box);
 init_text_box(&name_text_box);
 init_gui_item(&start_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 }
+void init_standart_game(){
+init_gui_item(&inventory,standart_data_size,standart_data_count,standart_vod,standart_ebo,standart_vot,"inventory.png",1);
+    inventory_item.position=vec2(-0.3f,-0.3f);
+    inventory_item.scale=vec2(1,1);
+    inventory_item.visible=0;
+}
 void init_menu(){
-init_gui_item(&background,background_data_size,background_data_count,background_vod,background_ebo,background_vot,"background.png",1);
+
+init_gui_item(&background,standart_data_size,standart_data_count,standart_vod,standart_ebo,background_vot,"background.png",1);
+background_item.visible=1;
 singleplay_button=create_gui_item(vec2(0,0),vec2(0.5f,0.1f),"Singleplay");
 exit_button=create_gui_item(vec2(0,-2),vec2(0.5f,0.1f),"Quit Game");
 init_gui_item(&singleplay_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
@@ -86,7 +104,6 @@ init_gui_item(&chunk_distance_button,button_data_size,button_data_count,button_v
 init_gui_item(&exit_menu_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 }
 void draw_menu2(){
-    gui_item background_item;
     background_item.position=vec2(0,0);
     background_item.scale=vec2(1,1);
    draw_gui_item(background,background_item);
@@ -100,6 +117,7 @@ void init_gui(){
 init_menu2();
 init_menu();
 init_settings_game();
+init_standart_game();
 }
 int on_key_press(char k){
 if(global_state!=4){
@@ -116,6 +134,8 @@ return -1;
     return active_text_box;
 };
 int on_click_item(struct vec position_mouse,gui_item get_button){
+    if(get_button.visible==0)
+        return 0;
     position_mouse.y-=0.5f;
     position_mouse.x-=0.5f;
     position_mouse.y*=-1;
@@ -169,6 +189,8 @@ else
 return -1;
 }
 void draw_gui_item(buffer_data get,gui_item get_item){
+    if(get_item.visible==0)
+        return;
  glBindTexture(GL_TEXTURE_2D,get.texture_id);
 set_vec2(get_item.scale.x,get_item.scale.y,"scale",gui_shader_id);
 set_vec2(get_item.position.x,get_item.position.y,"position",gui_shader_id);
@@ -179,7 +201,7 @@ glDrawElements(GL_TRIANGLES,get.count_data[2],GL_UNSIGNED_INT,0);
 glBindVertexArray(0);
 }
 void draw_load(){
-  gui_item background_item;
+
     background_item.position=vec2(0,0);
     background_item.scale=vec2(1,1);
    draw_gui_item(background,background_item);
@@ -189,7 +211,6 @@ int state_chunk_button(){
 return chunk_distance_button.index;
 }
 void draw_settings_game(){
-    gui_item background_item;
     background_item.position=vec2(0,0);
     background_item.scale=vec2(1,1);
    draw_gui_item(background,background_item);
@@ -204,7 +225,6 @@ void draw_settings_game(){
  draw_button(start_button);
 }
 void draw_menu(){
-    gui_item background_item;
     background_item.position=vec2(0,0);
     background_item.scale=vec2(1,1);
    draw_gui_item(background,background_item);
@@ -216,6 +236,7 @@ void draw_pointer(){
 draw_text(vec2(0,0),"T");
 }
 void draw_debug(){
+draw_gui_item(inventory,inventory_item);
 char buffer[64];
 snprintf(buffer, sizeof buffer, "%s","VERSION:16252611");
 draw_text(vec2(0,30),buffer);

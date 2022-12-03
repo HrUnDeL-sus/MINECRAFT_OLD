@@ -26,6 +26,9 @@ GLuint button_ebo[] =
 const float button_data_size[2]={3,2};
 const float button_data_count[3]={15,10,6};
 void draw_button(gui_item get){
+ if(get.visible==0)
+    return;
  draw_gui_item(get.buffer,get);
+
  draw_text(vec2(get.position.x-((float)get.size_text*get.scale.x),get.position.y*3.3f),get.text);
 }
