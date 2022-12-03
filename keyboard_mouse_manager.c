@@ -152,6 +152,10 @@ void modified_block(int state)
 void add_key(unsigned char key){
 if(index_key==5||has_this_key(key)==1)
     return;
+    if(on_key_press(key)!=-1)
+        {
+            return;
+        }
     if(key=='-'){
         id_block-=1;
         return;
@@ -225,10 +229,7 @@ for(int i=0;i<index_key;i+=1){
 unsigned char local_key=keys[i];
  int seconds = GetTickCount();
 
-if(on_key_press(local_key)!=-1)
-        {
-            continue;
-        }
+
 
     if(local_key==27&&global_state==4){
          glutSetCursor(GLUT_CURSOR_RIGHT_ARROW);
