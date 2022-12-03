@@ -23,6 +23,7 @@
 #include "world.h"
 #include "camera.h"
 #include "world.h"
+#include "settings.h"
 typedef struct{
 int state;
 int x;

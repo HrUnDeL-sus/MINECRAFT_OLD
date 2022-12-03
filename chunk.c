@@ -382,7 +382,7 @@ void fill_indexs(chunk * cnk,info_indexs * get_indexs, int (*examination)(block 
     int progress=0;
     for(int x_block=0; x_block<16; x_block+=1)
     {
-        for(int y_block=255; y_block>=0; y_block-=1)
+        for(int y_block=0; y_block<255; y_block+=1)
         {
             for(int z_block=0; z_block<16; z_block+=1)
             {
@@ -435,8 +435,6 @@ void fill_indexs(chunk * cnk,info_indexs * get_indexs, int (*examination)(block 
     get_indexs->texture_data.indexs=realloc(get_indexs->texture_data.indexs,count*9*sizeof(float));
     get_indexs->matrix_data.count=count;
     get_indexs->texture_data.count=count;
-    if(use_sort==1)
-        buble_sort_info_indexs(get_indexs);
 
 
 

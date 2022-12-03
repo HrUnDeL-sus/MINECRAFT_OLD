@@ -503,7 +503,7 @@
 
 1661539989 d:\Документы\codeblocks\minecraft_old\matrix.h
 
-1668110263 source:d:\Документы\codeblocks\minecraft_old\camera.c
+1670077570 source:d:\Документы\codeblocks\minecraft_old\camera.c
 	<stdlib.h>
 	<stdio.h>
 	<math.h>
@@ -526,7 +526,7 @@
 	<math.h>
 	<string.h>
 
-1669467921 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1669994768 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -557,7 +557,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1669468332 source:d:\Документы\codeblocks\minecraft_old\main.c
+1670077890 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -635,7 +635,7 @@
 1669385666 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
 
-1669468797 source:d:\Документы\codeblocks\minecraft_old\world.c
+1669811793 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -747,7 +747,7 @@
 	"buffer.h"
 	"vec.h"
 
-1669469109 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1670077015 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -824,7 +824,7 @@
 	<_mingw.h>
 	<io.h>
 
-1669122789 source:d:\Документы\codeblocks\minecraft_old\player.c
+1670078003 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -846,7 +846,7 @@
 	"block.h"
 	"camera.h"
 
-1666099989 d:\Документы\codeblocks\minecraft_old\collision.h
+1670077015 d:\Документы\codeblocks\minecraft_old\collision.h
 
 1663945373 source:d:\Документы\codeblocks\minecraft_old\thread_render.c
 	"chunk.h"
@@ -958,7 +958,7 @@
 	"keyboard_mouse_manager.h"
 	"gui.h"
 
-1669469065 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
+1669827411 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
 	"char_array_helper.h"
 	"shader.h"
 	<stdlib.h>
@@ -982,6 +982,7 @@
 	"world.h"
 	"camera.h"
 	"world.h"
+	"settings.h"
 
 1669465605 d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.h
 

@@ -35,33 +35,21 @@ else
 out_main_color2=vec4(mod(data2,10),0,0,0);
 if(aPos.w==1){
 texCoordOut.z=idFrag[0][0];
-if(mod(data/100000,10)==1)
-out_main_color2.w=light;
 }
 if(aPos.w==2){
 texCoordOut.z=idFrag[0][1];
-if(mod(data/1000000,10)==1)
-out_main_color2.w=light;
 }
 else if(aPos.w==3){
 texCoordOut.z=idFrag[0][2];
-if(mod(data/1000,10)==1)
-out_main_color2.w=light;
 }
 else if(aPos.w==4){
 texCoordOut.z=idFrag[1][0];
-if(mod(data/10000,10)==1)
-out_main_color2.w=light;
 }
 else if(aPos.w==5){
 texCoordOut.z=idFrag[1][1];
-if(data<10000000)
-out_main_color2.w=light;
 }
 else if(aPos.w==6){
 texCoordOut.z=idFrag[1][2];
-if(mod(data/100,10)==1)
-out_main_color2.w=light;
 }
 gl_Position = perspective*camera*model*vec4(aPosOut.xyz,1.0);
 TexCoord = texCoordOut;

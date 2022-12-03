@@ -58,7 +58,6 @@ void display(void)
      //   printf("\nGLOBAL STATE: %d",global_state);
     if(global_state==4)
     {
-
         if(count_tick>1){
             fall_player();
                 count_tick=0;
