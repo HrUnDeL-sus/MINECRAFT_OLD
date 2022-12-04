@@ -557,7 +557,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1670077890 source:d:\Документы\codeblocks\minecraft_old\main.c
+1670174688 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -743,11 +743,11 @@
 
 1663173037 d:\Документы\codeblocks\minecraft_old\biome.h
 
-1670089008 d:\Документы\codeblocks\minecraft_old\gui.h
+1670091410 d:\Документы\codeblocks\minecraft_old\gui.h
 	"buffer.h"
 	"vec.h"
 
-1670089403 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1670172808 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -762,6 +762,7 @@
 	"generator.h"
 	"tick.h"
 	"collision.h"
+	"player.h"
 
 1661539989 source:d:\Документы\codeblocks\minecraft_old\buffer.c
 	<glad/glad.h>
@@ -824,7 +825,7 @@
 	<_mingw.h>
 	<io.h>
 
-1670078003 source:d:\Документы\codeblocks\minecraft_old\player.c
+1670173990 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -836,8 +837,9 @@
 	"generator.h"
 	"collision.h"
 	"raycast.h"
+	"gui.h"
 
-1668450718 d:\Документы\codeblocks\minecraft_old\player.h
+1670173990 d:\Документы\codeblocks\minecraft_old\player.h
 
 1666178121 source:d:\Документы\codeblocks\minecraft_old\collision.c
 	"vec.h"
@@ -846,7 +848,7 @@
 	"block.h"
 	"camera.h"
 
-1670077015 d:\Документы\codeblocks\minecraft_old\collision.h
+1670172563 d:\Документы\codeblocks\minecraft_old\collision.h
 
 1663945373 source:d:\Документы\codeblocks\minecraft_old\thread_render.c
 	"chunk.h"
@@ -958,7 +960,7 @@
 	"keyboard_mouse_manager.h"
 	"gui.h"
 
-1670078318 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
+1670174688 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
 	"char_array_helper.h"
 	"shader.h"
 	<stdlib.h>
@@ -983,6 +985,7 @@
 	"camera.h"
 	"world.h"
 	"settings.h"
+	"gui.h"
 
 1669465605 d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.h
 

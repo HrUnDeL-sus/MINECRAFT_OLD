@@ -12,8 +12,13 @@
 #include "generator.h"
 #include "tick.h"
 #include "collision.h"
+#include "player.h"
 buffer_data background;
 buffer_data inventory;
+buffer_data eat1;
+buffer_data eat2;
+buffer_data heart1;
+buffer_data heart2;
 gui_item singleplay_button;
 gui_item exit_button;
 gui_item seed_text_box;
@@ -23,7 +28,11 @@ gui_item  continue_button;
 gui_item  exit_menu_button;
 gui_item  chunk_distance_button;
 gui_item inventory_item;
-  gui_item background_item;
+gui_item background_item;
+gui_item eat1_item;
+gui_item eat2_item;
+gui_item heart1_item;
+gui_item heart2_item;
 int gui_shader_id;
 int global_state=1;
 int active_text_box=-1;
@@ -33,11 +42,35 @@ const float standart_vod[]={
             -1, -1, 0.0f,
             -1,  1, 0.0f
 };
+const float heart1_vot[]={
+0.203,0,
+0.203,0.0345f,
+0.2355f,0.0345f,
+0.2355f,0
+};
+const float heart2_vot[]={
+0.268,0.0345f,
+0.268,0,
+0.2355,0,
+0.2355,0.0345f
+};
+const float eat1_vot[]={
+0.2355f,0.1055f,
+0.2355f,0.14f,
+0.203,0.14f,
+0.203,0.1055f
+};
+const float eat2_vot[]={
+0.268,0.1055f,
+0.268,0.14f,
+0.2355,0.14f,
+0.2355,0.1055f
+};
 const float standart_vot[]={
-0,0,
-0,1,
+1,0,
 1,1,
-1,0
+0,1,
+0,0
 };
 const float background_vot[]={
 5.0f, 5.0f,
@@ -80,6 +113,14 @@ init_text_box(&name_text_box);
 init_gui_item(&start_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 }
 void init_standart_game(){
+eat1_item=create_gui_item(vec2(0,0),vec2(0.04f,0.04f),"");
+eat2_item=create_gui_item(vec2(0,0),vec2(0.04f,0.04f),"");
+init_gui_item(&eat2,standart_data_size,standart_data_count,standart_vod,standart_ebo,eat2_vot,"icons.png",1);
+init_gui_item(&eat1,standart_data_size,standart_data_count,standart_vod,standart_ebo,eat1_vot,"icons.png",1);
+heart1_item=create_gui_item(vec2(0,0),vec2(0.04f,0.04f),"");
+heart2_item=create_gui_item(vec2(0,0),vec2(0.04f,0.04f),"");
+init_gui_item(&heart2,standart_data_size,standart_data_count,standart_vod,standart_ebo,heart2_vot,"icons.png",1);
+init_gui_item(&heart1,standart_data_size,standart_data_count,standart_vod,standart_ebo,heart1_vot,"icons.png",1);
 init_gui_item(&inventory,standart_data_size,standart_data_count,standart_vod,standart_ebo,standart_vot,"inventory.png",1);
     inventory_item.position=vec2(-0.3f,-0.3f);
     inventory_item.scale=vec2(1,1);
@@ -211,6 +252,7 @@ int state_chunk_button(){
 return chunk_distance_button.index;
 }
 void draw_settings_game(){
+    inventory_item.visible=0;
     background_item.position=vec2(0,0);
     background_item.scale=vec2(1,1);
    draw_gui_item(background,background_item);
@@ -228,15 +270,19 @@ void draw_menu(){
     background_item.position=vec2(0,0);
     background_item.scale=vec2(1,1);
    draw_gui_item(background,background_item);
+
     draw_button(singleplay_button);
     use_shader(gui_shader_id);
+
     draw_button(exit_button);
+    use_shader(gui_shader_id);
+
 }
 void draw_pointer(){
 draw_text(vec2(0,0),"T");
 }
 void draw_debug(){
-draw_gui_item(inventory,inventory_item);
+
 char buffer[64];
 snprintf(buffer, sizeof buffer, "%s","VERSION:16252611");
 draw_text(vec2(0,30),buffer);
@@ -258,7 +304,28 @@ snprintf(buffer, sizeof buffer, "%s%s","IN BLOCK:",in_block==1?"TRUE":"FALSE");
 draw_text(vec2(-25,-5),buffer);
 snprintf(buffer, sizeof buffer, "%s%d%s%d","CHUNK XYZ:",(int)(roundf(camera_position.x)/16)," ",(int)(roundf(camera_position.z)/16));
 draw_text(vec2(-25,-10),buffer);
+snprintf(buffer, sizeof buffer, "%s%d","STATE SHIFT:",in_shift);
+draw_text(vec2(-25,-15),buffer);
 
+}
+int use_gui_in_game(){
+return inventory_item.visible==1;
+}
+void draw_game(){
+draw_gui_item(inventory,inventory_item);
+use_shader(gui_shader_id);
+float x=4;
+for(int i=0;i<10;i+=1){
+        eat1_item.position=vec2(x,-20);
+        x+=1.5f;
+      draw_gui_item(eat1,eat1_item);
+}
+x=-20;
+for(int i=0;i<10;i+=1){
+        heart1_item.position=vec2(x,-20);
+        x+=1.8f;
+      draw_gui_item(heart1,heart1_item);
+}
 }
 void draw_gui(){
   glDisable(GL_DEPTH_TEST);
@@ -272,8 +339,11 @@ if(global_state==2)
 if(global_state==3)
     draw_load();
 if(global_state==4){
+if(inventory_item.visible==0){
  draw_debug();
  draw_pointer();
+}
+draw_game();
 }
 if(global_state==5){
     draw_menu2();

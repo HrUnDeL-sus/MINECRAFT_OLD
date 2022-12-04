@@ -49,10 +49,11 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
 
-
+    printf("\nIS PRESS:%d",shift_is_press);
         if(global_state!=4&&count_tick>4){
           // modified_block(mouse_is_press_state);
               apply_keys();
+
            count_tick=0;
           }
      //   printf("\nGLOBAL STATE: %d",global_state);
@@ -63,6 +64,7 @@ void display(void)
                 count_tick=0;
         }
          apply_keys();
+
         rendering_world();
 
         save_player();
@@ -88,13 +90,19 @@ remove_key(key);
 }
 void key(unsigned char key, int x, int y)
 {
+printf("\nKEY:%d",key);
 add_key(key);
 }
 void idle(void)
 {
 
 }
+void special_key(unsigned char key, int x, int y){
+printf("\nKET:%d",key);
+}
+void special_key_up(unsigned char key, int x, int y){
 
+}
 void wrap(int* x,int* y)
 {
 
@@ -114,7 +122,7 @@ void mouse_click(int button,int state,int x,int y)
 void mouse(int x,int y)
 {
 
-    if(global_state!=4)
+    if(global_state!=4||use_gui_in_game()==1)
         return;
         if(global_mouse_button==0&&global_mouse_state==0){
         mouse_button local_mouse={global_mouse_state==0?1:0,x,y};
@@ -177,6 +185,8 @@ int main(int argc, char *argv[])
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
     glutKeyboardUpFunc(key_up);
+    glutSpecialFunc(special_key);
+    glutSpecialUpFunc(special_key_up);
     glutMouseFunc(mouse_click);
     glutMotionFunc(mouse);
      glutPassiveMotionFunc(mouse);

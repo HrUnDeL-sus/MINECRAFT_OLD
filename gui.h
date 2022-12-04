@@ -18,6 +18,7 @@ gui_item name_text_box;
 gui_item chunks_text_box;
 gui_item inventory_item;
 int global_state;
+int use_gui_in_game();
 void draw_gui();
 void init_gui();
 int on_click(struct vec pos);

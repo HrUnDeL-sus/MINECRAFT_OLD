@@ -24,6 +24,7 @@
 #include "camera.h"
 #include "world.h"
 #include "settings.h"
+#include "gui.h"
 typedef struct{
 int state;
 int x;
@@ -57,6 +58,8 @@ info_new_block  * raytrace(double sx, double sy, double sz, double dx, double dy
 }
 void modified_block(int state)
 {
+    if(use_gui_in_game()==1)
+        return;
     printf("\nSTART MODIFY");
       struct vec ray=camera_position;
     struct vec camera_angle_local=camera_angle;
@@ -77,8 +80,11 @@ void modified_block(int state)
     {
         for(int z=start_z; z<=end_z; z+=1)
         {
+
             for(int y=start_y; y<=end_y; y+=1)
             {
+
+
                block *get2=get_block_in_position(vec3((float)x,(float)y,(float)z));
                 if(get2!=NULL)
                 {
@@ -152,10 +158,15 @@ void modified_block(int state)
 void add_key(unsigned char key){
 if(index_key==5||has_this_key(key)==1)
     return;
+
     if(on_key_press(key)!=-1)
         {
             return;
         }
+    if(key=='z'){
+        shift_is_press=1;
+        return;
+    }
     if(key=='-'){
         id_block-=1;
         return;
@@ -164,11 +175,18 @@ if(index_key==5||has_this_key(key)==1)
         id_block+=1;
         return;
     }
+    if(key=='e'&&global_state==4){
+        inventory_item.visible=inventory_item.visible==1?0:1;
+    }
 keys[index_key]=key;
 index_key+=1;
 }
 void remove_key(unsigned char key){
 int move_next_keys=0;
+    if(key=='z'){
+        shift_is_press=0;
+        return;
+    }
 for(int i=0;i<index_key;i+=1){
     if(move_next_keys==1){
     keys[i-1]=keys[i];
