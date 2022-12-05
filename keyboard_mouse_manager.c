@@ -163,8 +163,8 @@ if(index_key==5||has_this_key(key)==1)
         {
             return;
         }
-    if(key=='z'){
-        shift_is_press=1;
+    if(key=='c'){
+        shift_is_press=shift_is_press==1?0:1;
         return;
     }
     if(key=='-'){
@@ -183,10 +183,6 @@ index_key+=1;
 }
 void remove_key(unsigned char key){
 int move_next_keys=0;
-    if(key=='z'){
-        shift_is_press=0;
-        return;
-    }
 for(int i=0;i<index_key;i+=1){
     if(move_next_keys==1){
     keys[i-1]=keys[i];

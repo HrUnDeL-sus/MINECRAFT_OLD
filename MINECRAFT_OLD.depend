@@ -503,7 +503,7 @@
 
 1661539989 d:\Документы\codeblocks\minecraft_old\matrix.h
 
-1670077570 source:d:\Документы\codeblocks\minecraft_old\camera.c
+1670262425 source:d:\Документы\codeblocks\minecraft_old\camera.c
 	<stdlib.h>
 	<stdio.h>
 	<math.h>
@@ -557,7 +557,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1670174688 source:d:\Документы\codeblocks\minecraft_old\main.c
+1670262166 source:d:\Документы\codeblocks\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -825,7 +825,7 @@
 	<_mingw.h>
 	<io.h>
 
-1670173990 source:d:\Документы\codeblocks\minecraft_old\player.c
+1670264290 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -960,7 +960,7 @@
 	"keyboard_mouse_manager.h"
 	"gui.h"
 
-1670174688 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
+1670263245 source:d:\Документы\codeblocks\minecraft_old\keyboard_mouse_manager.c
 	"char_array_helper.h"
 	"shader.h"
 	<stdlib.h>

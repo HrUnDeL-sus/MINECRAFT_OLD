@@ -49,7 +49,6 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
 
-    printf("\nIS PRESS:%d",shift_is_press);
         if(global_state!=4&&count_tick>4){
           // modified_block(mouse_is_press_state);
               apply_keys();
@@ -86,12 +85,15 @@ void timer(int t)
 }
 void key_up(unsigned char key, int x, int y)
 {
+
 remove_key(key);
+
 }
 void key(unsigned char key, int x, int y)
 {
 printf("\nKEY:%d",key);
 add_key(key);
+
 }
 void idle(void)
 {
@@ -121,7 +123,7 @@ void mouse_click(int button,int state,int x,int y)
 }
 void mouse(int x,int y)
 {
-
+//printf("\nD:%d",glutGetModifiers());
     if(global_state!=4||use_gui_in_game()==1)
         return;
         if(global_mouse_button==0&&global_mouse_state==0){
@@ -149,7 +151,7 @@ void init()
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER,0.3f);
     glBlendFunc(GL_ONE, GL_ZERO);
-    glutIgnoreKeyRepeat(1);
+    glutIgnoreKeyRepeat(0);
     GLuint shader[2];
     shader[0]=create_shader("base3d_shader.vert",GL_VERTEX_SHADER);
     shader[1]=create_shader("base3d_shader.frag",GL_FRAGMENT_SHADER);
@@ -184,6 +186,7 @@ int main(int argc, char *argv[])
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
+
     glutKeyboardUpFunc(key_up);
     glutSpecialFunc(special_key);
     glutSpecialUpFunc(special_key_up);

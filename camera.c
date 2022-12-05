@@ -72,9 +72,9 @@ void rotate_camera(float l_pitch,float l_yaw)
     float last_pitch=pitch;
     yaw-=l_yaw*SPEED;
     pitch-=l_pitch*SPEED;
-    if(pitch>90)
+    if(pitch>=90)
         pitch=89;
-     if(pitch<-90)
+     if(pitch<=-90)
         pitch=-89;
     camera_angle.x=cosf(deegres_to_radiar(yaw))*cosf(deegres_to_radiar(pitch));
     camera_angle.y=sinf(deegres_to_radiar(pitch));

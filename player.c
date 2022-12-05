@@ -120,7 +120,7 @@ void move_player(struct vec position_move)
     }
     else
         in_block_local3=1;
-        if((in_block_local3==0&&position_move.y==0&&can_jump==1&&is_jump==0&&in_land==1)==1)
+        if(in_block_local3==0&&position_move.y==0&&can_jump==1&&is_jump==0&&in_land==1)
             in_shift+=in_shift==3?0:1;
         else
             in_shift=0;
