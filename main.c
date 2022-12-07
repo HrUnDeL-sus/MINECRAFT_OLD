@@ -5,6 +5,8 @@
 #include "char_array_helper.h"
 #include "shader.h"
 #include <stdlib.h>
+#include <dirent.h>
+#include <stdio.h>
 #include "world_manager.h"
 #include <process.h>
 #include <windows.h>
@@ -49,20 +51,22 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     apply_camera_matrix();
 
-        if(global_state!=4&&count_tick>4){
-          // modified_block(mouse_is_press_state);
-              apply_keys();
+    if(global_state!=4&&count_tick>4)
+    {
+        // modified_block(mouse_is_press_state);
+        apply_keys();
 
-           count_tick=0;
-          }
-     //   printf("\nGLOBAL STATE: %d",global_state);
+        count_tick=0;
+    }
+    //   printf("\nGLOBAL STATE: %d",global_state);
     if(global_state==4)
     {
-        if(count_tick>1){
+        if(count_tick>1)
+        {
             fall_player();
-                count_tick=0;
+            count_tick=0;
         }
-         apply_keys();
+        apply_keys();
 
         rendering_world();
 
@@ -86,23 +90,25 @@ void timer(int t)
 void key_up(unsigned char key, int x, int y)
 {
 
-remove_key(key);
+    remove_key(key);
 
 }
 void key(unsigned char key, int x, int y)
 {
-printf("\nKEY:%d",key);
-add_key(key);
+    printf("\nKEY:%d",key);
+    add_key(key);
 
 }
 void idle(void)
 {
 
 }
-void special_key(unsigned char key, int x, int y){
-printf("\nKET:%d",key);
+void special_key(unsigned char key, int x, int y)
+{
+    printf("\nKET:%d",key);
 }
-void special_key_up(unsigned char key, int x, int y){
+void special_key_up(unsigned char key, int x, int y)
+{
 
 }
 void wrap(int* x,int* y)
@@ -116,7 +122,7 @@ void mouse_click(int button,int state,int x,int y)
 {
     global_mouse_button=button;
     global_mouse_state=state;
-    mouse_button local_mouse={state==0?1:0,x,y};
+    mouse_button local_mouse= {state==0?1:0,x,y};
     set_mouse_state(button==0?1:0,local_mouse);
 
     apply_mouse();
@@ -126,8 +132,9 @@ void mouse(int x,int y)
 //printf("\nD:%d",glutGetModifiers());
     if(global_state!=4||use_gui_in_game()==1)
         return;
-        if(global_mouse_button==0&&global_mouse_state==0){
-        mouse_button local_mouse={global_mouse_state==0?1:0,x,y};
+    if(global_mouse_button==0&&global_mouse_state==0)
+    {
+        mouse_button local_mouse= {global_mouse_state==0?1:0,x,y};
         set_mouse_state(global_mouse_button==0?1:0,local_mouse);
     }
     static int last_x=0;
@@ -172,7 +179,10 @@ void init()
 }
 int main(int argc, char *argv[])
 {
+
     path_shaders=find_path(argv[0]);
+
+
     init_folders();
     if(has_config())
         load_config();
@@ -192,7 +202,7 @@ int main(int argc, char *argv[])
     glutSpecialUpFunc(special_key_up);
     glutMouseFunc(mouse_click);
     glutMotionFunc(mouse);
-     glutPassiveMotionFunc(mouse);
+    glutPassiveMotionFunc(mouse);
     glutIdleFunc(idle);
     glutTimerFunc(1000/(float)main_config.fps, timer, 0);
     init();

@@ -13,6 +13,9 @@
 #include "tick.h"
 #include "collision.h"
 #include "player.h"
+#include <conio.h>
+#include <Windows.h>
+
 buffer_data background;
 buffer_data inventory;
 buffer_data eat1;
@@ -23,7 +26,9 @@ gui_item singleplay_button;
 gui_item exit_button;
 gui_item seed_text_box;
 gui_item name_text_box;
-gui_item start_button;
+gui_item world_button[4];
+gui_item delete_button;
+gui_item cancel_button;
 gui_item  continue_button;
 gui_item  exit_menu_button;
 gui_item  chunk_distance_button;
@@ -35,7 +40,9 @@ gui_item heart1_item;
 gui_item heart2_item;
 int gui_shader_id;
 int global_state=1;
+int is_delete=0;
 int active_text_box=-1;
+int selected_world_id=-1;
 const float standart_vod[]={
              1,  1, 0.0f,
              1, -1, 0.0f,
@@ -102,15 +109,16 @@ get.size_text=get_size_text(get.text);
 return get;
 }
 void init_settings_game(){
-
-seed_text_box=create_gui_item(vec2(0,-3),vec2(0.5f,0.1f),"");
-name_text_box=create_gui_item(vec2(0,0),vec2(0.5f,0.1f),"");
-start_button=create_gui_item(vec2(0,-6),vec2(0.5f,0.1f),"Generate");
-init_gui_item(&seed_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
-init_gui_item(&name_text_box,text_box_data_size,text_box_data_count,text_box_vod,text_box_ebo,text_box_vot,"black.png",1);
-init_text_box(&seed_text_box);
-init_text_box(&name_text_box);
-init_gui_item(&start_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
+delete_button=create_gui_item(vec2(0,-6),vec2(0.5f,0.1f),"Delete");
+cancel_button=create_gui_item(vec2(0,-8),vec2(0.5f,0.1f),"Cancel");
+float pos=8;
+for(int i=0;i<4;i+=1){
+    world_button[i]=create_gui_item(vec2(0,pos),vec2(0.5f,0.1f),"NONE");
+pos-=3;
+init_gui_item(&world_button[i],button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
+}
+init_gui_item(&delete_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
+init_gui_item(&cancel_button,button_data_size,button_data_count,button_vod,button_ebo,button_vot,"gui.png",1);
 }
 void init_standart_game(){
 eat1_item=create_gui_item(vec2(0,0),vec2(0.04f,0.04f),"");
@@ -161,7 +169,7 @@ init_settings_game();
 init_standart_game();
 }
 int on_key_press(char k){
-if(global_state!=4){
+/*if(global_state!=4){
 if(active_text_box==0)
     k!=8?add_char_to_text_box(k,&seed_text_box):remove_char_to_text_box(&seed_text_box);
 else if(active_text_box==1)
@@ -172,8 +180,9 @@ else if(active_text_box==2)
 active_text_box=-1;
 return -1;
 }
-    return active_text_box;
-};
+    return active_text_box;*/
+return -1;
+}
 int on_click_item(struct vec position_mouse,gui_item get_button){
     if(get_button.visible==0)
         return 0;
@@ -195,11 +204,34 @@ else if(on_click_item(pos,exit_menu_button)==1&&global_state==5){
     delete_world();
     return 5;
 }
-else if(on_click_item(pos,continue_button)==1&&global_state==5){
+for(int i=0;i<4;i+=1){
+    if(on_click_item(pos,world_button[i])==1&&global_state==2){
+        selected_world_id=i;
+        if(is_delete==1){
+        char txt[100];
+                snprintf(txt, sizeof txt, "%s%s%d", main_world_info.path_world_folder, "World ",i);
+        printf("\nR:%s",txt);
+              delete_world_folder(txt);
+         //   remove_all(path_world);
+         //   printf("\nSTAR%s",path_world);
+           // RemoveDirectoryA()
+            return -1;
+        }else
+        return 2;
+    }
+
+}
+if(on_click_item(pos,continue_button)==1&&global_state==5){
      glutSetCursor(GLUT_CURSOR_NONE);
       global_state=3;
       active_text_box=-1;
       return 4;
+}else if(on_click_item(pos,cancel_button)==1&&global_state==2){
+if(is_delete==1){
+    is_delete=0;
+    delete_button.visible=1;
+}else
+global_state=1;
 }
 else if(on_click_item(pos,chunk_distance_button)==1&&global_state==5){
 
@@ -217,16 +249,10 @@ else if(on_click_item(pos,chunk_distance_button)==1&&global_state==5){
     return 3;
 
 }
-else if(on_click_item(pos,start_button)==1&&global_state==2)
-    return 2;
-else if(on_click_item(pos,chunks_text_box)==1&&global_state==2)
-     active_text_box=2;
-else if(on_click_item(pos,seed_text_box)==1&&global_state==2)
-         active_text_box=0;
-else if(on_click_item(pos,name_text_box)==1&&global_state==2)
-     active_text_box=1;
-else
-    active_text_box=-1;
+else if(on_click_item(pos,delete_button)==1&&global_state==2){
+    delete_button.visible=0;
+    is_delete=1;
+}
 return -1;
 }
 void draw_gui_item(buffer_data get,gui_item get_item){
@@ -256,15 +282,21 @@ void draw_settings_game(){
     background_item.position=vec2(0,0);
     background_item.scale=vec2(1,1);
    draw_gui_item(background,background_item);
- draw_text_box(seed_text_box);
- draw_text(vec2(0,5),"NAME:");
- draw_text(vec2(-2,-5),"SEED:");
-  draw_text(vec2(-25,15),"1-exit.2-fullsreen.3-bind mouse.4-screenshot.");
-   draw_text(vec2(-25,10),"wasd-move.z-down. x-up");
+    for(int i=0;i<4;i+=1){
+        char final_path[512];
+        char name_world[10];
+        sprintf(name_world,"%s%d","World ",i);
+    sprintf(final_path,"%s%s%d",main_world_info.path_world_folder,"/World ",i);
+    if (opendir(final_path)!=NULL)
+        world_button[i].text=name_world;
+    else
+        world_button[i].text="NONE";
+        draw_button(world_button[i]);
   use_shader(gui_shader_id);
- draw_text_box(name_text_box);
+    }
+ draw_button(delete_button);
  use_shader(gui_shader_id);
- draw_button(start_button);
+ draw_button(cancel_button);
 }
 void draw_menu(){
     background_item.position=vec2(0,0);

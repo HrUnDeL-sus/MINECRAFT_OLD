@@ -405,8 +405,12 @@ stop_tick_in_world();
 void create_world(){
 
         glutSetCursor(GLUT_CURSOR_NONE);
-        main_world_info.seed=atoi(seed_text_box.text);
-        create_world_folder(name_text_box.text);
+        main_world_info.seed=0;
+        char name[20];
+          printf("\n%s",main_world_info.path_world);
+        sprintf(name,"%s%d","World ",selected_world_id);
+        create_world_folder(name);
+
          set_seed(main_world_info.seed);
         load_player();
 

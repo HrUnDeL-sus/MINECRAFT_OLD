@@ -129,6 +129,34 @@ void init_folders(){
        memcpy(main_world_info.path_world_folder,path_chunk_folder,512);
        memcpy(main_world_info.path_sceenshot_folder,path_screenshots,512);
 }
+void delete_world_folder(char * path){
+      DIR *dir;
+    //    printf("\nSTART PATH:%s ---- %s",path,main_world_info.path_world_folder);
+    struct dirent *ent;
+    if ((dir = opendir (path)) != NULL)
+    {
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL)
+        {
+            if(ent->d_type==16&&ent->d_name[0]!='.'){
+
+                     char res_file[512];
+              sprintf(res_file,"%s%s%s",path,"/",ent->d_name);
+                printf ("\nPATH:%s %s %s",path,res_file,ent->d_name);
+            delete_world_folder(res_file);
+            }else{
+            char res_file[512];
+            sprintf(res_file,"%s%s%s",path,"/",ent->d_name);
+              printf ("\nDELETE FILE:%s %d", ent->d_name, remove(res_file));
+
+            }
+            rmdir(path);
+
+        }
+        closedir (dir);
+    }
+    printf("\nEND");
+}
 void create_world_folder(char * name)
 {
     char path[512];
