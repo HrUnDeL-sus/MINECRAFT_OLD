@@ -61,9 +61,13 @@ void move_player(struct vec position_move)
     if((use_gui_in_game()==1&&position_move.y>=0)||(position_move.y<0&&in_shift!=0))
         return;
     struct vec start_pos=camera_position;
+
     add_camera(position_move.x,position_move.y,position_move.z);
-
-
+struct vec final_pos_camera=camera_position;
+    if(position_move.y==0&&shift_is_press==0){
+    for(int i=0;i<2;i+=1)
+         add_camera(position_move.x,position_move.y,position_move.z);
+    }
     struct vec local_position_move=sub_v3_v3(camera_position,start_pos);
     struct vec local_camera_position;
     if(fabsf(local_position_move.x)>0.09)
@@ -139,6 +143,8 @@ void move_player(struct vec position_move)
         else if(is_jump==1);
         is_jump=0;
 
+    }else{
+    camera_position=final_pos_camera;
     }
 
     main_player.position=camera_position;

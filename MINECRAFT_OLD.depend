@@ -749,7 +749,7 @@
 	"buffer.h"
 	"vec.h"
 
-1670430861 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1670435579 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -811,7 +811,7 @@
 1670430331 d:\Документы\codeblocks\minecraft_old\world_manager.h
 	"chunk.h"
 
-1670435317 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
+1670872072 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
 	"shader.h"
 	<dirent.h>
 	<stdlib.h>
@@ -824,12 +824,13 @@
 	<string.h>
 	<assert.h>
 	"compress.h"
+	"camera.h"
 
 1512590989 c:\mingw\include\dirent.h
 	<_mingw.h>
 	<io.h>
 
-1670264290 source:d:\Документы\codeblocks\minecraft_old\player.c
+1670436605 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -939,7 +940,7 @@
 
 1669227511 d:\Документы\codeblocks\minecraft_old\compress.h
 
-1669468986 source:d:\Документы\codeblocks\minecraft_old\compress.c
+1670518408 source:d:\Документы\codeblocks\minecraft_old\compress.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
