@@ -173,19 +173,8 @@ float y_chunk=0;
         for(float z1=get_chunk->position.y*SIZE_CHUNK; z1<get_chunk->position.y*SIZE_CHUNK+SIZE_CHUNK; z1+=1)
         {
             float count=0;
-            float noise=0;
-            for(int i=1; i<main_config.smoothing; i+=1)
-            {
-                noise+=two_interpolate
-                       (
-                           x1-i,z1-i,x1+i,z1+i,x1,z1,
-                           get_biome_generator(x1-i,z1-i),
-                           get_biome_generator(x1+i,z1-i),
-                           get_biome_generator(x1-i,z1+i),
-                           get_biome_generator(x1+i,z1+i));
-                count+=1;
-            }
-            y_chunk=roundf(noise/count*128);
+            float noise=get_biome_generator(x1,z1);
+            y_chunk=roundf(noise*128);
             if((int)y_chunk>64)
                     generate_nature(get_chunk,x1,z1,(int)y_chunk,x_block,z_block);
             z_block+=1;

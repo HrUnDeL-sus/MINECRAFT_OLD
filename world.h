@@ -1,4 +1,5 @@
 #include "chunk.h"
+#include <time.h>
 #ifndef WORLD_H_INCLUDED
 #define WORLD_H_INCLUDED
 typedef struct{
@@ -10,6 +11,7 @@ char path_sceenshot_folder[512];
 
 } world_info;
 int id_block;
+clock_t end;
 int active_biome;
 struct vec chunk_last;
  struct vec chunk_now;

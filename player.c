@@ -14,6 +14,7 @@ typedef struct
 {
     struct vec position;
 } player;
+struct vec last_pos_in_shift;
 player main_player;
 int shift_is_press=0;
 int is_start_jump=0;
@@ -124,11 +125,19 @@ struct vec final_pos_camera=camera_position;
     }
     else
         in_block_local3=1;
-        if(in_block_local3==0&&position_move.y==0&&can_jump==1&&is_jump==0&&in_land==1)
-            in_shift+=in_shift==3?0:1;
+        if(in_block_local3==0&&position_move.y==0&&can_jump==1&&is_jump==0&&in_land==1){
+           if(in_shift==0)
+                last_pos_in_shift=camera_position;
+            in_shift+=in_shift==4?0:1;
+
+        }
         else
             in_shift=0;
-    in_block=(in_block_local==1||in_block_local2==1||in_shift==3)?1:0;
+        float lenght_last=lenght_v2(sub_v2_v2(vec2(last_pos_in_shift.x,last_pos_in_shift.z),vec2(camera_position.x,camera_position.z)));
+        printf("\nlenght:%f %d",lenght_last,(lenght_last>0.07f&&in_shift==3));
+        if(lenght_last<0.1f&&in_shift==4)
+            in_shift=3;
+    in_block=(in_block_local==1||in_block_local2==1||in_shift==4)?1:0;
     if(position_move.y<0)
         in_land=(in_block_local==1||in_block_local2==1);
     if(in_block!=0)

@@ -53,9 +53,6 @@ void load_chunk(chunk * get)
      unsigned char read_data2[3];
     int count_get_data=0;
     struct vec pos=vec3(0,0,0);
-     if(get->position.x==(int)(camera_position.x/16)&&get->position.y==(int)(camera_position.z/16))
-    printf("\nLOAD:%s",cnk);
-
     for(int x=0; x<16; x+=1)
     {
         for(int y=0; y<256; y+=1)
@@ -68,10 +65,6 @@ void load_chunk(chunk * get)
                     fread(&read_data,sizeof(unsigned char),3,fp);
                     fread(&read_data2,sizeof(unsigned char),3,fp);
                     pos=vec3((float)read_data2[0],(float)read_data2[1],(float)read_data2[2]);
-             //         if(get->position.x==(int)(camera_position.x/16)&&get->position.y==(int)(camera_position.z/16))
-             //               printf("\nREAD DATA:%d %d %d",read_data2[0],read_data2[1],read_data2[2]);
-
-                  //  printf("\nEND COUNT:%d",end_count);
                 }
                 count+=1;
                 modify_block(&get->chunk_blocks[x][y][z],
@@ -85,9 +78,6 @@ void load_chunk(chunk * get)
             }
         }
     }
-       if(get->position.x==(int)(camera_position.x/16)&&get->position.y==(int)(camera_position.z/16))
-                            printf("\nDATA:%d",count_get_data);
-  //  printf("\nDATA:%d",count_get_data);
     fclose(fp);
     free(cnk);
 
@@ -109,12 +99,8 @@ void save_chunk(chunk get)
     snprintf(name_zip2, 100, "%s%s", cnk, ".cnk2");
     fp = fopen(cnk, "wb");
     unsigned char data_send2[3];
-    int count=-1;
-    int count_send_data=0;
     int is_first=0;
     int is_end=0;
-     if(get.position.x==(int)(camera_position.x/16)&&get.position.y==(int)(camera_position.z/16))
-    printf("\nSAVE:%s",cnk);
     for(int x=0; x<16; x+=1)
     {
         for(int y=0; y<256; y+=1)
@@ -127,43 +113,25 @@ void save_chunk(chunk get)
                     (unsigned char)get.chunk_blocks[x][y][z].id,
                     (unsigned char)get.chunk_blocks[x][y][z].hp
                 };
-                if(count==-1)
+                if(is_first==0)
                 {
                     data_send2[0]=data_send[0];
                     data_send2[1]=data_send[1];
                     data_send2[2]=data_send[2];
-                    count=0;
+                    is_first=1;
                 }
-                if((data_send2[1]==data_send[1]&&data_send2[2]==data_send[2]&&data_send2[0]==data_send[0]))
-                {
-                    count+=1;
-                }
-                else
+               if((data_send2[1]!=data_send[1]||data_send2[2]!=data_send[2]||data_send2[0]!=data_send[0]))
                 {
                     unsigned char data_send3[]={(unsigned char)x,(unsigned char)y,(unsigned char)z};
-
-                    count_send_data+=1;
-                    count=count==0?1:count;
                     fwrite(&data_send2,sizeof(unsigned char),3,fp);
                      fwrite(&data_send3,sizeof(unsigned char),3,fp);
-                 //       if(get.position.x==(int)(camera_position.x/16)&&get.position.y==(int)(camera_position.z/16))
-                   //         printf("\nWRITE DATA:%d %d %d",data_send3[0],data_send3[1],data_send3[2]);
-                //     printf("\nEND COUNT:%d",count);
-                    count=0;
                       if(x==15&&y==255&&z==15)
                         is_end=1;
                 }
                 if(x==15&&y==255&&z==15&&is_end==0){
                                         unsigned char data_send3[]={(unsigned char)x,(unsigned char)y,(unsigned char)z};
-
-                    count_send_data+=1;
-                    count=count==0?1:count;
                     fwrite(&data_send2,sizeof(unsigned char),3,fp);
                      fwrite(&data_send3,sizeof(unsigned char),3,fp);
-                        if(get.position.x==(int)(camera_position.x/16)&&get.position.y==(int)(camera_position.z/16))
-                            printf("\nWRITE DATA:%d %d %d",data_send3[0],data_send3[1],data_send3[2]);
-                //     printf("\nEND COUNT:%d",count);
-                    count=0;
                 }
                 data_send2[0]=data_send[0];
                 data_send2[1]=data_send[1];
@@ -172,9 +140,6 @@ void save_chunk(chunk get)
 
         }
     }
-     if(get.position.x==(int)(camera_position.x/16)&&get.position.y==(int)(camera_position.z/16))
-                           printf("\nSEND:%d",count_send_data);
- //
     fclose(fp);
     free(cnk);
 }

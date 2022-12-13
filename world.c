@@ -22,6 +22,7 @@
 #include "biome.h"
 #include <GL/glut.h>
 #include "tick.h"
+clock_t end;
 int count_chunks;
 int count_blocks;
 int active_biome;
@@ -322,10 +323,11 @@ float x1=(float)count_chunks/2;
 void pre_draw_world (void *t)
 {
     int is_new=0;
+    clock_t start;
     while(1==1)
     {
+        start = clock();
         int count_chunks_local=0;
-        clock_t  start=time(NULL);
         is_end2=1;
         struct vec direction;
         chunk_now=vec2(roundf(camera_position.x/16),roundf(camera_position.z/16));
@@ -361,7 +363,6 @@ void pre_draw_world (void *t)
 
         }
         clear_chunks();
-        clock_t before=time(NULL)-start;
         is_end2=0;
       //  printf("\n IS NEW:%d",is_new);
         if(is_new==0)
@@ -370,6 +371,8 @@ void pre_draw_world (void *t)
             return;
         }
         is_new=1;
+        end=clock()-start;
+      //  printf("\n%d",end);
 
     }
 }

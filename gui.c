@@ -338,7 +338,8 @@ snprintf(buffer, sizeof buffer, "%s%d%s%d","CHUNK XYZ:",(int)(roundf(camera_posi
 draw_text(vec2(-25,-10),buffer);
 snprintf(buffer, sizeof buffer, "%s%d","STATE SHIFT:",in_shift);
 draw_text(vec2(-25,-15),buffer);
-
+snprintf(buffer, sizeof buffer, "%s%d","TIME REDNERED CHUNKS:",end);
+draw_text(vec2(-25,-20),buffer);
 }
 int use_gui_in_game(){
 return inventory_item.visible==1;

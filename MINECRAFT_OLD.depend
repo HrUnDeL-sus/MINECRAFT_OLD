@@ -526,7 +526,7 @@
 	<math.h>
 	<string.h>
 
-1669994768 source:d:\Документы\codeblocks\minecraft_old\chunk.c
+1670908543 source:d:\Документы\codeblocks\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -634,10 +634,11 @@
 
 1662222209 source:d:\Документы\codeblocks\minecraft_old\vec.c
 
-1669385666 d:\Документы\codeblocks\minecraft_old\world.h
+1670873104 d:\Документы\codeblocks\minecraft_old\world.h
 	"chunk.h"
+	<time.h>
 
-1670425601 source:d:\Документы\codeblocks\minecraft_old\world.c
+1670873305 source:d:\Документы\codeblocks\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -729,7 +730,7 @@
 1665236574 d:\Документы\codeblocks\minecraft_old\generator.h
 	"chunk.h"
 
-1665833466 source:d:\Документы\codeblocks\minecraft_old\generator.c
+1670909587 source:d:\Документы\codeblocks\minecraft_old\generator.c
 	"chunk.h"
 	"interpolate_helper.h"
 	"open-simplex-noise.h"
@@ -749,7 +750,7 @@
 	"buffer.h"
 	"vec.h"
 
-1670435579 source:d:\Документы\codeblocks\minecraft_old\gui.c
+1670873330 source:d:\Документы\codeblocks\minecraft_old\gui.c
 	"texture.h"
 	"shader.h"
 	<GL/glut.h>
@@ -811,7 +812,7 @@
 1670430331 d:\Документы\codeblocks\minecraft_old\world_manager.h
 	"chunk.h"
 
-1670872072 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
+1670872883 source:d:\Документы\codeblocks\minecraft_old\world_manager.c
 	"shader.h"
 	<dirent.h>
 	<stdlib.h>
@@ -830,7 +831,7 @@
 	<_mingw.h>
 	<io.h>
 
-1670436605 source:d:\Документы\codeblocks\minecraft_old\player.c
+1670940528 source:d:\Документы\codeblocks\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
