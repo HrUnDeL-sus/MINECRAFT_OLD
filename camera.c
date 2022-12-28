@@ -16,6 +16,8 @@ struct matrix4f camera_matrix_perpective;
 float yaw;
 float pitch;
 const float SPEED=0.05f;
+float time_sin_y=0;
+unsigned char state_time_sin_y=0;
 struct matrix4f get_camera_matrix_look_at()
 {
     return camera_matrix_look_at;
@@ -34,9 +36,18 @@ void set_camera_matrix_perpective(struct matrix4f  a)
 }
 void apply_camera_matrix()
 {
+    camera_position.x;
     camera_matrix_look_at=look_at_matrix(camera_position,
-                                         vec3(camera_position.x+camera_angle.x,camera_position.y+camera_angle.y,camera_position.z+camera_angle.z),
+                                         vec3(camera_position.x+camera_angle.x,camera_position.y+camera_angle.y-sinf(time_sin_y),camera_position.z+camera_angle.z),
                                          vec3(0,1,0));
+                                         if(time_sin_y>0.01f){
+                                            state_time_sin_y=1;
+                                         }
+                                            if(time_sin_y<-0.01f){
+                                                state_time_sin_y=0;
+                                            }
+
+
      //  printf("\nYAW: %f",pitch);
 }
 void set_camera(float x,float y,float z)

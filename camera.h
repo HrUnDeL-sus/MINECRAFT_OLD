@@ -10,3 +10,5 @@ void add_camera(float x,float y,float z);
 void rotate_camera(float pitch,float yaw);
 float yaw;
 float pitch;
+float time_sin_y;
+unsigned char state_time_sin_y;

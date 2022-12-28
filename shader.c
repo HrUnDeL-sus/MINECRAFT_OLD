@@ -38,7 +38,7 @@ int create_shader(char* file_name,GLuint type)
     char third[512];
     snprintf(third, sizeof third, "%s%s", path_shaders, file_name);
     char* text=load_shader_from_file(third);
-
+    glCreateShader(GL_VERTEX_SHADER);
     GLuint shader=glCreateShader(type);
 
     glShaderSource(shader,1,&text,NULL);

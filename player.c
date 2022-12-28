@@ -153,6 +153,10 @@ struct vec final_pos_camera=camera_position;
         is_jump=0;
 
     }else{
+        if(position_move.y==0){
+         time_sin_y+=state_time_sin_y==0?0.001f:-0.001f;
+
+        }
     camera_position=final_pos_camera;
     }
 

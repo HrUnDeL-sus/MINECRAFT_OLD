@@ -237,9 +237,6 @@ void generate_landscape(chunk* get_chunk)
                 if(get_chunk->chunk_blocks[x_block][(int)i][z_block].is_enable==1)
                     continue;
                 modify_block(&get_chunk->chunk_blocks[x_block][(int)i][z_block],x1,i,z1,1,1);
-                if(i!=64)
-                    get_chunk->chunk_blocks[x_block][(int)i][z_block].is_enable=0;
-                else
                     get_chunk->chunk_blocks[x_block][(int)i][z_block].is_enable=1;
                 if(get_noise_biome(x1,z1)==2||get_noise_biome(x1,z1)==1)
                     get_chunk->chunk_blocks[x_block][(int)i][z_block].id=28;

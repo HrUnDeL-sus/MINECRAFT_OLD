@@ -29,7 +29,7 @@ float t=0;
 int count_tick=0;
 GLuint listName;
 int save_state_chunks;
-
+int in_full_screen=0;
 void resize(int width, int height)
 {
     const float ar = (float) width / (float) height;
@@ -105,11 +105,36 @@ void idle(void)
 }
 void special_key(unsigned char key, int x, int y)
 {
-    printf("\nKET:%d",key);
 }
 void special_key_up(unsigned char key, int x, int y)
 {
+if(key==11)
+        glutFullScreen();
+if(key==3)
+    visible_logs=visible_logs==1?0:1;
+if(key==10)
+    exit(0);
+if(key==2){
+            char third[512];
+        int time_int=time(NULL);
+        char  time_char[64];
+        char * name="screen";
+        char * name2=".png";
+        char name3[512];
+        char name4[512];
+        sprintf(time_char,"%ld", time_int);
+        snprintf(name3, sizeof name3, "%s%s", name, time_char);
+        snprintf(name4, sizeof name4, "%s%s", name3, name2);
+        snprintf(third, sizeof third, "%s%s", main_world_info.path_sceenshot_folder, name4);
+        unsigned char * arry=malloc(4*save_width*save_height*sizeof(unsigned char));
+        glReadPixels(0, 0, save_width, save_height, GL_RGBA, GL_UNSIGNED_BYTE, arry);
+        stbi_write_set_flip_vertically_on_save(1);
+        stbi_write_png(third,save_width,save_height,4,arry,4*save_width);
+        //   stbi_image_free(arry);
+        free(arry);
+        Sleep(10);
 
+}
 }
 void wrap(int* x,int* y)
 {
@@ -176,6 +201,7 @@ void init()
     init_gui();
     init_text();
     init_buffers();
+
 }
 int main(int argc, char *argv[])
 {
@@ -191,8 +217,11 @@ int main(int argc, char *argv[])
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+
     glutCreateWindow("CRAFTMINE");
+
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
     glutKeyboardFunc(key);

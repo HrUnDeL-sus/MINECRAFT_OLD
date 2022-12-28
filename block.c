@@ -308,6 +308,8 @@ block_info info;
             get_texture_coord_lite(132,info.id_text);
          if(local_block.id==125)
             get_texture_coord_lite(133,info.id_text);
+             if(local_block.id==126)
+            get_texture_coord_lite(111,info.id_text);
         if(local_block.id==97||local_block.id==96||local_block.id==92)
         {
              info.scale.y=0.5f;

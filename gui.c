@@ -43,6 +43,8 @@ int global_state=1;
 int is_delete=0;
 int active_text_box=-1;
 int selected_world_id=-1;
+int visible_logs=0;
+
 const float standart_vod[]={
              1,  1, 0.0f,
              1, -1, 0.0f,
@@ -373,6 +375,7 @@ if(global_state==3)
     draw_load();
 if(global_state==4){
 if(inventory_item.visible==0){
+if(visible_logs==1)
  draw_debug();
  draw_pointer();
 }

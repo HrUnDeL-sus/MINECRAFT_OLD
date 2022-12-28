@@ -260,32 +260,5 @@ unsigned char local_key=keys[i];
      move_player(vec3(-main_config.speed_player,0,0));
     if(local_key==32&&can_jump==1)
         is_jump=1;
-    if(local_key=='2')
-        glutFullScreen();
-    if(local_key=='1')
-        exit(1);
-
-    if(local_key=='4')
-    {
-
-        char third[512];
-        int time_int=time(NULL);
-        char  time_char[64];
-        char * name="screen";
-        char * name2=".png";
-        char name3[512];
-        char name4[512];
-        sprintf(time_char,"%ld", time_int);
-        snprintf(name3, sizeof name3, "%s%s", name, time_char);
-        snprintf(name4, sizeof name4, "%s%s", name3, name2);
-        snprintf(third, sizeof third, "%s%s", main_world_info.path_sceenshot_folder, name4);
-        unsigned char * arry=malloc(4*save_width*save_height*sizeof(unsigned char));
-        glReadPixels(0, 0, save_width, save_height, GL_RGBA, GL_UNSIGNED_BYTE, arry);
-        stbi_write_set_flip_vertically_on_save(1);
-        stbi_write_png(third,save_width,save_height,4,arry,4*save_width);
-        //   stbi_image_free(arry);
-        free(arry);
-        Sleep(10);
-    }
 }
 }
