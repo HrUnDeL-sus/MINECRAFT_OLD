@@ -1027,7 +1027,7 @@
 
 1672080113 d:\Проекты\codeblock\minecraft_old\vec.h
 
-1672080113 d:\Проекты\codeblock\minecraft_old\block.h
+1672691960 d:\Проекты\codeblock\minecraft_old\block.h
 	<stdio.h>
 	<stdlib.h>
 	<glad/glad.h>
@@ -1037,7 +1037,7 @@
 
 1672080113 d:\Проекты\codeblock\minecraft_old\config.h
 
-1672229903 source:d:\Проекты\codeblock\minecraft_old\block.c
+1672768446 source:d:\Проекты\codeblock\minecraft_old\block.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -1049,6 +1049,7 @@
 	"shader.h"
 	"matrix.h"
 	"texture.h"
+	"item.h"
 
 1672138119 d:\Проекты\codeblock\minecraft_old\camera.h
 
@@ -1086,7 +1087,7 @@
 	<math.h>
 	<string.h>
 
-1672080113 source:d:\Проекты\codeblock\minecraft_old\chunk.c
+1672691865 source:d:\Проекты\codeblock\minecraft_old\chunk.c
 	"block.h"
 	"vec.h"
 	"matrix.h"
@@ -1219,7 +1220,8 @@
 
 1672080113 source:d:\Проекты\codeblock\minecraft_old\interpolate_helper.c
 
-1672080113 source:d:\Проекты\codeblock\minecraft_old\keyboard_mouse_manager.c
+1672767978 source:d:\Проекты\codeblock\minecraft_old\keyboard_mouse_manager.c
+	"block.h"
 	"char_array_helper.h"
 	"shader.h"
 	<stdlib.h>
@@ -1248,7 +1250,7 @@
 
 1672080113 d:\Проекты\codeblock\minecraft_old\char_array_helper.h
 
-1672238141 source:d:\Проекты\codeblock\minecraft_old\main.c
+1672767163 source:d:\Проекты\codeblock\minecraft_old\main.c
 	"world.h"
 	"camera.h"
 	"matrix.h"
@@ -1298,7 +1300,7 @@
 	<errno.h>
 	"open-simplex-noise.h"
 
-1672138119 source:d:\Проекты\codeblock\minecraft_old\player.c
+1672768040 source:d:\Проекты\codeblock\minecraft_old\player.c
 	"vec.h"
 	"camera.h"
 	"world.h"
@@ -1361,7 +1363,7 @@
 
 1672080113 source:d:\Проекты\codeblock\minecraft_old\vec.c
 
-1672139105 source:d:\Проекты\codeblock\minecraft_old\world.c
+1672768231 source:d:\Проекты\codeblock\minecraft_old\world.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
@@ -1386,6 +1388,7 @@
 	"biome.h"
 	<GL/glut.h>
 	"tick.h"
+	"item.h"
 
 1672080113 source:d:\Проекты\codeblock\minecraft_old\world_manager.c
 	"shader.h"
@@ -1403,4 +1406,12 @@
 	"camera.h"
 
 1672080113 d:\Проекты\codeblock\minecraft_old\compress.h
+
+1672768366 source:d:\Проекты\codeblock\minecraft_old\item.c
+	<glad/glad.h>
+	"vec.h"
+	"item.h"
+	"block.h"
+
+1672767879 d:\Проекты\codeblock\minecraft_old\item.h
 

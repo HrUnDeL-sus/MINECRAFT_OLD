@@ -27,6 +27,7 @@ block_info get_block_info(block local_block);
 float vertex_standart_block[];
 int default_shader_id;
 int is_check;
+void draw_cube_item(block get_block);
 void draw_cube(const int count);
 int translucent_block(block get);
 int is_light_block(block get,int * light_size);

@@ -9,6 +9,7 @@
 #include "shader.h"
 #include "matrix.h"
 #include "texture.h"
+#include "item.h"
 int default_shader_id=0;
 
 float vertex_standart_block[]=
@@ -378,6 +379,80 @@ for(int i=0;i<sizeof(id_array);i+=1){
         return 1;
 }
 return 0;
+}
+void draw_cube_item(block get_block){
+      //      glBindBuffer(GL_ARRAY_BUFFER, local_texture_buffer);
+    //  glBindBuffer(GL_ARRAY_BUFFER, local_transform_matrix_buffer);
+   block_info block_info=get_block_info(get_block);
+                                float transform_mat[16];
+                matrix4_to_float_array(transform_mat,multi_matrix(transform_matrix(block_info.position),scale_matrix(vec3(0.25f,0.25f,0.25f))));
+
+                float texture_matrix[9];
+                for(int i=0; i<6; i+=1)
+                {
+                    texture_matrix[i]=block_info.id_text[i];
+                }
+                texture_matrix[6]=(float)block_info.is_cross;
+                unsigned char id_block_local=get_block.id;
+                texture_matrix[7]=100;
+                if(id_block_local==23||id_block_local==24||id_block_local==109||id_block_local==111)
+                    texture_matrix[7]+=20;
+                else if(id_block_local==124||id_block_local==125)
+                    texture_matrix[7]+=30;
+                else
+                    texture_matrix[7]+=10;
+                texture_matrix[7]+=9-((get_block.hp-10)/10);
+                texture_matrix[8]=1;
+
+                    glBindBuffer(GL_ARRAY_BUFFER, item_block_matrix);
+                    glBufferData(GL_ARRAY_BUFFER,16* sizeof(float),transform_mat,GL_STATIC_DRAW);
+
+    GLuint VAO = vao_block;
+    GLsizei vec4Size = sizeof(float)*4;
+    glBindVertexArray(VAO);
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3,4, GL_FLOAT, GL_FALSE, 4 * vec4Size, 0);
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (vec4Size));
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (2 * vec4Size));
+    glEnableVertexAttribArray(6);
+    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (3 * vec4Size));
+    glVertexAttribDivisor(3, 1);
+    glVertexAttribDivisor(4, 1);
+    glVertexAttribDivisor(5, 1);
+    glVertexAttribDivisor(6, 1);
+     glBindBuffer(GL_ARRAY_BUFFER,0);
+
+         int frag=glGetAttribLocation(program,"idFrag");
+
+    glBindBuffer(GL_ARRAY_BUFFER, item_block_texute);
+           glBufferData(GL_ARRAY_BUFFER,9* sizeof(float),texture_matrix,GL_STATIC_DRAW);
+    GLsizei vec3Size = sizeof(float)*3;
+    glEnableVertexAttribArray(frag);
+    glVertexAttribPointer(frag, 3, GL_FLOAT, GL_FALSE,  3*vec3Size,0);
+    glVertexAttribDivisor(frag, 1);
+    glEnableVertexAttribArray(frag+1);
+    glVertexAttribPointer(frag+1, 3, GL_FLOAT, GL_FALSE,  3*vec3Size,vec3Size);
+    glVertexAttribDivisor(frag+1, 1);
+    glEnableVertexAttribArray(frag+2);
+    glVertexAttribPointer(frag+2, 3, GL_FLOAT, GL_FALSE,  3*vec3Size,vec3Size*2);
+    glVertexAttribDivisor(frag+2, 1);
+    glBindVertexArray(0);
+
+            glEnable(GL_DEPTH_TEST);
+  glEnable(GL_DEPTH);
+    use_shader(default_shader_id);
+
+    set_matrix4(get_camera_matrix_look_at(),"camera",default_shader_id);
+   set_matrix4(get_camera_matrix_perpective(),"perspective",default_shader_id);
+
+  glBindTexture(GL_TEXTURE_2D_ARRAY, id_tex);
+    glBindVertexArray(vao_block);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_block);
+    glDrawElements(GL_TRIANGLES,36,GL_UNSIGNED_INT,0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+    glBindVertexArray(0);
 }
 void init_blocks()
 {

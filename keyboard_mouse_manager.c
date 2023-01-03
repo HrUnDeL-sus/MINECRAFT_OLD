@@ -1,4 +1,4 @@
-
+#include "block.h"
 #include "char_array_helper.h"
 #include "shader.h"
 #include <stdlib.h>
@@ -177,7 +177,9 @@ if(index_key==5||has_this_key(key)==1)
     }
     if(key=='e'&&global_state==4){
         inventory_item.visible=inventory_item.visible==1?0:1;
+        return;
     }
+
 keys[index_key]=key;
 index_key+=1;
 }

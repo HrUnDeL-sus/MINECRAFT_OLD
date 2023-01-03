@@ -22,6 +22,7 @@
 #include "biome.h"
 #include <GL/glut.h>
 #include "tick.h"
+#include "item.h"
 clock_t end;
 int count_chunks;
 int count_blocks;
@@ -69,6 +70,7 @@ void init_chunks(int size)
 void render_chunk(int x,int y){
 if(x<0||y<0)
     return;
+
   while(chunk_in_world[x][y].can_rednering!=0);
 
             chunk_in_world[x][y].can_rednering=2;
@@ -78,6 +80,8 @@ if(x<0||y<0)
 }
 void rendering_world()
 {
+
+          draw_items();
         glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
       glBindBuffer(GL_ARRAY_BUFFER, transform_matrix_buffer);
    // printf("\nSTART");
@@ -105,8 +109,13 @@ if(chunk_in_world[x][z].main_info_new_block.is_active==1){
             load_chunk(&chunk_in_world[x][z]);
             chunk_in_world[x][z].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z]=chunk_in_world[x][z].main_info_new_block.new_block;
           //  printf("\nHP:%d",chunk_in_world[x][z].chunk_blocks[(int)local_vec.x][(int)local_vec.y][(int)local_vec.z].hp);
-            if(chunk_in_world[x][z].main_info_new_block.new_block.is_enable==0)
+            if(chunk_in_world[x][z].main_info_new_block.new_block.is_enable==0){
                 chunk_in_world[x][z].count-=1;
+                standart_item new_item;
+                new_item.position=vec3((float)chunk_in_world[x][z].main_info_new_block.new_block.pos_x,(float)chunk_in_world[x][z].main_info_new_block.new_block.pos_y,(float)chunk_in_world[x][z].main_info_new_block.new_block.pos_z);
+                new_item.id=chunk_in_world[x][z].main_info_new_block.new_block.id;
+                add_item(new_item);
+            }
             else if(chunk_in_world[x][z].main_info_new_block.state!=2)
                 chunk_in_world[x][z].count+=1;
                 set_light_chunk(x,z);
@@ -124,6 +133,7 @@ void enable_index_texture(info_indexs get)
     int frag=glGetAttribLocation(program,"idFrag");
 
     glBindBuffer(GL_ARRAY_BUFFER, texture_buffer);
+
         glBufferSubData(GL_ARRAY_BUFFER,0,get.matrix_data.count*9*sizeof(float),get.texture_data.indexs);
     GLsizei vec3Size = sizeof(float)*3;
     glEnableVertexAttribArray(frag);

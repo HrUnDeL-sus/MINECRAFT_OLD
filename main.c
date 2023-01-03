@@ -198,6 +198,7 @@ void init()
     default_shader_id=activate_shader(shader,2);
 
     printf("\nID: %d %d %d",default_shader_id,gui_shader_id,text_shader_id);
+    init_item();
     init_gui();
     init_text();
     init_buffers();
